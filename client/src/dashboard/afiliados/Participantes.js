@@ -70,12 +70,12 @@ export default function Participantes() {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
   };
 
-  // Cambiar el Modo de la Fila de Edit -> View
+  // Cambiar el Modo de la Fila de Edit -> View cuando el usuario presiona el "Guardar"
   const handleSaveClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
-  //Borrar Participante
+  //Borrar Participante cuando el usuario presiona "Basurero"
   const handleDeleteClick = (id) => () => {
     let participante = rows.filter((row) => row.id === id)
     alert(`Esta por borrar a ${participante.apellidos}, ${participante.nombres}`);
@@ -116,7 +116,7 @@ export default function Participantes() {
       valueOptions: ['pareja', 'hijo/a', 'padre/madre'], editable: true},
     { field: 'actions', headerName: 'Acciones', width: 125, type: 'actions', cellClassName: 'actions',
       getActions: ({ id }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModgites.Edit;
         if (isInEditMode) {
           return [
             <GridActionsCellItem
