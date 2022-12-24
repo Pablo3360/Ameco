@@ -33,7 +33,9 @@ sequelize.models = Object.fromEntries(capsEntries);
 const { Participante, Titular } = sequelize.models;
 
 // // Aca vendrian las relaciones
-Titular.hasMany(Participante);
+Titular.hasMany(Participante, {
+  foreignKey: 'titularId'
+});
 Participante.belongsTo(Titular);
 
 module.exports = {

@@ -53,9 +53,8 @@ export default function Participantes() {
 
   const navigate = useNavigate();
   
-  const [rows, setRows] = useState([]);
-  const [rowModesModel, setRowModesModel] = useState({});
-  
+  const [rows, setRows] = useState([]); // Estado con todas las filas y sus datos
+  const [rowModesModel, setRowModesModel] = useState({}); // Modo de la fila, Edit o View
   const [pageSize, setPageSize] = useState(5);
 
   const handleRowEditStart = (params, event) => {
@@ -66,18 +65,25 @@ export default function Participantes() {
     event.defaultMuiPrevented = true;
   };
 
+  // Cambiar el Modo de la Fila de View -> Edit
   const handleEditClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
   };
 
+  // Cambiar el Modo de la Fila de Edit -> View
   const handleSaveClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
+  //Borrar Participante
   const handleDeleteClick = (id) => () => {
-    setRows(rows.filter((row) => row.id !== id));
+    let participante = rows.filter((row) => row.id === id)
+    alert(`Esta por borrar a ${participante.apellidos}, ${participante.nombres}`);
+    // setRows(rows.filter((row) => row.id !== id));
   };
 
+  // Cancelar Edicion. Cambia el Modo de la fila a View (ignorando los cambios realizados) y
+  // si es nueva, la elimina del estado de filas (nunca se llego a guardar la fila por parte del usuario) 
   const handleCancelClick = (id) => () => {
     setRowModesModel({
       ...rowModesModel,
@@ -90,8 +96,10 @@ export default function Participantes() {
     }
   };
 
+  // Cuando se termina de editar la fila, se cambia isNew a false y 
+  // se lo guarda (pisa) en el estado de las filas con la data
   const processRowUpdate = (newRow) => {
-    
+    console.log(newRow);
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;

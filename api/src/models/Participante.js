@@ -38,8 +38,16 @@ module.exports = (sequelize) => {
     created_at: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
+    },
+    titularId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'titulars',
+        key: 'id'
+      }
     }
   }, {
     timestamps: false
   });
 };
+

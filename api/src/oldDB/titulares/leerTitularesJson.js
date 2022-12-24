@@ -18,7 +18,7 @@ module.exports =  function titulares(){
     obj.localidad = titular.localidad;
 
     obj.nacimiento = new Date(`${titular.fecha_nacimiento}T00:00:00`);
-    if(obj.nacimiento == 'Invalid Date') obj.nacimiento = new Date('1900-01-01T00:00:00');
+    if(obj.nacimiento == 'Invalid Date') obj.nacimiento = new Date('1990-01-01T00:00:00');
 
     if(titular.sexo == 'Masculino') obj.sexo = 'varon';
     if(titular.sexo == 'Femenino') obj.sexo = 'mujer';
@@ -31,7 +31,9 @@ module.exports =  function titulares(){
 
     obj.celular = titular.celular;
     
-    //Agregar Create_at de la Base de datos vieja
+    //Agregar Create_at de la Base de datos vieja -> cuando se dio de alta en el sistema
+    //Agregar cuando comenzo a trabajar en la empresa
+    //Ver tabla "socio_empleador_ameco"
     //Importante id empleador
     
     return obj;
