@@ -14,9 +14,22 @@ import CancelIcon from '@mui/icons-material/Close';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import StorageIcon from '@mui/icons-material/Storage';
 import { grey } from '@mui/material/colors';
-import { GridRowModes, DataGrid, GridToolbarContainer, GridActionsCellItem, gridClasses, esES } from '@mui/x-data-grid';
+import {
+  GridRowModes, 
+  DataGrid, 
+  GridToolbarContainer, 
+  GridActionsCellItem, 
+  gridClasses, 
+  esES 
+} from '@mui/x-data-grid';
 import { randomId } from '@mui/x-data-grid-generator';
-import { createParticipante, createdParticipanteResponse, getParticipantes, getParticipantesResponse } from '../../actions/participantes';
+import { 
+  createParticipante, 
+  ParticipanteResponse, 
+  getParticipantes, 
+  getParticipantesResponse, 
+  updateParticipante 
+} from '../../actions/participantes';
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -31,7 +44,8 @@ function EditToolbar(props) {
       sexo: '',
       nacimiento: '',
       relacion: '',
-      isNew: true 
+      isNew: true,
+      isSaveInDb: false
     }]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
@@ -76,7 +90,7 @@ export default function Participantes() {
     setRows( rows => [ 
       ...rows, 
       ...participantes.map( participante => { 
-        return { ...participante, isNew: false}
+        return { ...participante, isNew: false, isSaveInDb: true}
       })
     ]);
   }, [participantes]);
@@ -85,17 +99,17 @@ export default function Participantes() {
   useEffect( ()=>{ 
     return ()=> { 
       dispatch( getParticipantesResponse([]) );
-      dispatch( createdParticipanteResponse({}) );
+      dispatch( ParticipanteResponse({}) );
     }
     // eslint-disable-next-line
   }, []);
 
   // Cuando se guarde un participante en la Db, al recibir la respuesta, lo guardamos en el estado local
   useEffect(() => {
-    const updatedRow = { ...createdParticipante, isNew: false };
+    const updatedRow = { ...createdParticipante, isNew: false, isSaveInDb: true };
     setRows(rows.map((row) => (row.dni === createdParticipante.dni ? updatedRow : row)));
+    // eslint-disable-next-line
   }, [createdParticipante]);
-
 
   const handleRowEditStart = (params, event) => {
     event.defaultMuiPrevented = true;
@@ -118,10 +132,13 @@ export default function Participantes() {
   };
 
   //Borrar Participante cuando el usuario presiona "Basurero"
-  const handleDeleteClick = (id) => () => {
-    let del = rows.filter((row) => row.id === id);
-    // setRows(rows.filter((row) => row.id !== id));
-    alert(`Se borró ${del[0].apellidos}, ${del[0].nombres}`);
+  const handleDeleteClick = (deleteRow) => () => {
+    if(!deleteRow.isSaveInDb){
+      setRows(rows.filter((row) => row.id !== deleteRow.id));
+    } else {
+      alert('Se va a Borrar de la DB');
+    }
+    
   };
 
   // Cancelar Edicion. Cambia el Modo de la fila a View (ignorando los cambios realizados) y
@@ -141,17 +158,26 @@ export default function Participantes() {
   //Cuando se presiona el Icon Save, se guarda en el estado Rows la fila y se retorna la fila para
   //actualizar el estado interno.
   const processRowUpdate = (newRow) => {
-    const updatedRow = { ...newRow, isNew: false };
+    const updatedRow = { ...newRow, isNew: false, isSaveInDb: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;
   };
 
   // Cuando se presiona el Icon Guarda DB, se Valida y en caso de corresponder se lo guarda en la DB
-  const handleSaveDb = (fields) => () => {
-    const { apellidos, nombres, dni, sexo, nacimiento, relacion } = fields;
+  const handleSaveDb = (row) => () => {
+    const { apellidos, nombres, dni, sexo, nacimiento, relacion } = row;
     if( apellidos && nombres && dni && sexo && relacion && nacimiento){
-      dispatch(createParticipante( fields, titularId));
-      console.log('guardado');
+      const participanteId = row.id;
+      delete row.id;
+      delete row.isNew;
+      delete row.isSaveInDb;
+      if(typeof(participanteId) === 'number'){
+        //se actualiza los id type number
+        dispatch(updateParticipante( row, participanteId));
+      } else {
+        //se crea los id type string
+        dispatch(createParticipante( row, titularId));
+      }
     } else {
       alert ('Todos los campos son obligatorios');
     }
@@ -169,7 +195,6 @@ export default function Participantes() {
     { field: 'actions', headerName: 'Acciones', width: 125, type: 'actions', cellClassName: 'actions',
       getActions: ({ row }) => {
         const isInEditMode = rowModesModel[row.id]?.mode === GridRowModes.Edit;
-        const isSaveInDB = typeof( row.id ) === 'number'? true : false;
         if (isInEditMode) {
           return [
             <GridActionsCellItem
@@ -197,15 +222,15 @@ export default function Participantes() {
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
-            onClick={handleDeleteClick(row.id)}
+            onClick={handleDeleteClick(row)}
             color="inherit"
           />,
           <GridActionsCellItem
-          icon={isSaveInDB? <StorageIcon /> : <CloudUploadIcon color='primary' />}
+          icon={row.isSaveInDb? <StorageIcon /> : <CloudUploadIcon color='primary' />}
           label="Save"
-          onClick={handleSaveDb(row)}
+          onClick={handleSaveDb( {...row} )}
           color="inherit"
-          disabled={ isSaveInDB? true : false}
+          disabled={ row.isSaveInDb? true : false}
         />
         ];
       },

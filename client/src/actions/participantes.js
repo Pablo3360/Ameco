@@ -14,25 +14,9 @@ export function getParticipantes(titularId) {
   }
 };
 
-// export async function updateAfiliadoTitular(updatedFields, userId){
-//   try {
-//     let result = await fetch(`http://localhost:3001/afiliados/update/${userId}`, {
-//       headers: {
-//           'Content-Type': 'application/json'
-//         },
-//       method: 'PUT',
-//       body: JSON.stringify(updatedFields)
-//       }).then(r => r.json());
-//     return result;
-//   } catch (error) {
-//     console.log(error.message)
-//     return 0;
-//   }
-// };
-
-export function createdParticipanteResponse(participante){
+export function ParticipanteResponse(participante){
   return {
-    type: 'CREATED_PARTICIPANTE_RESPONSE',
+    type: 'PARTICIPANTE_RESPONSE',
     payload: participante
   }
 };
@@ -40,16 +24,33 @@ export function createdParticipanteResponse(participante){
 export function createParticipante( fields, titularId){
   return function(dispatch){
     try {
-      fetch(`http://localhost:3001/participante/crear/${titularId}`, {
+      fetch(`http://localhost:3001/participante/create/${titularId}`, {
         headers: {
             'Content-Type': 'application/json'
           },
         method: 'POST',
         body: JSON.stringify(fields)})
       .then(r => r.json())
-      .then(participante => dispatch(createdParticipanteResponse(participante)));
+      .then(participante => dispatch(ParticipanteResponse(participante)));
     } catch (error) {
-      console.log(error)
+      console.log(error.message)
+    }
+  }
+};
+
+export function updateParticipante(updatedFields, participanteId){
+  return function(dispatch){
+    try {
+      fetch(`http://localhost:3001/participante/update/${participanteId}`, {
+        headers: {
+            'Content-Type': 'application/json'
+          },
+        method: 'PUT',
+        body: JSON.stringify(updatedFields)})
+      .then(r => r.json())
+      .then(participante => dispatch(ParticipanteResponse(participante)));
+    } catch (error) {
+      console.log(error.message)
     }
   }
 };

@@ -26,7 +26,7 @@ switch (action.type){
       participantes: action.payload
     }
 
-  case 'CREATED_PARTICIPANTE_RESPONSE':
+  case 'PARTICIPANTE_RESPONSE':
     return {
       ...state,
       createdParticipante: action.payload

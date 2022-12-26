@@ -7,6 +7,7 @@ const crearAfiliado = require('./crearAfiliado.js');
 const getAfiliados = require('./getAfiliados.js');
 const updateTitular = require('./updateTitular.js')
 const getParticipantes = require('./getParticipantes.js')
+const updateParticipante = require('./updateParticipante.js')
 
 const router = Router();
 
@@ -18,5 +19,6 @@ router.use(crearParticipante);
 router.use(crearAfiliado);
 router.use(updateTitular);
 router.use(getParticipantes);
+router.use(updateParticipante);
 
 module.exports = router;
