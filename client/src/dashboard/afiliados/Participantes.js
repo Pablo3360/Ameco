@@ -1,6 +1,7 @@
 import React from 'react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -13,6 +14,7 @@ import CancelIcon from '@mui/icons-material/Close';
 import { grey } from '@mui/material/colors';
 import { GridRowModes, DataGrid, GridToolbarContainer, GridActionsCellItem, gridClasses, esES } from '@mui/x-data-grid';
 import { randomId } from '@mui/x-data-grid-generator';
+import { getParticipantes, getParticipantesResponse } from '../../actions/participantes';
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -52,10 +54,30 @@ EditToolbar.propTypes = {
 export default function Participantes() {
 
   const navigate = useNavigate();
-  
+  const participantes = useSelector(state => state.participantes);
+  const dispatch = useDispatch();
+  const { titularId } = useParams();
+
   const [rows, setRows] = useState([]); // Estado con todas las filas y sus datos
   const [rowModesModel, setRowModesModel] = useState({}); // Modo de la fila, Edit o View
   const [pageSize, setPageSize] = useState(5);
+
+  // Al montar el componente, pedimos a DB todos los participantes del Titular y lo guardamos en un estado global
+  useEffect(() => {
+    dispatch(getParticipantes(titularId));
+      // eslint-disable-next-line
+  }, []);
+
+  //Actualizamos el estado local 'rows' con los participantes del estado global
+  useEffect( ()=>{
+    setRows( participantes );
+  }, [participantes]);
+
+  //Borramos los participantes al desmontar el componente participantes
+  useEffect( ()=>{ 
+    return ()=> dispatch( getParticipantesResponse([]))
+    // eslint-disable-next-line
+  }, []);
 
   const handleRowEditStart = (params, event) => {
     event.defaultMuiPrevented = true;
@@ -70,16 +92,17 @@ export default function Participantes() {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
   };
 
-  // Cambiar el Modo de la Fila de Edit -> View cuando el usuario presiona el "Guardar"
-  const handleSaveClick = (id) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+  // Cambiar el Modo de la Fila de Edit -> View y guardar cuando el usuario presiona el Icon Save
+  const handleSaveClick = (newRow) => () => {
+    const updatedRow = { ...newRow, isNew: false };
+    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+    setRowModesModel({ ...rowModesModel, [newRow.id]: { mode: GridRowModes.View } });
   };
 
   //Borrar Participante cuando el usuario presiona "Basurero"
   const handleDeleteClick = (id) => () => {
-    let participante = rows.filter((row) => row.id === id)
-    alert(`Esta por borrar a ${participante.apellidos}, ${participante.nombres}`);
-    // setRows(rows.filter((row) => row.id !== id));
+    console.log(rows);
+    setRows(rows.filter((row) => row.id !== id));
   };
 
   // Cancelar Edicion. Cambia el Modo de la fila a View (ignorando los cambios realizados) y
@@ -97,11 +120,11 @@ export default function Participantes() {
   };
 
   // Cuando se termina de editar la fila, se cambia isNew a false y 
-  // se lo guarda (pisa) en el estado de las filas con la data
+  // se lo guarda en la DB
   const processRowUpdate = (newRow) => {
-    console.log(newRow);
     const updatedRow = { ...newRow, isNew: false };
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+
+    
     return updatedRow;
   };
 
@@ -115,20 +138,23 @@ export default function Participantes() {
     { field: 'relacion', headerName: 'Relacion', width: 125, type: 'singleSelect', 
       valueOptions: ['pareja', 'hijo/a', 'padre/madre'], editable: true},
     { field: 'actions', headerName: 'Acciones', width: 125, type: 'actions', cellClassName: 'actions',
-      getActions: ({ id }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModgites.Edit;
+      getActions: (row) => {
+        console.log(row);
+        const isInEditMode = rowModesModel[row.id]?.mode === GridRowModes.Edit;
+        const isSaveInDB = typeof(row.id)==='number'? true : false;
+        console.log(isSaveInDB);
         if (isInEditMode) {
           return [
             <GridActionsCellItem
               icon={<SaveIcon />}
               label="Save"
-              onClick={handleSaveClick(id)}
+              onClick={handleSaveClick(row)}
             />,
             <GridActionsCellItem
               icon={<CancelIcon />}
               label="Cancel"
               className="textPrimary"
-              onClick={handleCancelClick(id)}
+              onClick={handleCancelClick(row.id)}
               color="inherit"
             />,
           ];
@@ -138,21 +164,22 @@ export default function Participantes() {
             icon={<EditIcon />}
             label="Edit"
             className="textPrimary"
-            onClick={handleEditClick(id)}
+            onClick={handleEditClick(row.id)}
             color="inherit"
           />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
-            onClick={handleDeleteClick(id)}
+            onClick={handleDeleteClick(row.id)}
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<SaveIcon />}
-            label="Register"
-            onClick={()=> alert('Se va a guardar')}
-            color="inherit"
-          />,
+          icon={<SaveIcon />}
+          label="Save"
+          onClick={handleDeleteClick(row)}
+          color="inherit"
+          disabled={ isSaveInDB? true : false}
+        />
         ];
       },
     },
@@ -175,6 +202,7 @@ export default function Participantes() {
 
         <DataGrid localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           rows={rows} //Array con la informacion de cada fila
+          
           columns={columns}
 
           rowsPerPageOptions={[5, 10, 20]}

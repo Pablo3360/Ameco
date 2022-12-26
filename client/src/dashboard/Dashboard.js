@@ -156,7 +156,7 @@ function DashboardContent() {
             <Route exact path='' element={<Panel />}/>
             <Route exact path='afiliados' element={<Afiliados />}/>
             <Route exact path='afiliados/crear' element={<AddAfiliado />}/>
-            <Route exact path='participantes' element={<Participantes />}/>
+            <Route exact path='participantes/:titularId' element={<Participantes />}/>
             <Route exact path='recaudacion' element={<Recaudacion />}/>
           </Routes>
 

@@ -2,6 +2,7 @@
 const initialState = {
   afiliados: [],
   createdAfiliadoTitular: [],
+  participantes: [],
 };
   
 const rootReducer = function (state = initialState, action){
@@ -16,6 +17,12 @@ switch (action.type){
     return {
       ...state,
       createdAfiliadoTitular: [ action.payload ]
+    }
+
+  case 'GET_PARTICIPANTES_RESPONSE':
+    return {
+      ...state,
+      participantes: action.payload
     }
 
   default:

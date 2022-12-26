@@ -57,7 +57,7 @@ const AfiliadosActions = ({ params, rowId, setRowId }) => {
           }}
         />
       )}
-      <Fab sx={{ width: 40, height: 40, ml:1 }} onClick={() => navigate(`/panel/participantes?id=${params.row.id}`)}>
+      <Fab sx={{ width: 40, height: 40, ml:1 }} onClick={() => navigate(`/panel/participantes/${params.row.id}`)}>
         <FamilyRestroom />
       </Fab>
     </Box>
