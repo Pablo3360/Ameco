@@ -23,7 +23,6 @@ module.exports = (sequelize) => {
     },
     nacimiento: {
       type: DataTypes.DATEONLY,
-      allowNull: false
     },
     sexo: {
       type: DataTypes.ENUM,
@@ -47,6 +46,7 @@ module.exports = (sequelize) => {
       }
     }
   }, {
+    initialAutoIncrement: 2000,
     timestamps: false
   });
 };

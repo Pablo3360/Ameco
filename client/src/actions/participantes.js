@@ -30,26 +30,26 @@ export function getParticipantes(titularId) {
 //   }
 // };
 
-// function createdAfiliadoTitularResponse(afiliado){
-//   return {
-//     type: 'CREATED_AFILIADO_TITULAR_RESPONSE',
-//     payload: afiliado
-//   }
-// };
+export function createdParticipanteResponse(participante){
+  return {
+    type: 'CREATED_PARTICIPANTE_RESPONSE',
+    payload: participante
+  }
+};
 
-// export function createAfiliadoTitular(data){
-//   return function(dispatch){
-//     try {
-//       fetch('http://localhost:3001/afiliado/crear', {
-//         headers: {
-//             'Content-Type': 'application/json'
-//           },
-//         method: 'POST',
-//         body: JSON.stringify(data)})
-//       .then(r => r.json())
-//       .then(afiliado => dispatch(createdAfiliadoTitularResponse(afiliado)));
-//     } catch (error) {
-//       console.log(error.message)
-//     }
-//   }
-// };
+export function createParticipante( fields, titularId){
+  return function(dispatch){
+    try {
+      fetch(`http://localhost:3001/participante/crear/${titularId}`, {
+        headers: {
+            'Content-Type': 'application/json'
+          },
+        method: 'POST',
+        body: JSON.stringify(fields)})
+      .then(r => r.json())
+      .then(participante => dispatch(createdParticipanteResponse(participante)));
+    } catch (error) {
+      console.log(error)
+    }
+  }
+};

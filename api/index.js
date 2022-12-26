@@ -26,3 +26,5 @@ conn.sync({ force: false }).then(() => {
     console.log('Listening at 3001'); // eslint-disable-line no-console
   });
 });
+
+//ALTER SEQUENCE participantes_id_seq RESTART 1000;

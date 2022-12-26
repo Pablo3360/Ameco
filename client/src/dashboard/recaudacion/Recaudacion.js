@@ -86,17 +86,6 @@ export default function Recaudacion() {
   const columns = [
     { field: 'apellidos', headerName: 'Apellidos', editable: true },
     { field: 'nombres', headerName: 'Nombres', editable: true },
-    { field: 'dni', headerName: 'DNI', hideable: false, width: 85, editable: true },
-    { field: 'sexo', headerName: 'Sexo', width: 85, type: 'singleSelect', 
-    valueOptions: ['varon', 'mujer', 'sin especificar'], editable: true},
-    { field: 'estado_civil', headerName: 'Estado Civil', type: 'singleSelect', 
-    valueOptions: ['casado/a', 'soltero/a', 'union de hecho', 'sin especificar'], editable: true },
-    { field: 'nacimiento', headerName: 'Nacimiento', type: 'date', editable: true },
-    { field: 'localidad', headerName: 'Localidad', width: 85, editable: true},
-    { field: 'domicilio', headerName: 'Domicilio', width: 100, editable: true },
-    { field: 'celular', headerName: 'Celular', editable: true },
-    { field: 'tipo', headerName: 'Tipo', width: 85, type: 'singleSelect', 
-      valueOptions: ['activo', 'adherente'], editable: true},
     {
       field: 'actions', headerName: 'Acciones', width: 115, type: 'actions', cellClassName: 'actions',
       getActions: ({ id }) => {

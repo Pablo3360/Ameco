@@ -11,10 +11,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import StorageIcon from '@mui/icons-material/Storage';
 import { grey } from '@mui/material/colors';
 import { GridRowModes, DataGrid, GridToolbarContainer, GridActionsCellItem, gridClasses, esES } from '@mui/x-data-grid';
 import { randomId } from '@mui/x-data-grid-generator';
-import { getParticipantes, getParticipantesResponse } from '../../actions/participantes';
+import { createParticipante, createdParticipanteResponse, getParticipantes, getParticipantesResponse } from '../../actions/participantes';
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -55,6 +57,7 @@ export default function Participantes() {
 
   const navigate = useNavigate();
   const participantes = useSelector(state => state.participantes);
+  const createdParticipante = useSelector(state => state.createdParticipante);
   const dispatch = useDispatch();
   const { titularId } = useParams();
 
@@ -70,14 +73,29 @@ export default function Participantes() {
 
   //Actualizamos el estado local 'rows' con los participantes del estado global
   useEffect( ()=>{
-    setRows( participantes );
+    setRows( rows => [ 
+      ...rows, 
+      ...participantes.map( participante => { 
+        return { ...participante, isNew: false}
+      })
+    ]);
   }, [participantes]);
 
-  //Borramos los participantes al desmontar el componente participantes
+  //Borramos los participantes al desmontar el componente
   useEffect( ()=>{ 
-    return ()=> dispatch( getParticipantesResponse([]))
+    return ()=> { 
+      dispatch( getParticipantesResponse([]) );
+      dispatch( createdParticipanteResponse({}) );
+    }
     // eslint-disable-next-line
   }, []);
+
+  // Cuando se guarde un participante en la Db, al recibir la respuesta, lo guardamos en el estado local
+  useEffect(() => {
+    const updatedRow = { ...createdParticipante, isNew: false };
+    setRows(rows.map((row) => (row.dni === createdParticipante.dni ? updatedRow : row)));
+  }, [createdParticipante]);
+
 
   const handleRowEditStart = (params, event) => {
     event.defaultMuiPrevented = true;
@@ -92,21 +110,22 @@ export default function Participantes() {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
   };
 
-  // Cambiar el Modo de la Fila de Edit -> View y guardar cuando el usuario presiona el Icon Save
+  // Cambiar el Modo de la Fila de Edit -> View cuando el usuario presiona el Icon Save
   const handleSaveClick = (newRow) => () => {
-    const updatedRow = { ...newRow, isNew: false };
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+    // const nacimiento = new Date(newRow.nacimiento);
+    // const updatedRow = { ...newRow, isNew: false, nacimiento: nacimiento };
     setRowModesModel({ ...rowModesModel, [newRow.id]: { mode: GridRowModes.View } });
   };
 
   //Borrar Participante cuando el usuario presiona "Basurero"
   const handleDeleteClick = (id) => () => {
-    console.log(rows);
-    setRows(rows.filter((row) => row.id !== id));
+    let del = rows.filter((row) => row.id === id);
+    // setRows(rows.filter((row) => row.id !== id));
+    alert(`Se borró ${del[0].apellidos}, ${del[0].nombres}`);
   };
 
   // Cancelar Edicion. Cambia el Modo de la fila a View (ignorando los cambios realizados) y
-  // si es nueva, la elimina del estado de filas (nunca se llego a guardar la fila por parte del usuario) 
+  // si es nueva (isNew), la elimina del estado de filas (nunca se llego a guardar la fila por parte del usuario) 
   const handleCancelClick = (id) => () => {
     setRowModesModel({
       ...rowModesModel,
@@ -119,13 +138,23 @@ export default function Participantes() {
     }
   };
 
-  // Cuando se termina de editar la fila, se cambia isNew a false y 
-  // se lo guarda en la DB
+  //Cuando se presiona el Icon Save, se guarda en el estado Rows la fila y se retorna la fila para
+  //actualizar el estado interno.
   const processRowUpdate = (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
-
-    
+    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;
+  };
+
+  // Cuando se presiona el Icon Guarda DB, se Valida y en caso de corresponder se lo guarda en la DB
+  const handleSaveDb = (fields) => () => {
+    const { apellidos, nombres, dni, sexo, nacimiento, relacion } = fields;
+    if( apellidos && nombres && dni && sexo && relacion && nacimiento){
+      dispatch(createParticipante( fields, titularId));
+      console.log('guardado');
+    } else {
+      alert ('Todos los campos son obligatorios');
+    }
   };
 
   const columns = [
@@ -138,11 +167,9 @@ export default function Participantes() {
     { field: 'relacion', headerName: 'Relacion', width: 125, type: 'singleSelect', 
       valueOptions: ['pareja', 'hijo/a', 'padre/madre'], editable: true},
     { field: 'actions', headerName: 'Acciones', width: 125, type: 'actions', cellClassName: 'actions',
-      getActions: (row) => {
-        console.log(row);
+      getActions: ({ row }) => {
         const isInEditMode = rowModesModel[row.id]?.mode === GridRowModes.Edit;
-        const isSaveInDB = typeof(row.id)==='number'? true : false;
-        console.log(isSaveInDB);
+        const isSaveInDB = typeof( row.id ) === 'number'? true : false;
         if (isInEditMode) {
           return [
             <GridActionsCellItem
@@ -174,9 +201,9 @@ export default function Participantes() {
             color="inherit"
           />,
           <GridActionsCellItem
-          icon={<SaveIcon />}
+          icon={isSaveInDB? <StorageIcon /> : <CloudUploadIcon color='primary' />}
           label="Save"
-          onClick={handleDeleteClick(row)}
+          onClick={handleSaveDb(row)}
           color="inherit"
           disabled={ isSaveInDB? true : false}
         />
