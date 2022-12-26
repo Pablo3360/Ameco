@@ -4,6 +4,7 @@ const { Participante } = require('../db.js');
 
 router.put('/participante/update/:participanteId', async (req, res)=>{
   const updateFields = req.body;
+  delete updateFields.dni; //No es posible actualizar el DNI
   const { participanteId } = req.params;
   try {
     await Participante.update( updateFields, {

@@ -133,10 +133,10 @@ export default function Participantes() {
 
   //Borrar Participante cuando el usuario presiona "Basurero"
   const handleDeleteClick = (deleteRow) => () => {
-    if(!deleteRow.isSaveInDb){
+    if(typeof(deleteRow.id) === 'string'){
       setRows(rows.filter((row) => row.id !== deleteRow.id));
     } else {
-      alert('Se va a Borrar de la DB');
+      alert('¿Esta seguro de querer Borrar el Participante?');
     }
     
   };
@@ -157,10 +157,15 @@ export default function Participantes() {
 
   //Cuando se presiona el Icon Save, se guarda en el estado Rows la fila y se retorna la fila para
   //actualizar el estado interno.
-  const processRowUpdate = (newRow) => {
-    const updatedRow = { ...newRow, isNew: false, isSaveInDb: false };
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    return updatedRow;
+  const processRowUpdate = (newRow, prevRow) => {
+    if(prevRow.dni !== newRow.dni){
+      alert('No es posible modificar el DNI de un participante');
+      return prevRow;
+    } else{
+      const updatedRow = { ...newRow, isNew: false, isSaveInDb: false };
+      setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+      return updatedRow;
+    }
   };
 
   // Cuando se presiona el Icon Guarda DB, se Valida y en caso de corresponder se lo guarda en la DB
@@ -224,6 +229,7 @@ export default function Participantes() {
             label="Delete"
             onClick={handleDeleteClick(row)}
             color="inherit"
+            disabled={ typeof(row.id) === 'number'? true : false}
           />,
           <GridActionsCellItem
           icon={row.isSaveInDb? <StorageIcon /> : <CloudUploadIcon color='primary' />}
