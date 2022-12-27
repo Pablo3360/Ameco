@@ -26,30 +26,22 @@ export async function updateAfiliadoTitular(updatedFields, userId){
     return result;
   } catch (error) {
     console.log(error.message)
-    return 0;
+    return null;
   }
 };
 
-function createdAfiliadoTitularResponse(afiliado){
-  return {
-    type: 'CREATED_AFILIADO_TITULAR_RESPONSE',
-    payload: afiliado
-  }
-};
-
-export function createAfiliadoTitular(data){
-  return function(dispatch){
-    try {
-      fetch('http://localhost:3001/afiliado/crear', {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        method: 'POST',
-        body: JSON.stringify(data)})
-      .then(r => r.json())
-      .then(afiliado => dispatch(createdAfiliadoTitularResponse(afiliado)));
-    } catch (error) {
-      console.log(error.message)
-    }
+export async function createAfiliadoTitular(data){
+  try {
+    let result = await fetch('http://localhost:3001/afiliado/crear', {
+      headers: {
+          'Content-Type': 'application/json'
+        },
+      method: 'POST',
+      body: JSON.stringify(data)})
+    .then(r => r.json());
+    return result;
+  } catch (error) {
+    console.log(error.message);
+    return null;
   }
 };

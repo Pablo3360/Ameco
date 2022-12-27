@@ -27,4 +27,6 @@ conn.sync({ force: false }).then(() => {
   });
 });
 
+//Buscar que los Ids comiencen en un valor superior a los ids existentes
 //ALTER SEQUENCE participantes_id_seq RESTART 1000;
+//ALTER SEQUENCE titulars_id_seq RESTART 1000;

@@ -32,7 +32,7 @@ function AfiliadosContent() {
       { field: 'fullName', headerName: 'Nombre Completo', width: 225, valueGetter: getFullName},
       { field: 'apellidos', headerName: 'Apellidos', width: 170, editable: true },
       { field: 'nombres', headerName: 'Nombres', width: 170, editable: true },
-      { field: 'dni', headerName: 'DNI', hideable: false, editable: true },
+      { field: 'dni', headerName: 'DNI', hideable: false, editable: false },
       { field: 'sexo', headerName: 'Sexo', width: 85, type: 'singleSelect', 
         valueOptions: ['varon', 'mujer', 'sin especificar'], editable: true},
       { field: 'nacimiento', headerName: 'Nacimiento', type: 'date', editable: true },

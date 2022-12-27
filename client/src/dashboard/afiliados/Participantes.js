@@ -74,7 +74,7 @@ export default function Participantes() {
   const createdParticipante = useSelector(state => state.createdParticipante);
   const dispatch = useDispatch();
   const { titularId } = useParams();
-
+  
   const [rows, setRows] = useState([]); // Estado con todas las filas y sus datos
   const [rowModesModel, setRowModesModel] = useState({}); // Modo de la fila, Edit o View
   const [pageSize, setPageSize] = useState(5);
