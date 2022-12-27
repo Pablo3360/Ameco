@@ -114,15 +114,14 @@ export default function AltaTitular() {
       setValues( state => { return { ...state, nacimiento: new Date(values.nacimiento.$d)}} )
       setLoading(true);
       const titular = await createAfiliadoTitular(values);
-      if(titular.created_at) {
+      if(titular) {
         setCreatedTitular(titular)
         setOpenDialog(true);
         dispatch(getAfiliados());
         setValues({ ...initialValues, nacimiento: '01/01/1990'});
         setLoading(false);
       }
-      else alert('No se ha podido dar de Alta el Afiliado Titular, verifique los datos');
-      setLoading(false);
+      else alert('No se ha podido dar de Alta el Afiliado Titular. Verifique los datos, regrese atras y vuelva a intentarlo');
     } else {
       alert('Faltan Campos obligatorios');
     }

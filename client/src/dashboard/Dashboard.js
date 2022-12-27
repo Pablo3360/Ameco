@@ -20,7 +20,7 @@ import Panel from "./panel/Default";
 import Titulares from "./afiliados/Titulares";
 import AltaTitular from "./afiliados/AltaTitular";
 import Participantes from "./afiliados/Participantes";
-import Recaudacion from "./recaudacion/Recaudacion";
+import Recaudadores from "./recaudacion/Recaudadores";
 import Copyright from "./Copyright";
 
 const drawerWidth = 240;
@@ -157,7 +157,7 @@ function DashboardContent() {
             <Route exact path='titulares' element={<Titulares />}/>
             <Route exact path='titulares/crear' element={<AltaTitular />}/>
             <Route exact path='participantes/:titularId' element={<Participantes />}/>
-            <Route exact path='recaudacion' element={<Recaudacion />}/>
+            <Route exact path='recaudacion' element={<Recaudadores />}/>
           </Routes>
 
           <DrawerHeader />

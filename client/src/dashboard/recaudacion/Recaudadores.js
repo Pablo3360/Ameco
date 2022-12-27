@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -24,12 +24,12 @@ import {
 } from '@mui/x-data-grid';
 import { randomId } from '@mui/x-data-grid-generator';
 import { 
-  createParticipante, 
-  ParticipanteResponse, 
-  getParticipantes, 
-  getParticipantesResponse, 
-  updateParticipante 
-} from '../../actions/participantes';
+  createRecaudador, 
+  RecaudadorResponse, 
+  getRecaudadoresResponse, 
+  updateRecaudador, 
+  getRecaudadores
+} from '../../actions/recaudadores';
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -41,9 +41,7 @@ function EditToolbar(props) {
       apellidos: '', 
       nombres: '', 
       dni: '',
-      sexo: '',
-      nacimiento: '',
-      relacion: '',
+      mail: '',
       isNew: true,
       isSaveInDb: false
     }]);
@@ -56,7 +54,7 @@ function EditToolbar(props) {
   return (
     <GridToolbarContainer>
       <Button variant="outlined" startIcon={<AddIcon />} onClick={handleClick}>
-        Participante
+        Recaudador
       </Button>
     </GridToolbarContainer>
   );
@@ -67,49 +65,48 @@ EditToolbar.propTypes = {
   setRows: PropTypes.func.isRequired,
 };
 
-export default function Participantes() {
+export default function Recaudadores() {
 
   const navigate = useNavigate();
-  const participantes = useSelector(state => state.participantes);
-  const createdParticipante = useSelector(state => state.createdParticipante);
+  const recaudadores = useSelector(state => state.recaudadores);
+  const createdRecaudador = useSelector(state => state.createdRecaudador);
   const dispatch = useDispatch();
-  const { titularId } = useParams();
   
   const [rows, setRows] = useState([]); // Estado con todas las filas y sus datos
   const [rowModesModel, setRowModesModel] = useState({}); // Modo de la fila, Edit o View
   const [pageSize, setPageSize] = useState(5);
 
-  // Al montar el componente, pedimos a DB todos los participantes del Titular para guardarlos en el estado global
+  // Al montar el componente, pedimos a DB todos los recaudadores
   useEffect(() => {
-    dispatch(getParticipantes(titularId));
+    dispatch(getRecaudadores());
       // eslint-disable-next-line
   }, []);
 
-  //Actualizamos el estado local 'rows' con los participantes del estado global
+  //Actualizamos el estado local 'rows' con los recaudadores del estado global
   useEffect( ()=>{
     setRows( rows => [ 
       ...rows, 
-      ...participantes.map( participante => { 
-        return { ...participante, isNew: false, isSaveInDb: true}
+      ...recaudadores.map( recaudador => { 
+        return { ...recaudador, isNew: false, isSaveInDb: true}
       })
     ]);
-  }, [participantes]);
+  }, [recaudadores]);
 
-  //Borramos los participantes al desmontar el componente
+  //Borramos los recaudadores al desmontar el componente
   useEffect( ()=>{ 
     return ()=> { 
-      dispatch( getParticipantesResponse([]) );
-      dispatch( ParticipanteResponse({}) );
+      dispatch( getRecaudadoresResponse([]) );
+      dispatch( RecaudadorResponse({}) );
     }
     // eslint-disable-next-line
   }, []);
 
-  // Cuando se guarde un participante en la Db, al recibir la respuesta, lo guardamos en el estado local
+  // Cuando se guarde un recaudador en la Db, al recibir la respuesta, lo guardamos en el estado local
   useEffect(() => {
-    const updatedRow = { ...createdParticipante, isNew: false, isSaveInDb: true };
-    setRows(rows.map((row) => (row.dni === createdParticipante.dni ? updatedRow : row)));
+    const updatedRow = { ...createdRecaudador, isNew: false, isSaveInDb: true };
+    setRows(rows.map((row) => (row.dni === createdRecaudador.dni ? updatedRow : row)));
     // eslint-disable-next-line
-  }, [createdParticipante]);
+  }, [createdRecaudador]);
 
   const handleRowEditStart = (params, event) => {
     event.defaultMuiPrevented = true;
@@ -129,14 +126,13 @@ export default function Participantes() {
     setRowModesModel({ ...rowModesModel, [newRow.id]: { mode: GridRowModes.View } });
   };
 
-  //Borrar Participante cuando el usuario presiona "Basurero"
+  //Borrar Recaudador cuando el usuario presiona "Basurero"
   const handleDeleteClick = (deleteRow) => () => {
     if(typeof(deleteRow.id) === 'string'){
       setRows(rows.filter((row) => row.id !== deleteRow.id));
     } else {
-      alert('¿Esta seguro de querer Borrar el Participante?');
+      alert('¿Esta seguro de querer Borrar el Recaudador?');
     }
-    
   };
 
   // Cancelar Edicion. Cambia el Modo de la fila a View (ignorando los cambios realizados) y
@@ -157,7 +153,7 @@ export default function Participantes() {
   //actualizar el estado interno.
   const processRowUpdate = (newRow, prevRow) => {
     if(typeof(newRow.id) === 'number' && prevRow.dni !== newRow.dni){
-      alert('No es posible modificar el DNI de un participante');
+      alert('No es posible modificar el DNI de un recaudador');
       return prevRow;
     } else{
       const updatedRow = { ...newRow, isNew: false, isSaveInDb: false };
@@ -168,33 +164,30 @@ export default function Participantes() {
 
   // Cuando se presiona el Icon Guarda DB, se Valida y en caso de corresponder se lo guarda en la DB
   const handleSaveDb = (row) => () => {
-    const { apellidos, nombres, dni, sexo, nacimiento, relacion } = row;
-    if( apellidos && nombres && dni && sexo && relacion && nacimiento){
-      const participanteId = row.id;
+    const { apellidos, nombres, dni, mail } = row;
+    if( apellidos && nombres && dni && mail){
+      const recaudadorId = row.id;
       delete row.id;
       delete row.isNew;
       delete row.isSaveInDb;
-      if(typeof(participanteId) === 'number'){
-        //se actualiza los id type number
-        dispatch(updateParticipante( row, participanteId));
+      if(typeof(recaudadorId) === 'number'){
+        //se actualiza si el id es de type number
+        dispatch(updateRecaudador( row, recaudadorId));
       } else {
-        //se crea los id type string
-        dispatch(createParticipante( row, titularId));
+        //se crea si el id es de type string
+        dispatch(createRecaudador( row ));
       }
     } else {
-      alert ('Todos los campos son obligatorios');
+      alert ('Faltan ingresar campos obligatorios');
     }
   };
 
   const columns = [
     { field: 'apellidos', headerName: 'Apellidos', width: 200, editable: true },
     { field: 'nombres', headerName: 'Nombres', width: 200, editable: true },
-    { field: 'dni', headerName: 'DNI', hideable: false, editable: true },
-    { field: 'sexo', headerName: 'Sexo', width: 125, type: 'singleSelect', 
-      valueOptions: ['varon', 'mujer', 'sin especificar'], editable: true},
-    { field: 'nacimiento', headerName: 'Nacimiento', width: 125, type: 'date', editable: true },
-    { field: 'relacion', headerName: 'Relacion', width: 125, type: 'singleSelect', 
-      valueOptions: ['pareja', 'hijo/a', 'padre/madre'], editable: true},
+    { field: 'dni', headerName: 'DNI', editable: true },
+    { field: 'mail', headerName: 'Mail', width: 200, hideable: true, editable: true },
+    { field: 'created_at', headerName: 'Creado', width: 200, hideable: true, editable: false },
     { field: 'actions', headerName: 'Acciones', width: 125, type: 'actions', cellClassName: 'actions',
       getActions: ({ row }) => {
         const isInEditMode = rowModesModel[row.id]?.mode === GridRowModes.Edit;
@@ -247,7 +240,7 @@ export default function Participantes() {
 
         <Box sx={{ mb:2, display: 'flex', justifyContent: 'space-between'}} >
           <Typography variant="h5" component="h5" >
-            Participantes
+            Recaudadores
           </Typography>
           <Button variant="contained"
               onClick={() => navigate(-1)}

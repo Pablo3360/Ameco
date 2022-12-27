@@ -3,7 +3,7 @@ export function validate(value, inputName) {
   let error = '';
   switch (inputName) {
     case 'nombres':
-      if (!/^[A-Z]*$/i.test(value)) {
+      if (!/^[A-Z\s]*$/i.test(value)) {
         error = 'Invalido (solo letras)';
       } else {
         error = '';
@@ -11,7 +11,7 @@ export function validate(value, inputName) {
       return error;
 
     case 'apellidos':
-      if (!/^[A-Z]*$/i.test(value)) {
+      if (!/^[A-Z\s]*$/i.test(value)) {
           error = 'Invalido (solo letras)';
       } else {
           error = '';
@@ -19,8 +19,8 @@ export function validate(value, inputName) {
       return error;
     
     case 'dni': 
-      if (!/^\d+$/i.test(value)) {
-        error = 'Tipo es invalido';
+      if (!/^[\d]*$/i.test(value)) {
+        error = 'Invalido (solo números)';
       } else {
         error = '';
       }

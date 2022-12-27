@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { Participante } = require('../db.js');
+const { Participante } = require('../../db.js');
 
 router.put('/participante/update/:participanteId', async (req, res)=>{
   const updateFields = req.body;

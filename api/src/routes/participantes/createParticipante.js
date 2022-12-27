@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { Participante } = require('../db.js');
+const { Participante } = require('../../db.js');
 
 router.post('/participante/create/:titularId', async (req, res)=>{
   const createFields = req.body;

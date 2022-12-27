@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { Titular } = require('../db.js');
+const { Titular } = require('../../db.js');
 const router = Router();
 
 router.put('/titular/update/:userId', async (req, res)=>{

@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { Participante } = require('../db.js');
+const { Participante } = require('../../db.js');
 
 router.get('/participantes/:titularId', async (req, res)=>{
 
@@ -8,7 +8,7 @@ router.get('/participantes/:titularId', async (req, res)=>{
 
   try {
     const participantes = await Participante.findAll({
-      where: { titularId}
+      where: { titularId }
     });
     res.status(200).send(participantes);
   } catch (error) {

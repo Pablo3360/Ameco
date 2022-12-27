@@ -32,7 +32,7 @@ export async function updateAfiliadoTitular(updatedFields, userId){
 
 export async function createAfiliadoTitular(data){
   try {
-    let result = await fetch('http://localhost:3001/titular/crear', {
+    let result = await fetch('http://localhost:3001/titular/create', {
       headers: {
           'Content-Type': 'application/json'
         },
