@@ -7,7 +7,7 @@ export function getAfiliadosResponse(afiliados){
 
 export function getAfiliados() {
   return function(dispatch) {
-    fetch('http://localhost:3001/afiliados')
+    fetch('http://localhost:3001/titulares')
     .then(r => r.json())
     .then((afiliados) => dispatch(getAfiliadosResponse(afiliados)))
     .catch( error => console.log(error))
@@ -16,7 +16,7 @@ export function getAfiliados() {
 
 export async function updateAfiliadoTitular(updatedFields, userId){
   try {
-    let result = await fetch(`http://localhost:3001/afiliados/update/${userId}`, {
+    let result = await fetch(`http://localhost:3001/titular/update/${userId}`, {
       headers: {
           'Content-Type': 'application/json'
         },
@@ -32,7 +32,7 @@ export async function updateAfiliadoTitular(updatedFields, userId){
 
 export async function createAfiliadoTitular(data){
   try {
-    let result = await fetch('http://localhost:3001/afiliado/crear', {
+    let result = await fetch('http://localhost:3001/titular/crear', {
       headers: {
           'Content-Type': 'application/json'
         },

@@ -4,7 +4,7 @@ const { Router } = require('express');
 const crearTitular = require('./crearTitular.js');
 const crearParticipante = require('./crearParticipante.js');
 const crearAfiliado = require('./crearAfiliado.js');
-const getAfiliados = require('./getAfiliados.js');
+const getTitulares = require('./getTitulares.js');
 const updateTitular = require('./updateTitular.js')
 const getParticipantes = require('./getParticipantes.js')
 const updateParticipante = require('./updateParticipante.js')
@@ -13,7 +13,7 @@ const router = Router();
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
-router.use(getAfiliados);
+router.use(getTitulares);
 router.use(crearTitular);
 router.use(crearParticipante);
 router.use(crearAfiliado);

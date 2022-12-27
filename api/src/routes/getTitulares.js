@@ -2,8 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const { Titular } = require('../db.js');
 
-router.get('/afiliados', async (req, res)=>{
-
+router.get('/titulares', async (req, res)=>{
   try {
     const titulares = await Titular.findAll({
       order: [['apellidos', 'ASC']]

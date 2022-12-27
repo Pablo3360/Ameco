@@ -11,7 +11,7 @@ import { green } from '@mui/material/colors';
 
 import { updateAfiliadoTitular, getAfiliados } from '../../actions/afiliados';
 
-const AfiliadosActions = ({ params, rowId, setRowId }) => {
+const TitularActions = ({ params, rowId, setRowId }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -64,4 +64,4 @@ const AfiliadosActions = ({ params, rowId, setRowId }) => {
   );
 };
 
-export default AfiliadosActions;
+export default TitularActions;

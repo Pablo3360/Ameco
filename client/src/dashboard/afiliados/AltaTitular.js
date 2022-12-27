@@ -40,7 +40,7 @@ class InitialValuesForm {
   }
 }
 
-export default function AddAfiliado() {
+export default function AltaTitular() {
   
   const initialValues = new InitialValuesForm();
   const initialFormatError = new InitialValuesForm();

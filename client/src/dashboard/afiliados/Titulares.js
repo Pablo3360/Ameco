@@ -7,7 +7,7 @@ import { grey } from '@mui/material/colors';
 import { DataGrid, GridToolbar, gridClasses, esES } from '@mui/x-data-grid';
 
 import { getAfiliados } from '../../actions/afiliados';
-import AfiliadosActions from './AfiliadosActions';
+import TitularActions from './TitularActions';
 
 function AfiliadosContent() {
 
@@ -45,7 +45,7 @@ function AfiliadosContent() {
       { field: 'domicilio', headerName: 'Domicilio', width: 250, editable: true },
       { field: 'created_at', headerName: 'Fecha Creación', width: 200 },
       { field: 'actions', headerName: 'Acciones', type: 'actions', width: 125,
-        renderCell: (params) => ( <AfiliadosActions {...{ params, rowId, setRowId }} />)}
+        renderCell: (params) => ( <TitularActions {...{ params, rowId, setRowId }} />)}
     ],
     [rowId]
   );
@@ -62,7 +62,7 @@ function AfiliadosContent() {
           </Typography>
           
           <Button variant="contained"
-            onClick={() => navigate('/panel/afiliados/crear')}
+            onClick={() => navigate('/panel/titulares/crear')}
             >
             Alta Afiliado
           </Button>

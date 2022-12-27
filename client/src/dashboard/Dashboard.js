@@ -17,8 +17,8 @@ import { Routes, Route } from "react-router-dom";
 
 import SideList from './SideList';
 import Panel from "./panel/Default";
-import Afiliados from "./afiliados/Afiliados";
-import AddAfiliado from "./afiliados/AddAfiliado";
+import Titulares from "./afiliados/Titulares";
+import AltaTitular from "./afiliados/AltaTitular";
 import Participantes from "./afiliados/Participantes";
 import Recaudacion from "./recaudacion/Recaudacion";
 import Copyright from "./Copyright";
@@ -154,8 +154,8 @@ function DashboardContent() {
           
           <Routes>
             <Route exact path='' element={<Panel />}/>
-            <Route exact path='afiliados' element={<Afiliados />}/>
-            <Route exact path='afiliados/crear' element={<AddAfiliado />}/>
+            <Route exact path='titulares' element={<Titulares />}/>
+            <Route exact path='titulares/crear' element={<AltaTitular />}/>
             <Route exact path='participantes/:titularId' element={<Participantes />}/>
             <Route exact path='recaudacion' element={<Recaudacion />}/>
           </Routes>

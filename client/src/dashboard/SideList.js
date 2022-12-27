@@ -25,7 +25,7 @@ function SideListContent( {open, setOpen} ) {
       </ListItem>
 
       <ListItem disablePadding sx={{ display: 'block' }}>
-        <ListItemButton onClick={() => navigate('/panel/afiliados')}>
+        <ListItemButton onClick={() => navigate('/panel/titulares')}>
           <ListItemIcon>
             <PeopleIcon />
           </ListItemIcon>
@@ -67,7 +67,7 @@ function SideListContent( {open, setOpen} ) {
       </ListSubheader>
 
       <ListItem disablePadding sx={{ display: 'block' }}>
-        <ListItemButton onClick={() => navigate('/panel/afiliados')}>
+        <ListItemButton onClick={() => navigate('/panel/titulares')}>
           <ListItemIcon>
             <AssignmentIcon />
           </ListItemIcon>
@@ -76,7 +76,7 @@ function SideListContent( {open, setOpen} ) {
       </ListItem>
 
       <ListItem disablePadding sx={{ display: 'block' }}>
-        <ListItemButton onClick={() => navigate('/panel/afiliados')}>
+        <ListItemButton onClick={() => navigate('/panel/titulares')}>
           <ListItemIcon>
             <AssignmentIcon />
           </ListItemIcon>
@@ -85,7 +85,7 @@ function SideListContent( {open, setOpen} ) {
       </ListItem>
 
       <ListItem disablePadding sx={{ display: 'block' }}>
-        <ListItemButton onClick={() => navigate('/panel/afiliados')}>
+        <ListItemButton onClick={() => navigate('/panel/titulares')}>
           <ListItemIcon>
             <AssignmentIcon />
           </ListItemIcon>
