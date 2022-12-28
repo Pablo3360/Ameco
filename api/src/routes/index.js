@@ -13,6 +13,10 @@ const getRecaudadores = require('./recaudadores/getRecaudadores.js');
 const createRecaudador = require('./recaudadores/createRecaudador.js');
 const updateRecaudador = require('./recaudadores/updateRecaudador.js');
 
+const getEmpleadores = require('./empleadores/getEmpleadores.js');
+const createEmpleador = require('./empleadores/createEmpleador.js');
+const updateEmpleador = require('./empleadores/updateEmpleador.js');
+
 const router = Router();
 
 // Configurar los routers
@@ -28,5 +32,9 @@ router.use(updateParticipante);
 router.use(getRecaudadores);
 router.use(createRecaudador);
 router.use(updateRecaudador);
+
+router.use(getEmpleadores);
+router.use(createEmpleador);
+router.use(updateEmpleador);
 
 module.exports = router;
