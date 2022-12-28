@@ -34,6 +34,11 @@ const TitularFn = (sequelize) => {
       type: DataTypes.DATEONLY,
       // allowNull: false
     },
+    estado: {
+      type: DataTypes.ENUM,
+      defaultValue: 'activo',
+      values: ['activo', 'inactivo'],
+    },
     sexo: {
       type: DataTypes.ENUM,
       values: ['varon', 'mujer', 'sin especificar'],

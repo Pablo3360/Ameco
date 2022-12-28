@@ -33,6 +33,8 @@ function AfiliadosContent() {
       { field: 'apellidos', headerName: 'Apellidos', width: 170, editable: true },
       { field: 'nombres', headerName: 'Nombres', width: 170, editable: true },
       { field: 'dni', headerName: 'DNI', hideable: false, editable: false },
+      { field: 'estado', headerName: 'Estado', width: 85, type: 'singleSelect', 
+      valueOptions: ['activo', 'inactivo'], editable: true},
       { field: 'sexo', headerName: 'Sexo', width: 85, type: 'singleSelect', 
         valueOptions: ['varon', 'mujer', 'sin especificar'], editable: true},
       { field: 'nacimiento', headerName: 'Nacimiento', type: 'date', editable: true },
@@ -79,6 +81,7 @@ function AfiliadosContent() {
                 sexo: false,
                 created_at: false,
                 domicilio: false,
+                estado_civil: false,
               },
             },
           }}
