@@ -201,7 +201,7 @@ export default function Empleadores() {
         return { value: recaudador.id , label : `${recaudador.apellidos}, ${recaudador.nombres}` }} ), 
       editable: true,
       valueFormatter: (params) => {
-        if (params.value == null) {
+        if (params.value == false) {
           return '';
         }
         // const valueFormatted = Number(params.value * 100).toLocaleString();

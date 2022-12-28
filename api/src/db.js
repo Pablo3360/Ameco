@@ -41,8 +41,12 @@ Participante.belongsTo(Titular);
 Recaudador.hasMany(Empleador, {
   foreignKey: 'recaudadorId'
 });
-
 Empleador.belongsTo(Recaudador);
+
+Empleador.hasMany(Titular, {
+  foreignKey: 'empleadorId'
+});
+Titular.belongsTo(Empleador);
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
