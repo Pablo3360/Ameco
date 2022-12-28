@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 
@@ -23,6 +23,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { validate } from './validate.js';
 import { createAfiliadoTitular, getAfiliados } from '../../actions/afiliados';
+import { getEmpleadores } from '../../actions/empleadores';
 
 class InitialValuesForm {
   constructor(){
@@ -53,6 +54,8 @@ export default function AltaTitular() {
   const [loading, setLoading] = useState(false);
 
   const [openDialog, setOpenDialog] = useState(false);
+
+  const empleadores = useSelector(state => state.empleadores);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -126,6 +129,11 @@ export default function AltaTitular() {
       alert('Faltan Campos obligatorios');
     }
   };
+  
+  useEffect(()=>{
+    dispatch(getEmpleadores());
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Container component="main" width='100%' >
@@ -304,7 +312,11 @@ export default function AltaTitular() {
                 error={(formatError.empleador || emptyError.empleador)? true : false}
                 onBlur={ (event)=> Empty(event) }
                 >
-                <MenuItem value={'activo'}>Activo</MenuItem>
+                { empleadores.map( empleador => (
+                  <MenuItem key={empleador.id} value={empleador.id}>
+                    {`${empleador.razon} - ${empleador.cuit} - ${empleador.recaudador.apellidos}, ${empleador.recaudador.nombres}`}
+                  </MenuItem>
+                ) ) }
               </TextField>
             </Grid>
           </Grid>

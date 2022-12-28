@@ -48,6 +48,13 @@ const TitularFn = (sequelize) => {
     created_at: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
+    },
+    empleadorId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'empleadors',
+        key: 'id'
+      }
     }
   }, {
     timestamps: false

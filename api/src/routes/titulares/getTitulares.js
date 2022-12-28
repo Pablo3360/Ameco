@@ -9,6 +9,7 @@ router.get('/titulares', async (req, res)=>{
     });
     res.status(200).send(titulares);
   } catch (error) {
+    console.log(error);
     return res.status(400).send(error.message);
   }
 });

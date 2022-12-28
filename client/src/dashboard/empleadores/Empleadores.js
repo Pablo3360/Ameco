@@ -201,11 +201,9 @@ export default function Empleadores() {
         return { value: recaudador.id , label : `${recaudador.apellidos}, ${recaudador.nombres}` }} ), 
       editable: true,
       valueFormatter: (params) => {
-        if (params.value == false) {
-          return '';
-        }
-        // const valueFormatted = Number(params.value * 100).toLocaleString();
-        const recaudador = recaudadores.find( recaudador => recaudador.id === params.value );
+        // eslint-disable-next-line
+        if (params.value == false) return '';
+        const recaudador = recaudadores.find( recaudador => recaudador.id === parseInt(params.value) );
         const valueFormatted = `${recaudador.apellidos}, ${recaudador.nombres}`;
         return valueFormatted;
       }
