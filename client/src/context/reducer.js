@@ -8,7 +8,7 @@ const initialState = {
   empleadores: [],
   createdEmpleador: {},
   prestadores: [],
-  createdPrestadores: {},
+  createdPrestador: {},
 };
   
 const rootReducer = function (state = initialState, action){

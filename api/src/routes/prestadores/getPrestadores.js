@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { Empleador: Prestador } = require('../../db.js');
+const { Prestador } = require('../../db.js');
 
 router.get('/prestadores', async (req, res)=>{
   try {
