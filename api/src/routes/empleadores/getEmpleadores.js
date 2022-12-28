@@ -5,7 +5,8 @@ const { Empleador } = require('../../db.js');
 router.get('/empleadores', async (req, res)=>{
   try {
     const empleadores = await Empleador.findAll({
-      include: 'recaudador'
+      order: [['razon', 'ASC']],
+      include: 'recaudador',
     });
     res.status(200).send(empleadores);
   } catch (error) {

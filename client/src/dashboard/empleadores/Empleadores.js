@@ -177,7 +177,6 @@ export default function Empleadores() {
       const empleadorId = row.id;
       const recaudadorId = row.recaudadorId;
       delete row.id;
-      delete row.recaudadorId;
       delete row.created_at;
       delete row.isNew;
       delete row.isSaveInDb;
@@ -186,6 +185,7 @@ export default function Empleadores() {
         dispatch(updateEmpleador( row, empleadorId ));
       } else {
         //se crea si el id es de type string
+        delete row.recaudadorId;
         dispatch(createEmpleador( row, recaudadorId ));
       }
     } else {

@@ -32,7 +32,7 @@ class InitialValuesForm {
     this.dni = '';
     this.sexo = '';
     this.nacimiento = '';
-    this.estadoCivil = '';
+    this.estado_civil = '';
     this.localidad = '';
     this.domicilio = '';
     this.celular = '';
@@ -108,7 +108,7 @@ export default function AltaTitular() {
       values.dni &&
       values.sexo &&
       values.nacimiento.$d &&
-      values.estadoCivil &&
+      values.estado_civil &&
       values.localidad &&
       values.tipo &&
       values.empleador
@@ -226,14 +226,14 @@ export default function AltaTitular() {
               <TextField
                 required
                 select
-                id="estadoCivil"
-                name='estadoCivil'
+                id="estado_civil"
+                name='estado_civil'
                 label="Estado Civil"
                 fullWidth
-                value={values.estadoCivil}
+                value={values.estado_civil}
                 onChange={(e) => handleChange(e)}
                 // helpertext={formatError.estadoCivil}
-                error={(formatError.estadoCivil || emptyError.estadoCivil)? true : false}
+                error={(formatError.estado_civil || emptyError.estado_civil)? true : false}
                 onBlur={ (event)=> Empty(event) }
                 >
                 <MenuItem value={'sin especificar'}>Sin especificar</MenuItem>
