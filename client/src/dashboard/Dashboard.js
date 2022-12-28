@@ -16,12 +16,14 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { Routes, Route } from "react-router-dom";
 
 import SideList from './SideList';
-import Panel from "./panel/Default";
+import PanelGeneral from "./panel/Default";
 import Titulares from "./afiliados/Titulares";
 import AltaTitular from "./afiliados/AltaTitular";
 import Participantes from "./afiliados/Participantes";
 import Recaudadores from "./recaudacion/Recaudadores";
 import Empleadores from "./empleadores/Empleadores";
+import PanelBeneficios from "./beneficios/Default";
+import Prestadores from './beneficios/Prestadores';
 import Copyright from "./Copyright";
 
 const drawerWidth = 240;
@@ -154,12 +156,14 @@ function DashboardContent() {
           <Toolbar />
           
           <Routes>
-            <Route exact path='' element={<Panel />}/>
+            <Route exact path='' element={<PanelGeneral />}/>
             <Route exact path='titulares' element={<Titulares />}/>
             <Route exact path='titulares/crear' element={<AltaTitular />}/>
             <Route exact path='participantes/:titularId' element={<Participantes />}/>
             <Route exact path='recaudacion' element={<Recaudadores />}/>
             <Route exact path='empleadores' element={<Empleadores />}/>
+            <Route exact path='beneficios' element={<PanelBeneficios />}/>
+            <Route exact path='beneficios/prestadores' element={<Prestadores />}/>
           </Routes>
 
           <DrawerHeader />
