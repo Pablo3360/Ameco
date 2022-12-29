@@ -14,7 +14,8 @@ const BeneficioFn = (sequelize) => {
     },
     nombre: {
       type: DataTypes.STRING(60),
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     descripcion: {
       type: DataTypes.STRING(60)

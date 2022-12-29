@@ -7,9 +7,13 @@ const CodigoFn = (sequelize) => {
       autoIncrement: true,
       primaryKey: true
     },
+    grupo: {
+      type: DataTypes.STRING(15),
+      allowNull: false,
+    },
     codigo: {
       type: DataTypes.STRING(10),
-      allowNull: false
+      allowNull: false,
     },
     nombre: {
       type: DataTypes.STRING(60),
@@ -23,6 +27,13 @@ const CodigoFn = (sequelize) => {
       references: {
         model: 'beneficios',
         key: 'id'
+      }
+    }
+  }, 
+  {
+    uniqueKeys: {
+      grupo_codigo: {
+        fields: ['grupo', 'codigo']
       }
     }
   });

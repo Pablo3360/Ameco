@@ -25,6 +25,10 @@ const getBeneficios = require('./beneficios/getBeneficios.js');
 const createBeneficio = require('./beneficios/createBeneficio.js');
 const updateBeneficio = require('./beneficios/updateBeneficio.js');
 
+const getCodigos = require('./codigos/getCodigos.js');
+const createCodigo = require('./codigos/createCodigo.js');
+const updateCodigo = require('./codigos/updateCodigo.js');
+
 const router = Router();
 
 // Configurar los routers
@@ -53,5 +57,9 @@ router.use(updatePrestador);
 router.use(getBeneficios);
 router.use(createBeneficio);
 router.use(updateBeneficio);
+
+router.use(getCodigos);
+router.use(createCodigo);
+router.use(updateCodigo);
 
 module.exports = router;
