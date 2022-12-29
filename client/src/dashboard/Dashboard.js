@@ -24,6 +24,7 @@ import Recaudadores from "./recaudacion/Recaudadores";
 import Empleadores from "./empleadores/Empleadores";
 import PanelBeneficios from "./beneficios/Default";
 import Prestadores from './beneficios/Prestadores';
+import Beneficios from './beneficios/Beneficios';
 import Copyright from "./Copyright";
 
 const drawerWidth = 240;
@@ -164,6 +165,7 @@ function DashboardContent() {
             <Route exact path='empleadores' element={<Empleadores />}/>
             <Route exact path='beneficios' element={<PanelBeneficios />}/>
             <Route exact path='beneficios/prestadores' element={<Prestadores />}/>
+            <Route exact path='beneficios/beneficios' element={<Beneficios />}/>
           </Routes>
 
           <DrawerHeader />

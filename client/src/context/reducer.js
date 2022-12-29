@@ -9,6 +9,8 @@ const initialState = {
   createdEmpleador: {},
   prestadores: [],
   createdPrestador: {},
+  beneficios: [],
+  createdBeneficio: {},
 };
   
 const rootReducer = function (state = initialState, action){
@@ -65,6 +67,18 @@ switch (action.type){
     return {
       ...state,
       createdPrestador: action.payload
+    }
+
+  case 'GET_BENEFICIOS_RESPONSE':
+    return {
+      ...state,
+      beneficios: action.payload
+    }
+
+  case 'BENEFICIO_RESPONSE':
+    return {
+      ...state,
+      createdBeneficio: action.payload
     }
 
   default:

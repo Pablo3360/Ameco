@@ -21,10 +21,15 @@ const getPrestadores = require('./prestadores/getPrestadores.js');
 const createPrestador = require('./prestadores/createPrestador.js');
 const updatePrestador = require('./prestadores/updatePrestador.js');
 
+const getBeneficios = require('./beneficios/getBeneficios.js');
+const createBeneficio = require('./beneficios/createBeneficio.js');
+const updateBeneficio = require('./beneficios/updateBeneficio.js');
+
 const router = Router();
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
+
 router.use(getTitulares);
 router.use(createTitular);
 router.use(updateTitular);
@@ -44,5 +49,9 @@ router.use(updateEmpleador);
 router.use(getPrestadores);
 router.use(createPrestador);
 router.use(updatePrestador);
+
+router.use(getBeneficios);
+router.use(createBeneficio);
+router.use(updateBeneficio);
 
 module.exports = router;

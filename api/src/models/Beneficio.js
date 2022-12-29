@@ -7,6 +7,11 @@ const BeneficioFn = (sequelize) => {
       autoIncrement: true,
       primaryKey: true
     },
+    codigo_unico: {
+      type: DataTypes.STRING(5),
+      allowNull: false,
+      unique: true
+    },
     nombre: {
       type: DataTypes.STRING(60),
       allowNull: false
