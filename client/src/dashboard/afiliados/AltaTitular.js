@@ -22,7 +22,7 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { validate } from './validate.js';
-import { createAfiliadoTitular, getAfiliados } from '../../actions/afiliados';
+import { createAfiliadoTitular, getAfiliados } from '../../actions/titulares';
 import { getEmpleadores } from '../../actions/empleadores';
 
 class InitialValuesForm {

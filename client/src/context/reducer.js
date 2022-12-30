@@ -13,6 +13,8 @@ const initialState = {
   createdBeneficio: {},
   codigos: [],
   createdCodigo: {},
+  ordenes: [],
+  createdOrden: {},
 };
   
 const rootReducer = function (state = initialState, action){
@@ -93,6 +95,18 @@ switch (action.type){
     return {
       ...state,
       createdCodigo: action.payload
+    }
+
+  case 'GET_ORDENES_RESPONSE':
+    return {
+      ...state,
+      ordenes: action.payload
+    }
+
+  case 'ORDEN_RESPONSE':
+    return {
+      ...state,
+      createdOrden: action.payload
     }
 
   default:

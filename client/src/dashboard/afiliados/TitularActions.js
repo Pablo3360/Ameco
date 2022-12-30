@@ -9,7 +9,7 @@ import Save from '@mui/icons-material/Save';
 import FamilyRestroom from '@mui/icons-material/FamilyRestroom';
 import { green } from '@mui/material/colors';
 
-import { updateAfiliadoTitular, getAfiliados } from '../../actions/afiliados';
+import { updateAfiliadoTitular, getAfiliados } from '../../actions/titulares';
 
 const TitularActions = ({ params, rowId, setRowId }) => {
   const navigate = useNavigate();

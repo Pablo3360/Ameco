@@ -26,6 +26,8 @@ import PanelBeneficios from "./beneficios/Default";
 import Prestadores from './beneficios/Prestadores';
 import Beneficios from './beneficios/Beneficios';
 import Codigos from './beneficios/Codigos';
+import Ordenes from './beneficios/ordenes/Ordenes';
+import NuevaOrden from './beneficios/ordenes/NuevaOrden';
 import Copyright from "./Copyright";
 
 const drawerWidth = 240;
@@ -168,6 +170,8 @@ function DashboardContent() {
             <Route exact path='beneficios/prestadores' element={<Prestadores />}/>
             <Route exact path='beneficios/beneficios' element={<Beneficios />}/>
             <Route exact path='beneficios/codigos' element={<Codigos />}/>
+            <Route exact path='beneficios/ordenes' element={<Ordenes />}/>
+            <Route exact path='beneficios/ordenes/nueva' element={<NuevaOrden />}/>
           </Routes>
 
           <DrawerHeader />

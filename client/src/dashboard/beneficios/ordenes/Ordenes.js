@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
@@ -6,20 +6,18 @@ import Button from '@mui/material/Button';
 import { grey } from '@mui/material/colors';
 import { DataGrid, GridToolbar, gridClasses, esES } from '@mui/x-data-grid';
 
-import { getAfiliados } from '../../actions/titulares';
-import TitularActions from './TitularActions';
+import { getOrdenes } from '../../../actions/ordenes';
 
-function AfiliadosContent() {
+function OrdenesContent() {
 
-  const afiliados = useSelector( state => state.afiliados);
+  const ordenes = useSelector( state => state.ordenes);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [pageSize, setPageSize] = useState(5);
-  const [rowId, setRowId] = useState(null);
 
   useEffect(() => {
-    if (afiliados.length === 0) dispatch(getAfiliados());
+    if (ordenes.length === 0) dispatch(getOrdenes());
       // eslint-disable-next-line
   });
 
@@ -27,16 +25,11 @@ function AfiliadosContent() {
     return `${params.row.apellidos}, ${params.row.nombres}`;
   }
 
-  const columns = useMemo(
-    () => [
-      { field: 'fullName', headerName: 'Nombre Completo', width: 225, valueGetter: getFullName},
-      { field: 'apellidos', headerName: 'Apellidos', width: 170, editable: true },
+  const columns = [
+      { field: 'beneficiario', headerName: 'Beneficiario', width: 200, valueGetter: getFullName},
+      { field: 'participanteId', headerName: 'Apellidos', width: 170, editable: true },
       { field: 'nombres', headerName: 'Nombres', width: 170, editable: true },
-      { field: 'dni', headerName: 'DNI', hideable: false, editable: false },
-      { field: 'estado', headerName: 'Estado', width: 85, type: 'singleSelect', 
-      valueOptions: ['activo', 'inactivo'], editable: true},
-      { field: 'sexo', headerName: 'Sexo', width: 85, type: 'singleSelect', 
-        valueOptions: ['varon', 'mujer', 'sin especificar'], editable: true},
+
       { field: 'nacimiento', headerName: 'Nacimiento', type: 'date', editable: true },
       { field: 'tipo', headerName: 'Tipo', width: 85, type: 'singleSelect', 
         valueOptions: ['activo', 'adherente'], editable: true},
@@ -46,11 +39,7 @@ function AfiliadosContent() {
         valueOptions: ['casado/a', 'soltero/a', 'union de hecho', 'sin especificar'], editable: true },
       { field: 'domicilio', headerName: 'Domicilio', width: 250, editable: true },
       { field: 'created_at', headerName: 'Fecha Creación', width: 200 },
-      { field: 'actions', headerName: 'Acciones', type: 'actions', width: 125,
-        renderCell: (params) => ( <TitularActions {...{ params, rowId, setRowId }} />)}
-    ],
-    [rowId]
-  );
+    ];
 
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -60,13 +49,13 @@ function AfiliadosContent() {
         <Box sx={{ mb:2, display: 'flex', justifyContent: 'space-between'}} >
           
           <Typography variant="h5" component="h5" >
-            Afiliados Titulares
+            Ordenes
           </Typography>
           
           <Button variant="contained"
-            onClick={() => navigate('/panel/titulares/crear')}
+            onClick={() => navigate('/panel/beneficios/ordenes/nueva')}
             >
-            Alta Afiliado
+            Nueva Orden
           </Button>
           
         </Box>
@@ -86,7 +75,7 @@ function AfiliadosContent() {
             },
           }}
           columns={columns}
-          rows={afiliados}
+          rows={ordenes}
           rowsPerPageOptions={[5, 10, 20]}
           pageSize={pageSize}
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
@@ -103,7 +92,6 @@ function AfiliadosContent() {
             },
           }}
 
-          onCellEditCommit={(params) => setRowId(params.id)}
           components={{ Toolbar: GridToolbar }}
         />
       </Box>
@@ -112,6 +100,6 @@ function AfiliadosContent() {
   );
 }
 
-export default function Afiliados() {
-  return <AfiliadosContent />;
+export default function Ordenes() {
+  return <OrdenesContent />;
 }
