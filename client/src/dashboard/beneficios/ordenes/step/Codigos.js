@@ -12,11 +12,10 @@ import Checkbox from '@mui/material/Checkbox';
 import { getCodigos, getGruposCodigos } from '../../../../actions/codigos';
 
 export default function Codigos({ data, setData }) {
+  console.log(data.codigos);
   const dispatch = useDispatch();
   const codigos = useSelector( state => state.codigos);
-
-  const grupos = useSelector( state => state.gruposCodigos);
-  // const grupos = [{ nombre: 'OSECAC'}, { nombre: 'COO'} ];
+  const grupos = useSelector( state => state.gruposCodigos); //[{ nombre: 'OSECAC'}, { nombre: 'COO'} ];
 
   const [grupo, setGrupos] = useState('');
   const [selectCodigos, setSelectCodigos] = useState([]);
@@ -27,26 +26,27 @@ export default function Codigos({ data, setData }) {
 
   const handleChangeCodigo = (event) => {
     //Verificamos si ya esta el codigo en el array
-    const match = data.codigos.includes(event.target.name);
-    //Si esta en el array y el valor es false, es decir se 'desmarco', sacamos el codigo y seteamos el array
-    //Caso contrario, se guarda el codigo en el array. Es decir cada vez que se marque Check.
-    if(match && event.target.checked === false){
-      const updateCodigos = data.codigos.filter(codigo => codigo !== event.target.name);
+    const match = data.codigos.find(codigo => codigo.id === parseInt(event.target.name) );
+    // match puede resultar en undefined o el elemento encontrado -> codigo {}
+    if(match){ // Al estar el codigo en el Array lo sacamos
+      const updateCodigos = data.codigos.filter(codigo => codigo.id !== parseInt(event.target.name) );
       setData( data => { return {
         ...data, codigos : updateCodigos
       }});
-    } else {
+    }
+    else { // Al no estar el codigo en el Array lo agregamos
+      const addCodigo = codigos.find(codigo => codigo.id === parseInt(event.target.name) );
       setData( data => { return {
-        ...data, codigos : [ ...data.codigos, event.target.name ]
+        ...data, codigos : [ ...data.codigos, addCodigo ]
       }});
     }
   };
 
   useEffect(() => {
-    //filtro codigos por grupo
+    //guardo el Grupo seleccionado en data
     setData( data => { return {...data, grupo: grupo, codigos : [] }});
+    //filtro codigos por grupo
     const selectCodigos = codigos.filter( codigo => codigo.grupo === grupo );
-    console.log('SelectCodigos', selectCodigos);
     setSelectCodigos(selectCodigos);
     // eslint-disable-next-line
   }, [grupo]);
@@ -88,7 +88,7 @@ export default function Codigos({ data, setData }) {
                 key={codigo.id}
                 control={ 
                   <Checkbox
-                    checked={data.codigos.includes(`${codigo.id}`)}
+                    checked={ data.codigos.find( elementCodigo => elementCodigo === codigo.id.toString()) }
                     onChange={handleChangeCodigo} 
                     name={`${codigo.id}`} //El id es de type number, se lo cambia a string. name exige string.
                   /> 

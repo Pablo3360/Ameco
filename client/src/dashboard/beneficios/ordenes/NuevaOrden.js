@@ -11,7 +11,7 @@ import Beneficio from './step/Beneficio';
 import Prestador from './step/Prestador';
 import Codigos from './step/Codigos';
 import Cantidad from './step/Cantidad';
-import Review from './step/Review';
+import VerificarOrden from './step/VerificarOrden';
 
 const steps = ['Beneficio', 'Prestador', 'Codigos', 'Cantidad', 'Verificar Orden'];
 
@@ -27,7 +27,7 @@ function getStepContent(step, data, setData) {
     case 3:
       return <Cantidad  data={data} setData={setData} />;
     case 4:
-      return <Review  data={data} setData={setData} />;
+      return <VerificarOrden  data={data} />;
     default:
       throw new Error('Unknown step');
   }
@@ -56,6 +56,10 @@ export default function NuevaOrden() {
         break;
       case 2:
         !data.codigos.length ? alert('Seleccione almenos un Codigo') : setActiveStep(activeStep + 1);
+        break;
+      case 3:
+        data.codigos.filter( codigo => codigo.cantidad? false : true ).length ? 
+          alert('Indicar cantidad de Codigos') : setActiveStep(activeStep + 1);
         break;
       default:
         setActiveStep(activeStep + 1);
