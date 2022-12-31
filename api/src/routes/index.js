@@ -28,6 +28,7 @@ const updateBeneficio = require('./beneficios/updateBeneficio.js');
 const getCodigos = require('./codigos/getCodigos.js');
 const createCodigo = require('./codigos/createCodigo.js');
 const updateCodigo = require('./codigos/updateCodigo.js');
+const getGruposCodigos = require('./codigos/getGruposCodigos.js');
 
 const router = Router();
 
@@ -61,5 +62,6 @@ router.use(updateBeneficio);
 router.use(getCodigos);
 router.use(createCodigo);
 router.use(updateCodigo);
+router.use(getGruposCodigos);
 
 module.exports = router;

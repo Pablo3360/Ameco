@@ -241,9 +241,9 @@ export default function Beneficios() {
             Beneficios
           </Typography>
           <Button variant="contained"
-              onClick={() => navigate(-1)}
-              >
-              Volver
+            onClick={() => navigate(-1)}
+            >
+            Volver
           </Button>
         </Box>
 

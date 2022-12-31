@@ -54,3 +54,19 @@ export function updateCodigo(updatedFields, codigoId){
     }
   }
 };
+
+export function getGruposCodigosResponse(gruposCodigos){
+  return {
+    type: 'GET_GRUPOSCODIGOS_RESPONSE',
+    payload: gruposCodigos
+  }
+};
+
+export function getGruposCodigos() {
+  return function(dispatch) {
+    fetch('http://localhost:3001/gruposcodigos')
+    .then(r => r.json())
+    .then((gruposCodigos) => dispatch(getGruposCodigosResponse(gruposCodigos)))
+    .catch( error => console.log(error))
+  }
+};

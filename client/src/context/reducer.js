@@ -15,6 +15,7 @@ const initialState = {
   createdCodigo: {},
   ordenes: [],
   createdOrden: {},
+  gruposCodigos: [],
 };
   
 const rootReducer = function (state = initialState, action){
@@ -95,6 +96,12 @@ switch (action.type){
     return {
       ...state,
       createdCodigo: action.payload
+    }
+
+  case 'GET_GRUPOSCODIGOS_RESPONSE':
+    return {
+      ...state,
+      gruposCodigos: action.payload
     }
 
   case 'GET_ORDENES_RESPONSE':
