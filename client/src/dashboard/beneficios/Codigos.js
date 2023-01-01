@@ -31,7 +31,7 @@ import {
   getCodigos
 } from '../../actions/codigos';
 
-import { getBeneficios } from '../../actions/beneficios';
+import { getGruposCodigos } from '../../actions/gruposCodigos';
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -40,18 +40,18 @@ function EditToolbar(props) {
     const id = randomId();
     setRows((oldRows) => [...oldRows, { 
       id, 
-      beneficioId: '',
-      grupo: '',
+      grupoCodigoId: '',
       codigo: '', 
       nombre: '', 
-      createdAt: '',
+      precio: '',
+      descripcion: '',
       updateAt: '',
       isNew: true,
       isSaveInDb: false
     }]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'beneficioId' },
+      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'grupoCodigoId' },
     }));
   };
 
@@ -72,7 +72,7 @@ EditToolbar.propTypes = {
 export default function Codigos() {
 
   const navigate = useNavigate();
-  const beneficios = useSelector(state => state.beneficios);
+  const gruposCodigos = useSelector(state => state.gruposCodigos);
   const codigos = useSelector(state => state.codigos);
   const createdCodigo= useSelector(state => state.createdCodigo);
   const dispatch = useDispatch();
@@ -83,7 +83,7 @@ export default function Codigos() {
 
   // Al montar el componente, pedimos a DB todos los Codigos
   useEffect(() => {
-    dispatch(getBeneficios());
+    dispatch(getGruposCodigos());
     dispatch(getCodigos());
       // eslint-disable-next-line
   }, []);
@@ -109,9 +109,11 @@ export default function Codigos() {
 
   // Cuando se guarde un Codigo en la Db, al recibir la respuesta, lo guardamos en el estado local
   useEffect(() => {
-    console.log(createdCodigo, rows);
+    // console.log(rows);
+    // console.log(createdCodigo);
+    // porque createdCodigo.grupoCodigoId viene como string del server o db?
     const updatedRow = { ...createdCodigo, isNew: false, isSaveInDb: true };
-    setRows(rows.map((row) => (row.codigo === createdCodigo.codigo ? updatedRow : row)));
+    setRows(rows.map((row) => ((row.codigo === createdCodigo.codigo && row.grupoCodigoId === parseInt(createdCodigo.grupoCodigoId))? updatedRow : row))); 
     // eslint-disable-next-line
   }, [createdCodigo]);
 
@@ -162,11 +164,8 @@ export default function Codigos() {
     if(typeof(newRow.id) === 'number' && prevRow.codigo !== newRow.codigo){
       alert('No es posible modificar el Codigo de un Codigo');
       return prevRow;
-    } else if(typeof(newRow.id) === 'number' && prevRow.grupo !== newRow.grupo){
-      alert('No es posible modificar el Grupo de un Codigo');
-      return prevRow;
-    } if(typeof(newRow.id) === 'number' && prevRow.beneficioId !== newRow.beneficioId){
-      alert('No es posible modificar el Beneficio de un Codigo');
+    } else if(typeof(newRow.id) === 'number' && (prevRow.nombre !== newRow.nombre || prevRow.grupoCodigoId !== newRow.grupoCodigoId)){
+      alert('No es posible modificar el Nombre ni el Grupo de un Codigo');
       return prevRow;
     } else{
       const updatedRow = { ...newRow, isNew: false, isSaveInDb: false };
@@ -177,10 +176,10 @@ export default function Codigos() {
 
   // Cuando se presiona el Icon Guarda DB, se Valida y en caso de corresponder se lo guarda en la DB
   const handleSaveDb = (row) => () => {
-    const { grupo, codigo, nombre } = row;
-    if( grupo && codigo && nombre ){
+    const { grupoCodigoId, codigo, precio, nombre } = row;
+    if( grupoCodigoId && codigo && precio && nombre ){
       const codigoId = row.id;
-      const beneficioId = row.beneficioId;
+      const grupoCodigoId = row.grupoCodigoId;
       delete row.id;
       delete row.createdAt;
       delete row.updateAt;
@@ -191,8 +190,8 @@ export default function Codigos() {
         dispatch(updateCodigo( row, codigoId ));
       } else {
         //se crea si el id es de type string
-        delete row.beneficioId;
-        dispatch(createCodigo( row, beneficioId));
+        //delete row.grupoCodigoId;
+        dispatch(createCodigo( row, grupoCodigoId));
       }
     } else {
       alert ('Faltan ingresar campos obligatorios');
@@ -200,23 +199,23 @@ export default function Codigos() {
   };
 
   const columns = [
-    { field: 'beneficioId', headerName: 'Beneficio', width: 200, type: 'singleSelect', 
-      valueOptions: beneficios.map( beneficio => { 
-        return { value: beneficio.id , label : `${beneficio.nombre}` }} ), 
+    { field: 'grupoCodigoId', headerName: 'Grupo de Codigo', width: 200, type: 'singleSelect', 
+      valueOptions: gruposCodigos.map( grupoCodigo => { 
+        return { value: grupoCodigo.id , label : `${grupoCodigo.nombre}` }} ), 
       editable: true,
       valueFormatter: (params) => {
         // eslint-disable-next-line
         if (params.value === null || params.value === '') return '';
-        const beneficio = beneficios.find( beneficio => beneficio.id === parseInt(params.value) );
-        const valueFormatted = `${beneficio.nombre}`;
+        const grupoCodigo = gruposCodigos.find( grupoCodigo => grupoCodigo.id === parseInt(params.value) );
+        const valueFormatted = `${grupoCodigo.nombre}`;
         return valueFormatted;
       }
     },
-    { field: 'grupo', headerName: 'Grupo', width: 150, editable: true },
-    { field: 'codigo', headerName: 'Codigo', width: 150, editable: true },
+    { field: 'codigo', headerName: 'Codigo', width: 100, editable: true },
     { field: 'nombre', headerName: 'Nombre', width: 200, editable: true },
+    { field: 'precio', headerName: 'Precio', width: 75, editable: true },
     { field: 'descripcion', headerName: 'Descripcion', width: 300, editable: true },
-    { field: 'created_at', headerName: 'Creado', width: 150, editable: false },
+    { field: 'updateAt', headerName: 'Actualizado', width: 150, editable: false },
     { field: 'actions', headerName: 'Acciones', width: 125, type: 'actions', cellClassName: 'actions',
       getActions: ({ row }) => {
         const isInEditMode = rowModesModel[row.id]?.mode === GridRowModes.Edit;
@@ -282,7 +281,7 @@ export default function Codigos() {
           initialState={{
             columns: {
               columnVisibilityModel: {
-                
+                updateAt: false
               },
             },
           }}

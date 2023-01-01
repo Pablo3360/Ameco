@@ -25,10 +25,16 @@ const getBeneficios = require('./beneficios/getBeneficios.js');
 const createBeneficio = require('./beneficios/createBeneficio.js');
 const updateBeneficio = require('./beneficios/updateBeneficio.js');
 
+const getGruposCodigos = require('./gruposCodigos/getGruposCodigos.js');
+const createGrupoCodigo = require('./gruposCodigos/createGrupoCodigo.js');
+const updateGrupoCodigo = require('./gruposCodigos/updateGrupoCodigo.js');
+
 const getCodigos = require('./codigos/getCodigos.js');
 const createCodigo = require('./codigos/createCodigo.js');
 const updateCodigo = require('./codigos/updateCodigo.js');
-const getGruposCodigos = require('./codigos/getGruposCodigos.js');
+
+const getOrdenes = require('./ordenes/getOrdenes.js');
+const createOrden = require('./ordenes/createOrden.js');
 
 const router = Router();
 
@@ -59,9 +65,15 @@ router.use(getBeneficios);
 router.use(createBeneficio);
 router.use(updateBeneficio);
 
+router.use(getGruposCodigos);
+router.use(createGrupoCodigo);
+router.use(updateGrupoCodigo);
+
 router.use(getCodigos);
 router.use(createCodigo);
 router.use(updateCodigo);
-router.use(getGruposCodigos);
+
+router.use(getOrdenes);
+router.use(createOrden);
 
 module.exports = router;

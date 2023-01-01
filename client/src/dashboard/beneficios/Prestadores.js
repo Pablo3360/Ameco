@@ -31,6 +31,8 @@ import {
   getPrestadores
 } from '../../actions/prestadores';
 
+import { getBeneficios } from '../../actions/beneficios';
+
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
@@ -38,6 +40,7 @@ function EditToolbar(props) {
     const id = randomId();
     setRows((oldRows) => [...oldRows, { 
       id, 
+      beneficioId: '',
       cuit: '',
       razon: '', 
       domicilio: '', 
@@ -45,13 +48,12 @@ function EditToolbar(props) {
       mail: '',
       matricula: '',
       celular: '',
-      created_at: '',
       isNew: true,
       isSaveInDb: false
     }]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'razon' },
+      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'beneficioId' },
     }));
   };
 
@@ -72,6 +74,7 @@ EditToolbar.propTypes = {
 export default function Prestadores() {
 
   const navigate = useNavigate();
+  const beneficios = useSelector(state => state.beneficios);
   const prestadores = useSelector(state => state.prestadores);
   const createdPrestador= useSelector(state => state.createdPrestador);
   const dispatch = useDispatch();
@@ -82,6 +85,7 @@ export default function Prestadores() {
 
   // Al montar el componente, pedimos a DB todos los prestadores
   useEffect(() => {
+    dispatch(getBeneficios());
     dispatch(getPrestadores());
       // eslint-disable-next-line
   }, []);
@@ -156,8 +160,8 @@ export default function Prestadores() {
   //Cuando se presiona el Icon Save, se guarda en el estado Rows la fila y se retorna la fila para
   //actualizar el estado interno.
   const processRowUpdate = (newRow, prevRow) => {
-    if(typeof(newRow.id) === 'number' && prevRow.cuit !== newRow.cuit){
-      alert('No es posible modificar el CUIT de un Prestador');
+    if(typeof(newRow.id) === 'number' && (prevRow.razon !== newRow.razon || prevRow.beneficioId !== newRow.beneficioId)){
+      alert('No es posible modificar la Razon ni el Beneficio de un Prestador');
       return prevRow;
     } else{
       const updatedRow = { ...newRow, isNew: false, isSaveInDb: false };
@@ -168,10 +172,12 @@ export default function Prestadores() {
 
   // Cuando se presiona el Icon Guarda DB, se Valida y en caso de corresponder se lo guarda en la DB
   const handleSaveDb = (row) => () => {
-    const { cuit, razon } = row;
-    if( cuit && razon ){
+    const { cuit, razon, beneficioId } = row;
+    if( cuit && razon && beneficioId ){
       const prestadorId = row.id;
+      const beneficioId = row.beneficioId;
       delete row.id;
+      delete row.beneficioId;
       delete row.created_at;
       delete row.isNew;
       delete row.isSaveInDb;
@@ -180,7 +186,7 @@ export default function Prestadores() {
         dispatch(updatePrestador( row, prestadorId ));
       } else {
         //se crea si el id es de type string
-        dispatch(createPrestador( row, prestadorId ));
+        dispatch(createPrestador( row, beneficioId ));
       }
     } else {
       alert ('Faltan ingresar campos obligatorios');
@@ -188,6 +194,18 @@ export default function Prestadores() {
   };
 
   const columns = [
+    { field: 'beneficioId', headerName: 'Beneficio', width: 200, type: 'singleSelect', 
+      valueOptions: beneficios.map( beneficio => { 
+        return { value: beneficio.id , label : `${beneficio.nombre}` }} ), 
+      editable: true,
+      valueFormatter: (params) => {
+        // eslint-disable-next-line
+        if (params.value == false) return '';
+        const beneficio = beneficios.find( beneficio => beneficio.id === parseInt(params.value) );
+        const valueFormatted = `${beneficio.nombre}`;
+        return valueFormatted;
+      }
+    },
     { field: 'razon', headerName: 'Razon', width: 200, editable: true },
     { field: 'cuit', headerName: 'CUIT', width: 125, editable: true },
     { field: 'matricula', headerName: 'MP', width: 100, editable: true },

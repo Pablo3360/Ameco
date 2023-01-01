@@ -30,10 +30,6 @@ module.exports = (sequelize) => {
     },
     matricula: {
       type:DataTypes.STRING(15)
-    },
-    created_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
     }
   });
 };

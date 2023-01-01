@@ -24,12 +24,14 @@ import {
 } from '@mui/x-data-grid';
 import { randomId } from '@mui/x-data-grid-generator';
 import { 
-  createBeneficio, 
-  BeneficioResponse, 
-  getBeneficiosResponse, 
-  updateBeneficio, 
-  getBeneficios
-} from '../../actions/beneficios';
+  createGrupoCodigo, 
+  GrupoCodigoResponse, 
+  getGruposCodigosResponse, 
+  updateGrupoCodigo, 
+  getGruposCodigos
+} from '../../actions/gruposCodigos';
+
+import { getBeneficios } from '../../actions/beneficios';
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -38,6 +40,7 @@ function EditToolbar(props) {
     const id = randomId();
     setRows((oldRows) => [...oldRows, { 
       id, 
+      beneficioId: '',
       nombre: '', 
       descripcion: '',
       isNew: true,
@@ -45,14 +48,14 @@ function EditToolbar(props) {
     }]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'nombre' },
+      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'beneficioId' },
     }));
   };
 
   return (
     <GridToolbarContainer>
       <Button variant="outlined" startIcon={<AddIcon />} onClick={handleClick}>
-        Beneficio
+        Grupo de Codigos
       </Button>
     </GridToolbarContainer>
   );
@@ -63,48 +66,50 @@ EditToolbar.propTypes = {
   setRows: PropTypes.func.isRequired,
 };
 
-export default function Beneficios() {
+export default function GruposCodigos() {
 
   const navigate = useNavigate();
   const beneficios = useSelector(state => state.beneficios);
-  const createdBeneficio= useSelector(state => state.createdBeneficio);
+  const gruposCodigos = useSelector(state => state.gruposCodigos);
+  const createdGrupoCodigo= useSelector(state => state.createdGrupoCodigo);
   const dispatch = useDispatch();
   
   const [rows, setRows] = useState([]); // Estado con todas las filas y sus datos
   const [rowModesModel, setRowModesModel] = useState({}); // Modo de la fila, Edit o View
   const [pageSize, setPageSize] = useState(5);
 
-  // Al montar el componente, pedimos a DB todos los beneficios
+  // Al montar el componente, pedimos a DB todos los gruposCodigos
   useEffect(() => {
     dispatch(getBeneficios());
+    dispatch(getGruposCodigos());
       // eslint-disable-next-line
   }, []);
 
-  //Actualizamos el estado local 'rows' con los beneficios del estado global
+  //Actualizamos el estado local 'rows' con los gruposCodigos del estado global
   useEffect( ()=>{
     setRows( rows => [ 
       ...rows, 
-      ...beneficios.map( beneficio => { 
-        return { ...beneficio, isNew: false, isSaveInDb: true}
+      ...gruposCodigos.map( grupoCodigo => { 
+        return { ...grupoCodigo, isNew: false, isSaveInDb: true}
       })
     ]);
-  }, [beneficios]);
+  }, [gruposCodigos]);
 
-  //Borramos los beneficios al desmontar el componente
+  //Borramos los gruposCodigos al desmontar el componente
   useEffect( ()=>{ 
     return ()=> { 
-      dispatch( getBeneficiosResponse([]) );
-      dispatch( BeneficioResponse({}) );
+      dispatch( getGruposCodigosResponse([]) );
+      dispatch( GrupoCodigoResponse({}) );
     }
     // eslint-disable-next-line
   }, []);
 
-  // cuando se guarde un beneficio en la Db, al recibir la respuesta, lo guardamos en el estado local
+  // cuando se guarde un grupoCodigo en la Db, al recibir la respuesta, lo guardamos en el estado local
   useEffect(() => {
-    const updatedRow = { ...createdBeneficio, isNew: false, isSaveInDb: true };
-    setRows(rows.map((row) => (row.nombre === createdBeneficio.nombre ? updatedRow : row)));
+    const updatedRow = { ...createdGrupoCodigo, isNew: false, isSaveInDb: true };
+    setRows(rows.map((row) => (row.nombre === createdGrupoCodigo.nombre ? updatedRow : row)));
     // eslint-disable-next-line
-  }, [createdBeneficio]);
+  }, [createdGrupoCodigo]);
 
   const handleRowEditStart = (params, event) => {
     event.defaultMuiPrevented = true;
@@ -124,12 +129,12 @@ export default function Beneficios() {
     setRowModesModel({ ...rowModesModel, [newRow.id]: { mode: GridRowModes.View } });
   };
 
-  //Borrar beneficio cuando el usuario presiona "Basurero"
+  //Borrar grupoCodigo cuando el usuario presiona "Basurero"
   const handleDeleteClick = (deleteRow) => () => {
     if(typeof(deleteRow.id) === 'string'){
       setRows(rows.filter((row) => row.id !== deleteRow.id));
     } else {
-      alert('¿Esta seguro de querer Borrar el Beneficio?');
+      alert('¿Esta seguro de querer Borrar el GrupoCodigo?');
     }
   };
 
@@ -150,8 +155,8 @@ export default function Beneficios() {
   //cuando se presiona el Icon Save, se guarda en el estado Rows la fila y se retorna la fila para
   //actualizar el estado interno.
   const processRowUpdate = (newRow, prevRow) => {
-    if(typeof(newRow.id) === 'number' && prevRow.nombre !== newRow.nombre){
-      alert('No es posible modificar el nombre de un Beneficio');
+    if(typeof(newRow.id) === 'number' && (prevRow.nombre !== newRow.nombre || prevRow.beneficioId !== newRow.beneficioId)){
+      alert('No es posible modificar el Nombre ni el Beneficio de un GrupoCodigo');
       return prevRow;
     } else{
       const updatedRow = { ...newRow, isNew: false, isSaveInDb: false };
@@ -162,18 +167,20 @@ export default function Beneficios() {
 
   // cuando se presiona el Icon Guarda DB, se Valida y en caso de corresponder se lo guarda en la DB
   const handleSaveDb = (row) => () => {
-    const { nombre} = row;
-    if( nombre ){
-      const beneficioId = row.id;
+    const { nombre, beneficioId} = row;
+    if( nombre && beneficioId ){
+      const grupoCodigoId = row.id;
+      const beneficioId = row.beneficioId;
       delete row.id;
+      delete row.beneficioId;
       delete row.isNew;
       delete row.isSaveInDb;
-      if(typeof(beneficioId) === 'number'){
+      if(typeof(grupoCodigoId) === 'number'){
         //se actualiza si el id es de type number
-        dispatch(updateBeneficio( row, beneficioId ));
+        dispatch(updateGrupoCodigo( row, grupoCodigoId ));
       } else {
         //se crea si el id es de type string
-        dispatch(createBeneficio( row, beneficioId ));
+        dispatch(createGrupoCodigo( row, beneficioId ));
       }
     } else {
       alert ('Faltan ingresar campos obligatorios');
@@ -181,8 +188,20 @@ export default function Beneficios() {
   };
 
   const columns = [
+    { field: 'beneficioId', headerName: 'Beneficio', width: 200, type: 'singleSelect', 
+      valueOptions: beneficios.map( beneficio => { 
+        return { value: beneficio.id , label : `${beneficio.nombre}` }} ), 
+      editable: true,
+      valueFormatter: (params) => {
+        // eslint-disable-next-line
+        if (params.value == false) return '';
+        const beneficio = beneficios.find( beneficio => beneficio.id === parseInt(params.value) );
+        const valueFormatted = `${beneficio.nombre}`;
+        return valueFormatted;
+      }
+    },
     { field: 'nombre', headerName: 'Nombre', width: 200, editable: true },
-    { field: 'descripcion', headerName: 'Descripcion', width: 600, editable: true },
+    { field: 'descripcion', headerName: 'Descripcion', width: 500, editable: true },
     { field: 'actions', headerName: 'Acciones', width: 125, type: 'actions', cellClassName: 'actions',
       getActions: ({ row }) => {
         const isInEditMode = rowModesModel[row.id]?.mode === GridRowModes.Edit;
@@ -235,7 +254,7 @@ export default function Beneficios() {
 
         <Box sx={{ mb:2, display: 'flex', justifyContent: 'space-between'}} >
           <Typography variant="h5" component="h5" >
-            Beneficios
+            Grupos de Codigos
           </Typography>
           <Button variant="contained"
             onClick={() => navigate(-1)}

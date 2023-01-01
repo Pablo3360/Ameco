@@ -21,10 +21,10 @@ export function CodigoResponse(codigo){
   }
 };
 
-export function createCodigo( fields, beneficioId ){
+export function createCodigo( fields, grupoCodigoId ){
   return function(dispatch){
     try {
-      fetch(`http://localhost:3001/codigo/create/${beneficioId}`, {
+      fetch(`http://localhost:3001/codigo/create/${grupoCodigoId}`, {
         headers: {
             'Content-Type': 'application/json'
           },
@@ -52,21 +52,5 @@ export function updateCodigo(updatedFields, codigoId){
     } catch (error) {
       console.log(error.message)
     }
-  }
-};
-
-export function getGruposCodigosResponse(gruposCodigos){
-  return {
-    type: 'GET_GRUPOSCODIGOS_RESPONSE',
-    payload: gruposCodigos
-  }
-};
-
-export function getGruposCodigos() {
-  return function(dispatch) {
-    fetch('http://localhost:3001/gruposcodigos')
-    .then(r => r.json())
-    .then((gruposCodigos) => dispatch(getGruposCodigosResponse(gruposCodigos)))
-    .catch( error => console.log(error))
   }
 };

@@ -30,31 +30,26 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Participante, Titular, Recaudador, Empleador, Prestador, Beneficio, Codigo } = sequelize.models;
+const { Participante, Titular, Recaudador, Empleador, Beneficio, GrupoCodigo, Codigo, Prestador } = sequelize.models;
 
 // // Aca vendrian las relaciones
-Titular.hasMany(Participante, {
-  foreignKey: 'titularId'
-});
+Titular.hasMany(Participante, { foreignKey: 'titularId' });
 Participante.belongsTo(Titular);
 
-Recaudador.hasMany(Empleador, {
-  foreignKey: 'recaudadorId'
-});
+Recaudador.hasMany(Empleador, { foreignKey: 'recaudadorId' });
 Empleador.belongsTo(Recaudador);
 
-Empleador.hasMany(Titular, {
-  foreignKey: 'empleadorId'
-});
+Empleador.hasMany(Titular, { foreignKey: 'empleadorId' });
 Titular.belongsTo(Empleador);
 
-// Prestador.belongsToMany(Beneficio, { through: 'prestador_beneficio' });
-// Beneficio.belongsToMany(Prestador, { through: 'prestador_beneficio' });
+Beneficio.hasMany(GrupoCodigo, { foreignKey: 'beneficioId' });
+GrupoCodigo.belongsTo(Beneficio);
 
-Beneficio.hasMany(Codigo, {
-  foreignKey: 'beneficioId'
-});
-Codigo.belongsTo(Beneficio);
+GrupoCodigo.hasMany(Codigo, { foreignKey: 'grupoCodigoId' });
+Codigo.belongsTo(GrupoCodigo);
+
+Beneficio.hasMany(Prestador, { foreignKey: 'beneficioId' });
+Prestador.belongsTo(Beneficio);
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

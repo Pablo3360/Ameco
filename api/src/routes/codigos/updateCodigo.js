@@ -5,7 +5,8 @@ const { Codigo } = require('../../db.js');
 router.put('/codigo/update/:codigoId', async (req, res)=>{
   const updateFields = req.body;
   delete updateFields.codigo; //No es posible actualizar el Codigo
-  delete updateFields.grupo; //No es posible actualizar el Grupo
+  delete updateFields.grupoCodigoId; //No es posible actualizar el Grupo de Codigo
+  delete updateFields.nombre; //No es posible actualizar el Grupo de Codigo
   const { codigoId } = req.params;
   try {
     await Codigo.update( updateFields, {

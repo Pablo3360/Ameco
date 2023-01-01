@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 
-const BeneficioFn = (sequelize) => {
-  sequelize.define('beneficio', {
+const GrupoCodigoFn = (sequelize) => {
+  sequelize.define('grupoCodigo', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -20,4 +20,4 @@ const BeneficioFn = (sequelize) => {
   });
 };
 
-module.exports = BeneficioFn;
+module.exports = GrupoCodigoFn;

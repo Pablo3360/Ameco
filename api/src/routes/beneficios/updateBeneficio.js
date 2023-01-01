@@ -4,7 +4,7 @@ const { Beneficio } = require('../../db.js');
 
 router.put('/beneficio/update/:beneficioId', async (req, res)=>{
   const updateFields = req.body;
-  delete updateFields.codigo_unico; //No es posible actualizar el Codigo Unico de uso exclusito en AMECO
+  delete updateFields.nombre; //No es posible actualizar el Nombre de un beneficio
   const { beneficioId } = req.params;
   try {
     await Beneficio.update( updateFields, {

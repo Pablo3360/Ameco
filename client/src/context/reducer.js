@@ -11,11 +11,12 @@ const initialState = {
   createdPrestador: {},
   beneficios: [],
   createdBeneficio: {},
+  gruposCodigos: [],
+  createdGrupoCodigo: {},
   codigos: [],
   createdCodigo: {},
   ordenes: [],
   createdOrden: {},
-  gruposCodigos: [],
 };
   
 const rootReducer = function (state = initialState, action){
@@ -86,6 +87,18 @@ switch (action.type){
       createdBeneficio: action.payload
     }
 
+  case 'GET_GRUPOSCODIGOS_RESPONSE':
+    return {
+      ...state,
+      gruposCodigos: action.payload
+    }
+
+  case 'GRUPOCODIGO_RESPONSE':
+    return {
+      ...state,
+      createdGrupoCodigo: action.payload
+    }
+
   case 'GET_CODIGOS_RESPONSE':
     return {
       ...state,
@@ -96,12 +109,6 @@ switch (action.type){
     return {
       ...state,
       createdCodigo: action.payload
-    }
-
-  case 'GET_GRUPOSCODIGOS_RESPONSE':
-    return {
-      ...state,
-      gruposCodigos: action.payload
     }
 
   case 'GET_ORDENES_RESPONSE':

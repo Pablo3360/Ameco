@@ -7,10 +7,6 @@ const CodigoFn = (sequelize) => {
       autoIncrement: true,
       primaryKey: true
     },
-    grupo: {
-      type: DataTypes.STRING(15),
-      allowNull: false,
-    },
     codigo: {
       type: DataTypes.STRING(10),
       allowNull: false,
@@ -22,18 +18,22 @@ const CodigoFn = (sequelize) => {
     descripcion: {
       type: DataTypes.STRING(60)
     },
-    beneficioId: {
+    precio: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+    grupoCodigoId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'beneficios',
+        model: 'grupoCodigos',
         key: 'id'
       }
     }
   }, 
   {
     uniqueKeys: {
-      grupo_codigo: {
-        fields: ['grupo', 'codigo']
+      codigo_grupoCodigoId: {
+        fields: ['codigo', 'grupoCodigoId']
       }
     }
   });

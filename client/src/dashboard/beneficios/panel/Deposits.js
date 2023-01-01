@@ -8,14 +8,17 @@ export default function Deposits() {
   return (
     <>
       <Title>Configuraciones</Title>
-      <Button onClick={() => navigate('prestadores')}>
-        Prestadores
-      </Button>
       <Button onClick={() => navigate('beneficios')}>
         Beneficios
       </Button>
+      <Button onClick={() => navigate('gruposcodigos')}>
+        Grupos de Codigos
+      </Button>
       <Button onClick={() => navigate('codigos')}>
         Codigos
+      </Button>
+      <Button onClick={() => navigate('prestadores')}>
+        Prestadores
       </Button>
       <Button onClick={() => navigate('ordenes')}>
         Ordenes
