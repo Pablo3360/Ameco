@@ -14,6 +14,7 @@ router.post('/codigo/create/:grupoCodigoId', async (req, res)=>{
     await codigo.setGrupoCodigo(grupoCodigoId);
     res.status(200).send(codigo);
   } catch (error) {
+    console.log(error);
     return res.status(400).send(error.message);
   }
 });

@@ -5,9 +5,13 @@ export function getCodigosResponse(codigos){
   }
 };
 
-export function getCodigos() {
+export function getCodigos(grupoCodigoId) {
+
+  let query = '';
+  if(grupoCodigoId) query = `?grupoCodigoId=${grupoCodigoId}`;
+  
   return function(dispatch) {
-    fetch('http://localhost:3001/codigos')
+    fetch(`http://localhost:3001/codigos${query}`)
     .then(r => r.json())
     .then((codigos) => dispatch(getCodigosResponse(codigos)))
     .catch( error => console.log(error))

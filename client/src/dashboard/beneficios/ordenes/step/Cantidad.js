@@ -4,16 +4,14 @@ import Box from '@mui/material/Box';
 import { grey } from '@mui/material/colors';
 import { DataGrid, gridClasses, esES } from '@mui/x-data-grid';
 
-// import { getCodigos } from '../../../../actions/codigos';
-
 export default function Cantidad({ data, setData }) {
 
   const [pageSize, setPageSize] = useState(3); 
 
   const columns = [
-      { field: 'grupo', headerName: 'Grupo Codigo', width: 300, editable: false },
       { field: 'codigo', headerName: 'Codigo', width: 100, editable: false },
       { field: 'nombre', headerName: 'Nombre', width: 400, editable: false },
+      { field: 'precio', headerName: 'Precio', width: 100, editable: false },
       { field: 'cantidad', headerName: 'Cantidad', type: 'number', editable: true }
     ];
 

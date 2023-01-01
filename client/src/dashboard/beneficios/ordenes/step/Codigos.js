@@ -9,21 +9,38 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-import { getCodigos } from '../../../../actions/codigos';
-import { getGruposCodigos } from '../../../../actions/gruposCodigos';
+import { getGruposCodigos, getGruposCodigosResponse } from '../../../../actions/gruposCodigos';
+import { getCodigos, getCodigosResponse } from '../../../../actions/codigos';
 
 export default function Codigos({ data, setData }) {
-  console.log(data.codigos);
   const dispatch = useDispatch();
-  const codigos = useSelector( state => state.codigos);
-  const grupos = useSelector( state => state.gruposCodigos); //[{ nombre: 'OSECAC'}, { nombre: 'COO'} ];
 
-  const [grupo, setGrupos] = useState('');
-  const [selectCodigos, setSelectCodigos] = useState([]);
+  const gruposCodigos = useSelector( state => state.gruposCodigos);
+  const codigos = useSelector( state => state.codigos);
+
+  const [grupoSeleccionadoCodigos, setGrupoSeleccionadoCodigos] = useState([]); //Los codigos de un grupo seleccionado
 
   const handleChangeGrupo = (event) => {
-    setGrupos(event.target.value)
+    setData( data => { return {...data, grupoCodigo: event.target.value, codigos : [] }});
+    dispatch(getCodigos(event.target.value));
   };
+  
+  useEffect(() => {
+    dispatch(getGruposCodigos(data.beneficio));
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    setGrupoSeleccionadoCodigos(codigos);
+  }, [codigos]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(getCodigosResponse([]));
+      dispatch(getGruposCodigosResponse([]));
+    };
+    // eslint-disable-next-line
+  }, []);
 
   const handleChangeCodigo = (event) => {
     //Verificamos si ya esta el codigo en el array
@@ -43,21 +60,6 @@ export default function Codigos({ data, setData }) {
     }
   };
 
-  useEffect(() => {
-    //guardo el Grupo seleccionado en data
-    setData( data => { return {...data, grupo: grupo, codigos : [] }});
-    //filtro codigos por grupo
-    const selectCodigos = codigos.filter( codigo => codigo.grupo === grupo );
-    setSelectCodigos(selectCodigos);
-    // eslint-disable-next-line
-  }, [grupo]);
-
-  useEffect(() => {
-    dispatch(getGruposCodigos())
-    dispatch(getCodigos());
-      // eslint-disable-next-line
-  }, []);
-
   return (
     <>
       <Typography variant="h6" gutterBottom>
@@ -71,21 +73,21 @@ export default function Codigos({ data, setData }) {
         name="grupo"
         label="Codigo Grupo"
         fullWidth
-        value={data.grupo}
+        value={data.grupoCodigo}
         onChange={(e) => handleChangeGrupo(e)}
         >
-        { grupos.map( (grupo, index) => (
-          <MenuItem key={index} value={grupo.grupo}>
-            {`${grupo.grupo}`}
+        { gruposCodigos.map( (grupoCodigo, index) => (
+          <MenuItem key={index} value={grupoCodigo.id}>
+            {`${grupoCodigo.nombre}`}
           </MenuItem>
         ) ) }
         </TextField>
 
-      <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
+      <FormControl sx={{ m: 1 }} component="fieldset" variant="standard">
         <FormGroup>
           { 
-            selectCodigos.map( codigo =>
-              <FormControlLabel sx={{ m: 2 }}
+            grupoSeleccionadoCodigos.map( codigo =>
+              <FormControlLabel sx={{ m: 0 }}
                 key={codigo.id}
                 control={ 
                   <Checkbox
@@ -94,7 +96,7 @@ export default function Codigos({ data, setData }) {
                     name={`${codigo.id}`} //El id es de type number, se lo cambia a string. name exige string.
                   /> 
                 }
-                label={`${codigo.grupo} - ${codigo.codigo} - ${codigo.nombre}`}
+                label={`${codigo.codigo} - ${codigo.nombre}`}
               />
             )
           }

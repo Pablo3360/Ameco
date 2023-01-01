@@ -17,9 +17,9 @@ function OrdenesContent() {
   const [pageSize, setPageSize] = useState(5);
 
   useEffect(() => {
-    if (ordenes.length === 0) dispatch(getOrdenes());
+    dispatch(getOrdenes());
       // eslint-disable-next-line
-  });
+  }, []);
 
   function getFullName(params) {
     return `${params.row.apellidos}, ${params.row.nombres}`;

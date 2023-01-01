@@ -5,9 +5,13 @@ export function getPrestadoresResponse(prestadores){
   }
 };
 
-export function getPrestadores() {
+export function getPrestadores(beneficioId) {
+
+  let query = '';
+  if(beneficioId) query = `?beneficioId=${beneficioId}`;
+  
   return function(dispatch) {
-    fetch('http://localhost:3001/prestadores')
+    fetch(`http://localhost:3001/prestadores${query}`)
     .then(r => r.json())
     .then((prestadores) => dispatch(getPrestadoresResponse(prestadores)))
     .catch( error => console.log(error))

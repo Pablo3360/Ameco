@@ -5,9 +5,13 @@ export function getGruposCodigosResponse(gruposCodigos){
   }
 };
 
-export function getGruposCodigos() {
+export function getGruposCodigos(beneficioId) {
+
+  let query = '';
+  if(beneficioId) query = `?beneficioId=${beneficioId}`;
+
   return function(dispatch) {
-    fetch('http://localhost:3001/gruposCodigos')
+    fetch(`http://localhost:3001/gruposCodigos${query}`)
     .then(r => r.json())
     .then((gruposCodigos) => dispatch(getGruposCodigosResponse(gruposCodigos)))
     .catch( error => console.log(error))

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stepper from '@mui/material/Stepper';
@@ -36,11 +37,12 @@ function getStepContent(step, data, setData) {
 const initialData = {
   beneficio: '',
   prestador: '',
-  grupo: '',
+  grupoCodigo: '',
   codigos: [],
 }
 
 export default function NuevaOrden() {
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
 
   //Estado que almacena la informacion en cada step para la orden
@@ -84,7 +86,7 @@ export default function NuevaOrden() {
               Nueva Orden
             </Typography>
             <Button variant="contained"
-              onClick={() => alert('Hola')}
+              onClick={() => navigate(-1)}
               >
               Volver
             </Button>
