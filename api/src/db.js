@@ -48,8 +48,8 @@ GrupoCodigo.belongsTo(Beneficio);
 GrupoCodigo.hasMany(Codigo, { foreignKey: 'grupoCodigoId' });
 Codigo.belongsTo(GrupoCodigo);
 
-Beneficio.hasMany(Prestador, { foreignKey: 'beneficioId' });
-Prestador.belongsTo(Beneficio);
+Beneficio.belongsToMany(Prestador, { through: 'PrestadorBeneficio' });
+Prestador.belongsToMany(Beneficio, { through: 'PrestadorBeneficio' });
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

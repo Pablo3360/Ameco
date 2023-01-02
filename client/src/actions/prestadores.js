@@ -25,10 +25,10 @@ export function PrestadorResponse(prestador){
   }
 };
 
-export function createPrestador( fields, beneficioId ){
+export function createPrestador( fields ){
   return function(dispatch){
     try {
-      fetch(`http://localhost:3001/prestador/create/${beneficioId}`, {
+      fetch(`http://localhost:3001/prestador/create`, {
         headers: {
             'Content-Type': 'application/json'
           },
