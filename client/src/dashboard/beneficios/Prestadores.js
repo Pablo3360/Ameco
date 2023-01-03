@@ -35,6 +35,16 @@ import { getBeneficios } from '../../actions/beneficios';
 
 import SelectBeneficios from './SelectBeneficios';
 
+function sonIguales(a, b) {
+  if(!Array.isArray(a) || !Array.isArray(b)) return false;
+  let sorted_a = [ ...a ].sort();
+  let sorted_b = [ ...b ].sort();
+  return (
+    sorted_a.length === sorted_b.length &&
+    sorted_a.every((element, index) => element === sorted_b[index])
+  );
+}
+
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
@@ -55,7 +65,7 @@ function EditToolbar(props) {
     }]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'selectBeneficios' },
+      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'beneficiosId' },
     }));
   };
 
@@ -101,7 +111,8 @@ export default function Prestadores() {
     setRows( rows => [ 
       ...rows, 
       ...prestadores.map( prestador => { 
-        return { ...prestador, isNew: false, isSaveInDb: true}
+        let beneficiosId = prestador.beneficios.map( beneficio => beneficio.id);
+        return { ...prestador, beneficiosId: beneficiosId, isNew: false, isSaveInDb: true}
       })
     ]);
   }, [prestadores]);
@@ -117,7 +128,8 @@ export default function Prestadores() {
 
   // Cuando se guarde un prestador en la Db, al recibir la respuesta, lo guardamos en el estado local
   useEffect(() => {
-    const updatedRow = { ...createdPrestador, isNew: false, isSaveInDb: true };
+    let beneficiosId = createdPrestador.beneficios?.map( beneficio => beneficio.id);
+    const updatedRow = { ...createdPrestador, beneficiosId: beneficiosId, isNew: false, isSaveInDb: true };
     setRows(rows.map((row) => (row.cuit === createdPrestador.cuit ? updatedRow : row)));
     // eslint-disable-next-line
   }, [createdPrestador]);
@@ -166,8 +178,13 @@ export default function Prestadores() {
   //Cuando se presiona el Icon Save, se guarda en el estado Rows la fila y se retorna la fila para
   //actualizar el estado interno.
   const processRowUpdate = (newRow, prevRow) => {
+    console.log('prevRow', prevRow);
+    console.log('newRow', newRow);
     if( typeof(newRow.id) === 'number' && prevRow.razon !== newRow.razon ){
       alert('No es posible modificar la Razon de un Prestador');
+      return prevRow;
+    } else if( typeof(newRow.id) === 'number' && !sonIguales(prevRow.beneficiosId, newRow.beneficiosId)){
+      alert('No es posible agregar o quitar beneficios de un Prestador');
       return prevRow;
     } else{
       const updatedRow = { ...newRow, isNew: false, isSaveInDb: false };
@@ -199,20 +216,8 @@ export default function Prestadores() {
   };
 
   const columns = [
-    // { field: 'beneficioId', headerName: 'Beneficio', width: 200, type: 'singleSelect', 
-    //   valueOptions: beneficios.map( beneficio => { 
-    //     return { value: beneficio.id , label : `${beneficio.nombre}` }} ), 
-    //   editable: true,
-    //   valueFormatter: (params) => {
-    //     // eslint-disable-next-line
-    //     if (params.value == false) return '';
-    //     const beneficio = beneficios.find( beneficio => beneficio.id === parseInt(params.value) );
-    //     const valueFormatted = `${beneficio.nombre}`;
-    //     return valueFormatted;
-    //   }
-    // },
     { field: 'beneficiosId', headerName: 'Beneficios', width: 300,
-        renderCell: (params) => ( <SelectBeneficios {...{ params, beneficios }} />)},
+        renderCell: (params) => ( <SelectBeneficios {...{ params, rows, setRows, beneficios }} />)},
     { field: 'razon', headerName: 'Razon', width: 200, editable: true },
     { field: 'cuit', headerName: 'CUIT', width: 125, editable: true },
     { field: 'matricula', headerName: 'MP', width: 100, editable: true },

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
@@ -16,17 +15,16 @@ const MenuProps = {
   },
 };
 
-export default function SelectBeneficios( { params, beneficios}) {
-    console.log('params', params);
-    console.log('beneficios', beneficios);
-  const [selectBeneficios, setSelectBeneficios] = useState([]);
-
-  //setear rows del componente padre: prestadores, con los valores de selectBeneficios
+export default function SelectBeneficios( { params, rows, setRows, beneficios}) {
+  console.log('beneficios', beneficios);
+  const currentRow = params.row;
+  console.log('currentRow', currentRow);
 
   const handleChange = (event) => {
-    console.log('event', event);
     const { target: { value } } = event;
-    setSelectBeneficios(value);
+    setRows( rows => { return rows.map( row => 
+      row.id === currentRow.id? { ...row, beneficiosId: value } : row ) } 
+    );
   };
 
   return (
@@ -35,10 +33,10 @@ export default function SelectBeneficios( { params, beneficios}) {
           id='selectBeneficios'
           name='selectBeneficios'
           multiple
-          value={selectBeneficios}
+          value={currentRow.beneficiosId}
           onChange={handleChange}
           renderValue={(selected) => {
-            console.log('selected', selected);
+            // console.log('selected', selected);
             let selectedRender = beneficios.map( beneficio => 
                 selected.includes(beneficio.id)? beneficio.nombre : false);
                 selectedRender = selectedRender.filter( e => e !== false);
@@ -47,8 +45,12 @@ export default function SelectBeneficios( { params, beneficios}) {
           MenuProps={MenuProps}
         >
           {beneficios.map((beneficio) => (
-            <MenuItem key={beneficio.id} value={beneficio.id}>
-              <Checkbox checked={ selectBeneficios.includes(beneficio.id)? true : false } />
+            <MenuItem 
+              key={beneficio.id}
+              value={beneficio.id}
+              disabled={ typeof(currentRow.id) === 'string' ? false : true}>
+              <Checkbox checked={ currentRow.beneficiosId.includes(beneficio.id)? true : false } 
+            />
               <ListItemText primary={beneficio.nombre} />
             </MenuItem>
           ))}

@@ -1,18 +1,26 @@
 const { Router } = require('express');
 const router = Router();
-const { Prestador } = require('../../db.js');
+const { Prestador, Beneficio } = require('../../db.js');
 
 router.get('/prestadores', async (req, res)=>{
 
+  // Busca los prestadores de un beneficio en especifico
   const { beneficioId } = req.query;
-  let Where = {};
+  let WhereBeneficioId = {};
   if(beneficioId){
     Where = { where: { beneficioId: parseInt(beneficioId) } };
-  }
-  
+  };
+
   try {
     const prestadores = await Prestador.findAll({
-      ...Where,
+      ...WhereBeneficioId,
+      include: {
+        model: Beneficio,
+        attributes: ['id', 'nombre'],
+        through: {
+          attributes: { exclude: ['beneficioId', 'prestadorId'] }
+        }
+      },
       order: [['razon', 'ASC']]
     });
     res.status(200).send(prestadores);
