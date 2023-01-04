@@ -4,16 +4,8 @@ const { Prestador, Beneficio } = require('../../db.js');
 
 router.get('/prestadores', async (req, res)=>{
 
-  // Busca los prestadores de un beneficio en especifico
-  const { beneficioId } = req.query;
-  let WhereBeneficioId = {};
-  if(beneficioId){
-    Where = { where: { beneficioId: parseInt(beneficioId) } };
-  };
-
   try {
     const prestadores = await Prestador.findAll({
-      ...WhereBeneficioId,
       include: {
         model: Beneficio,
         attributes: ['id', 'nombre'],

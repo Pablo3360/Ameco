@@ -7,7 +7,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 
-import { getPrestadores, getPrestadoresResponse } from '../../../../actions/prestadores';
+import { getPrestadoresBeeficioId, getPrestadoresResponse } from '../../../../actions/prestadores';
 
 export default function Prestador({ data, setData }) {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export default function Prestador({ data, setData }) {
   };
 
   useEffect(() => {
-    dispatch(getPrestadores(data.beneficio));
+    dispatch(getPrestadoresBeeficioId(data.beneficio));
       // eslint-disable-next-line
   }, []);
 

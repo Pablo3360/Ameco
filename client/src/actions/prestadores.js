@@ -5,13 +5,10 @@ export function getPrestadoresResponse(prestadores){
   }
 };
 
-export function getPrestadores(beneficioId) {
+export function getPrestadores() {
 
-  let query = '';
-  if(beneficioId) query = `?beneficioId=${beneficioId}`;
-  
   return function(dispatch) {
-    fetch(`http://localhost:3001/prestadores${query}`)
+    fetch(`http://localhost:3001/prestadores`)
     .then(r => r.json())
     .then((prestadores) => dispatch(getPrestadoresResponse(prestadores)))
     .catch( error => console.log(error))
@@ -56,5 +53,15 @@ export function updatePrestador(updatedFields, prestadorId){
     } catch (error) {
       console.log(error.message)
     }
+  }
+};
+
+export function getPrestadoresBeeficioId(beneficioId) {
+
+  return function(dispatch) {
+    fetch(`http://localhost:3001/prestadores/${beneficioId}`)
+    .then(r => r.json())
+    .then((prestadores) => dispatch(getPrestadoresResponse(prestadores)))
+    .catch( error => console.log(error))
   }
 };

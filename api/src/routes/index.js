@@ -20,6 +20,7 @@ const updateEmpleador = require('./empleadores/updateEmpleador.js');
 const getPrestadores = require('./prestadores/getPrestadores.js');
 const createPrestador = require('./prestadores/createPrestador.js');
 const updatePrestador = require('./prestadores/updatePrestador.js');
+const getPrestadoresBeficioId = require('./prestadores/getPrestadoresBeneficioId.js');
 
 const getBeneficios = require('./beneficios/getBeneficios.js');
 const createBeneficio = require('./beneficios/createBeneficio.js');
@@ -60,6 +61,7 @@ router.use(updateEmpleador);
 router.use(getPrestadores);
 router.use(createPrestador);
 router.use(updatePrestador);
+router.use(getPrestadoresBeficioId);
 
 router.use(getBeneficios);
 router.use(createBeneficio);

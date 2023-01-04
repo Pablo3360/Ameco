@@ -165,8 +165,6 @@ export default function Prestadores() {
   //Cuando se presiona el Icon Save, se guarda en el estado Rows la fila y se retorna la fila para
   //actualizar el estado interno.
   const processRowUpdate = (newRow, prevRow) => {
-    console.log('prevRow', prevRow);
-    console.log('newRow', newRow);
     if( typeof(newRow.id) === 'number' && (prevRow.razon !== newRow.razon || prevRow.cuit !== newRow.cuit) ){
       alert('No es posible modificar la Razon o el CUIT de un Prestador');
       return prevRow;
@@ -179,7 +177,6 @@ export default function Prestadores() {
 
   // Cuando se presiona el Icon Guarda DB, se Valida y en caso de corresponder se lo guarda en la DB
   const handleSaveDb = (row) => () => {
-    console.log('row', row);
     const { cuit, razon, beneficiosId } = row;
     if( cuit && razon && beneficiosId.length ){
       const prestadorId = row.id;
