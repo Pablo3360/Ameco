@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { Prestador, Beneficio } = require('../../db.js');
+const { Beneficio } = require('../../db.js');
 
 router.get('/prestadores/:beneficioId', async (req, res)=>{
   const { beneficioId } = req.params;

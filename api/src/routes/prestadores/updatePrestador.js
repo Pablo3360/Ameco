@@ -4,10 +4,8 @@ const { Prestador, Beneficio } = require('../../db.js');
 
 router.put('/prestador/update/:prestadorId', async (req, res)=>{
   const updateFields = req.body;
-  console.log(updateFields);
   delete updateFields.razon; //No es posible actualizar la Razon
   delete updateFields.cuit; //No es posible actualizar el CUIT
-  // delete updateFields.beneficiosId; //No es posible actualizar/cambiar los beneficios de un prestador
   const { prestadorId } = req.params;
   try {
     // Actualiza los campos de la tabla prestadors
