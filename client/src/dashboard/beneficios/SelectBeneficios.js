@@ -3,6 +3,7 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
+import { GridRowModes } from '@mui/x-data-grid';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -15,10 +16,8 @@ const MenuProps = {
   },
 };
 
-export default function SelectBeneficios( { params, rows, setRows, beneficios}) {
-  console.log('beneficios', beneficios);
+export default function SelectBeneficios( { params, setRows, beneficios, rowModesModel}) {
   const currentRow = params.row;
-  console.log('currentRow', currentRow);
 
   const handleChange = (event) => {
     const { target: { value } } = event;
@@ -36,7 +35,6 @@ export default function SelectBeneficios( { params, rows, setRows, beneficios}) 
           value={currentRow.beneficiosId}
           onChange={handleChange}
           renderValue={(selected) => {
-            // console.log('selected', selected);
             let selectedRender = beneficios.map( beneficio => 
                 selected.includes(beneficio.id)? beneficio.nombre : false);
                 selectedRender = selectedRender.filter( e => e !== false);
@@ -48,7 +46,8 @@ export default function SelectBeneficios( { params, rows, setRows, beneficios}) 
             <MenuItem 
               key={beneficio.id}
               value={beneficio.id}
-              disabled={ typeof(currentRow.id) === 'string' ? false : true}>
+              disabled={ rowModesModel[currentRow.id]?.mode === GridRowModes.Edit ? false : true}
+            >
               <Checkbox checked={ currentRow.beneficiosId.includes(beneficio.id)? true : false } 
             />
               <ListItemText primary={beneficio.nombre} />

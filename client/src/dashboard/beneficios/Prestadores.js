@@ -35,16 +35,6 @@ import { getBeneficios } from '../../actions/beneficios';
 
 import SelectBeneficios from './SelectBeneficios';
 
-function sonIguales(a, b) {
-  if(!Array.isArray(a) || !Array.isArray(b)) return false;
-  let sorted_a = [ ...a ].sort();
-  let sorted_b = [ ...b ].sort();
-  return (
-    sorted_a.length === sorted_b.length &&
-    sorted_a.every((element, index) => element === sorted_b[index])
-  );
-}
-
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
@@ -95,10 +85,6 @@ export default function Prestadores() {
   const [rowModesModel, setRowModesModel] = useState({}); // Modo de la fila, Edit o View
   const [pageSize, setPageSize] = useState(5);
 
-  useEffect(() => {
-    console.log('prestadores', prestadores);
-  });
-
   // Al montar el componente, pedimos a DB todos los prestadores
   useEffect(() => {
     dispatch(getBeneficios());
@@ -112,6 +98,7 @@ export default function Prestadores() {
       ...rows, 
       ...prestadores.map( prestador => { 
         let beneficiosId = prestador.beneficios.map( beneficio => beneficio.id);
+        delete prestador.beneficios;
         return { ...prestador, beneficiosId: beneficiosId, isNew: false, isSaveInDb: true}
       })
     ]);
@@ -180,11 +167,8 @@ export default function Prestadores() {
   const processRowUpdate = (newRow, prevRow) => {
     console.log('prevRow', prevRow);
     console.log('newRow', newRow);
-    if( typeof(newRow.id) === 'number' && prevRow.razon !== newRow.razon ){
-      alert('No es posible modificar la Razon de un Prestador');
-      return prevRow;
-    } else if( typeof(newRow.id) === 'number' && !sonIguales(prevRow.beneficiosId, newRow.beneficiosId)){
-      alert('No es posible agregar o quitar beneficios de un Prestador');
+    if( typeof(newRow.id) === 'number' && (prevRow.razon !== newRow.razon || prevRow.cuit !== newRow.cuit) ){
+      alert('No es posible modificar la Razon o el CUIT de un Prestador');
       return prevRow;
     } else{
       const updatedRow = { ...newRow, isNew: false, isSaveInDb: false };
@@ -217,7 +201,7 @@ export default function Prestadores() {
 
   const columns = [
     { field: 'beneficiosId', headerName: 'Beneficios', width: 300,
-        renderCell: (params) => ( <SelectBeneficios {...{ params, rows, setRows, beneficios }} />)},
+        renderCell: (params) => ( <SelectBeneficios {...{ params, setRows, beneficios, rowModesModel }} />)},
     { field: 'razon', headerName: 'Razon', width: 200, editable: true },
     { field: 'cuit', headerName: 'CUIT', width: 125, editable: true },
     { field: 'matricula', headerName: 'MP', width: 100, editable: true },
