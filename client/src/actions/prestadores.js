@@ -56,7 +56,7 @@ export function updatePrestador(updatedFields, prestadorId){
   }
 };
 
-export function getPrestadoresBeeficioId(beneficioId) {
+export function getPrestadoresBeficioId(beneficioId) {
 
   return function(dispatch) {
     fetch(`http://localhost:3001/prestadores/${beneficioId}`)

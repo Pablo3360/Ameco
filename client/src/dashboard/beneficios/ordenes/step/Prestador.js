@@ -7,18 +7,19 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 
-import { getPrestadoresBeeficioId, getPrestadoresResponse } from '../../../../actions/prestadores';
+import { getPrestadoresBeficioId, getPrestadoresResponse } from '../../../../actions/prestadores';
 
 export default function Prestador({ data, setData }) {
   const dispatch = useDispatch();
   const prestadores = useSelector( state => state.prestadores);
 
   const handleChange = (event) => {
-    setData( state => { return { ...state, prestador: event.target.value }})
+    const selectedPrestador = prestadores.find( prestador => prestador.id === parseInt(event.target.value) );
+    setData( state => { return { ...state, prestador: selectedPrestador }})
   };
 
   useEffect(() => {
-    dispatch(getPrestadoresBeeficioId(data.beneficio));
+    dispatch(getPrestadoresBeficioId(data.beneficio.id));
       // eslint-disable-next-line
   }, []);
 
@@ -40,7 +41,7 @@ export default function Prestador({ data, setData }) {
         <RadioGroup
           aria-labelledby="prestador-group"
           name="prestador"
-          value={data.prestador}
+          value={data.prestador.id || ''}
           onChange={handleChange}
           >
           { prestadores.map( prestador => 

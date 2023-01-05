@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stepper from '@mui/material/Stepper';
@@ -12,9 +12,9 @@ import Beneficio from './step/Beneficio';
 import Prestador from './step/Prestador';
 import Codigos from './step/Codigos';
 import Cantidad from './step/Cantidad';
-import VerificarOrden from './step/VerificarOrden';
+import Cobertura from './step/Cobertura';
 
-const steps = ['Beneficio', 'Prestador', 'Codigos', 'Cantidad', 'Verificar Orden'];
+const steps = ['Beneficio', 'Prestador', 'Codigos', 'Cantidad', 'Cobertura AMECO'];
 
 function getStepContent(step, data, setData) {
   
@@ -28,20 +28,26 @@ function getStepContent(step, data, setData) {
     case 3:
       return <Cantidad  data={data} setData={setData} />;
     case 4:
-      return <VerificarOrden  data={data} />;
+      return <Cobertura  data={data} />;
     default:
       throw new Error('Unknown step');
   }
 }
 
 const initialData = {
-  beneficio: '',
-  prestador: '',
+  titular: {},
+  beneficiario: {},
+  beneficio: {},
+  prestador: {},
   grupoCodigo: '',
   codigos: [],
 }
 
 export default function NuevaOrden() {
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  // https://midu.dev/urlsearchparams-como-leer-la-query-string/
+
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
 
@@ -74,7 +80,7 @@ export default function NuevaOrden() {
   };
 
   useEffect(() => {
-    console.log(data);
+    console.log('data', data);
   }, [data]);
 
   return (
@@ -96,7 +102,7 @@ export default function NuevaOrden() {
 
             <Box sx={{ mb:2, display: 'flex', justifyContent: 'flex-end'}} >
               <Typography variant="h5" component="h5" >
-                Beneficiario: Gomez Pablo
+                Beneficiario: { searchParams.titularId }
               </Typography>
 
               <Typography variant="h5" component="h5" >

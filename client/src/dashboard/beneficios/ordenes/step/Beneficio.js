@@ -14,7 +14,8 @@ export default function AddressForm({ data, setData }) {
   const beneficios = useSelector( state => state.beneficios);
 
   const handleChange = (event) => {
-    setData( state => { return { ...state, beneficio: event.target.value }})
+    const selectedBeneficio = beneficios.find( beneficio => beneficio.id === parseInt(event.target.value) );
+    setData( state => { return { ...state, beneficio: selectedBeneficio }})
   };
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export default function AddressForm({ data, setData }) {
         <RadioGroup
           aria-labelledby="beneficios-group"
           name="beneficios"
-          value={data.beneficio}
+          value={data.beneficio.id || ''}
           onChange={handleChange}
           >
           { beneficios.map( beneficio => 

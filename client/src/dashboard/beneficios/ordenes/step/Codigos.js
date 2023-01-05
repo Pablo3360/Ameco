@@ -21,12 +21,13 @@ export default function Codigos({ data, setData }) {
   const [grupoSeleccionadoCodigos, setGrupoSeleccionadoCodigos] = useState([]); //Los codigos de un grupo seleccionado
 
   const handleChangeGrupo = (event) => {
-    setData( data => { return {...data, grupoCodigo: event.target.value, codigos : [] }});
+    const selectGrupoCodigo = gruposCodigos.find( grupoCodigo => grupoCodigo.id === parseInt(event.target.value) );
+    setData( data => { return {...data, grupoCodigo: selectGrupoCodigo, codigos : [] }});
     dispatch(getCodigos(event.target.value));
   };
   
   useEffect(() => {
-    dispatch(getGruposCodigos(data.beneficio));
+    dispatch(getGruposCodigos(data.beneficio.id));
     // eslint-disable-next-line
   }, []);
 
@@ -73,7 +74,7 @@ export default function Codigos({ data, setData }) {
         name="grupo"
         label="Codigo Grupo"
         fullWidth
-        value={data.grupoCodigo}
+        value={data.grupoCodigo.id || ''}
         onChange={(e) => handleChangeGrupo(e)}
         >
         { gruposCodigos.map( (grupoCodigo, index) => (
