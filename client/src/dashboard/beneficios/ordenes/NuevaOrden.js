@@ -13,6 +13,9 @@ import Prestador from './step/Prestador';
 import Codigos from './step/Codigos';
 import Cantidad from './step/Cantidad';
 import Cobertura from './step/Cobertura';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { getTitular } from '../../../actions/titulares.js';
 
 const steps = ['Beneficio', 'Prestador', 'Codigos', 'Cantidad', 'Cobertura AMECO'];
 
@@ -45,14 +48,17 @@ const initialData = {
 
 export default function NuevaOrden() {
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  // https://midu.dev/urlsearchparams-como-leer-la-query-string/
-
   const navigate = useNavigate();
-  const [activeStep, setActiveStep] = useState(0);
+  const dispatch = useDispatch();
+  const titular = useSelector( state => state.titular );
 
-  //Estado que almacena la informacion en cada step para la orden
-  const [data, setData] = useState(initialData);
+  const [searchParams] = useSearchParams();
+  const titularId = searchParams.get('titularId');
+  const beneficiarioId = searchParams.get('beneficiarioId');
+  console.log(titularId, beneficiarioId);
+
+  const [activeStep, setActiveStep] = useState(0);
+  const [data, setData] = useState(initialData);//Estado que almacena la informacion en cada step para la orden
 
   const handleNext = () => {
     switch (activeStep) {
@@ -83,6 +89,25 @@ export default function NuevaOrden() {
     console.log('data', data);
   }, [data]);
 
+  useEffect(() => {
+    dispatch(getTitular(titularId));
+    // eslint-disable-next-line
+  }, [titularId]);
+
+  useEffect(() => {
+    if ( beneficiarioId ){
+      const beneficiario = titular.partitipantes.find( participante => participante.id === beneficiarioId );
+      const titularCopy = { ...titular };
+      delete titularCopy.participantes;
+      setData( data => ( { ...data, titular: titularCopy, beneficiario: beneficiario } ));
+    } else{
+      const titularCopy = { ...titular };
+      delete titularCopy.participantes;
+      setData( data => ( { ...data, titular: titularCopy, beneficiario: titularCopy } ));
+    }
+    // eslint-disable-next-line 
+  }, [titular]);
+
   return (
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Box sx={{ width: '100%' }} >
@@ -102,11 +127,11 @@ export default function NuevaOrden() {
 
             <Box sx={{ mb:2, display: 'flex', justifyContent: 'flex-end'}} >
               <Typography variant="h5" component="h5" >
-                Beneficiario: { searchParams.titularId }
+                Titular: {data.titular.apellidos}, {titular.nombres}
               </Typography>
 
               <Typography variant="h5" component="h5" >
-                Titular: Gomez Damian
+                Beneficiario: {data.beneficiario.apellidos}, {data.beneficiario.nombres}
               </Typography>
             </Box>
 

@@ -1,6 +1,7 @@
 
 const initialState = {
   afiliados: [],
+  titular: [],
   participantes: [],
   createdParticipante: {},
   recaudadores: [],
@@ -25,6 +26,12 @@ switch (action.type){
     return {
       ...state,
       afiliados: action.payload
+    }
+
+  case 'GET_TITULAR_RESPONSE':
+    return {
+      ...state,
+      titular: action.payload
     }
 
   case 'GET_PARTICIPANTES_RESPONSE':

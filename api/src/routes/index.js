@@ -2,6 +2,7 @@ const { Router } = require('express');
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 const getTitulares = require('./titulares/getTitulares.js');
+const getTitular = require('./titulares/getTitular.js');
 const createTitular = require('./titulares/createTitular.js');
 const updateTitular = require('./titulares/updateTitular.js');
 
@@ -43,6 +44,7 @@ const router = Router();
 // Ejemplo: router.use('/auth', authRouter);
 
 router.use(getTitulares);
+router.use(getTitular);
 router.use(createTitular);
 router.use(updateTitular);
 

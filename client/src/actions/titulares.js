@@ -45,3 +45,19 @@ export async function createAfiliadoTitular(data){
     return null;
   }
 };
+
+export function getTitularResponse(titular){
+  return {
+    type: 'GET_TITULAR_RESPONSE',
+    payload: titular
+  }
+};
+
+export function getTitular(titularId) {
+  return function(dispatch) {
+    fetch(`http://localhost:3001/titular/${titularId}`)
+    .then(r => r.json())
+    .then((titular) => dispatch(getTitularResponse(titular)))
+    .catch( error => console.log(error))
+  }
+};

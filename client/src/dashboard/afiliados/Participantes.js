@@ -13,6 +13,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import StorageIcon from '@mui/icons-material/Storage';
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import { grey } from '@mui/material/colors';
 import {
   GridRowModes, 
@@ -235,7 +236,13 @@ export default function Participantes() {
           onClick={handleSaveDb( {...row} )}
           color="inherit"
           disabled={ row.isSaveInDb? true : false}
-        />
+          />,
+          <GridActionsCellItem
+          icon={<VolunteerActivismIcon />}
+          label="beneficios"
+          onClick={ () => navigate(`/panel/beneficios/ordenes/nueva?titularId=${row.titularId}&beneficiarioId=${row.id}`) }
+          color="inherit"
+          />
         ];
       },
     },

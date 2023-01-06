@@ -19,9 +19,9 @@ function AfiliadosContent() {
   const [rowId, setRowId] = useState(null);
 
   useEffect(() => {
-    if (afiliados.length === 0) dispatch(getAfiliados());
+    dispatch(getAfiliados());
       // eslint-disable-next-line
-  });
+  }, []);
 
   function getFullName(params) {
     return `${params.row.apellidos}, ${params.row.nombres}`;
