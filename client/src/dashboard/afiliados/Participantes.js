@@ -196,7 +196,7 @@ export default function Participantes() {
     { field: 'nacimiento', headerName: 'Nacimiento', width: 125, type: 'date', editable: true },
     { field: 'relacion', headerName: 'Relacion', width: 125, type: 'singleSelect', 
       valueOptions: ['pareja', 'hijo/a', 'padre/madre'], editable: true},
-    { field: 'actions', headerName: 'Acciones', width: 125, type: 'actions', cellClassName: 'actions',
+    { field: 'actions', headerName: 'Acciones', width: 150, type: 'actions', cellClassName: 'actions',
       getActions: ({ row }) => {
         const isInEditMode = rowModesModel[row.id]?.mode === GridRowModes.Edit;
         if (isInEditMode) {

@@ -9,17 +9,19 @@ import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
-export default function Cobertura({ data }) {
+export default function Cobertura({ data, setData }) {
 
   const [montos, setMontos] = useState({ subTotal: 0, cobertura: 1, total: 0 });
 
   useEffect(()=>{
     const subTotal = data.codigos.reduce( (subTotal, codigo) => subTotal + codigo.precio, 0 );
     setMontos( montos => { return { ...montos, subTotal: subTotal } });
-  }, [data]);
+  }, []);
 
   useEffect(()=>{
     setMontos( montos => { return { ...montos, total: montos.subTotal * ( 1 - montos.cobertura ) } });
+    setData ( data => ({ ...data, montos}) );
+    // eslint-disable-next-line
   }, [montos]);
 
   return (
@@ -44,6 +46,16 @@ export default function Cobertura({ data }) {
                 {data.grupoCodigo.nombre}
                 </Typography>
               </ListItem>
+              {/* { data.beneficio.nombre === 'PMI'?
+                  <ListItem  alignItems='center' sx={{ py: 1, px: 0 }} divider={true}>
+                    <ListItemText primary="Entrega N°: " />
+                    <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
+                    {data.codigos[0].entrega}
+                    </Typography>
+                  </ListItem>
+                  :
+                  ''
+              } */}
             </List>
         </Grid>
 

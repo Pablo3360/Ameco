@@ -21,24 +21,21 @@ function OrdenesContent() {
       // eslint-disable-next-line
   }, []);
 
-  function getFullName(params) {
-    return `${params.row.apellidos}, ${params.row.nombres}`;
-  }
-
   const columns = [
-      { field: 'beneficiario', headerName: 'Beneficiario', width: 200, valueGetter: getFullName},
-      { field: 'participanteId', headerName: 'Apellidos', width: 170, editable: true },
-      { field: 'nombres', headerName: 'Nombres', width: 170, editable: true },
-
-      { field: 'nacimiento', headerName: 'Nacimiento', type: 'date', editable: true },
-      { field: 'tipo', headerName: 'Tipo', width: 85, type: 'singleSelect', 
-        valueOptions: ['activo', 'adherente'], editable: true},
-      { field: 'localidad', headerName: 'Localidad', width: 125, editable: true},
-      { field: 'celular', headerName: 'Celular', width: 105, editable: true },
-      { field: 'estado_civil', headerName: 'Estado Civil', width: 125, type: 'singleSelect', 
-        valueOptions: ['casado/a', 'soltero/a', 'union de hecho', 'sin especificar'], editable: true },
-      { field: 'domicilio', headerName: 'Domicilio', width: 250, editable: true },
-      { field: 'created_at', headerName: 'Fecha Creación', width: 200 },
+    { field: 'id', headerName: 'Orden N°', width: 75 },
+    { field: 'dataBeneficiario', headerName: 'Beneficiario', width: 200, 
+      valueGetter: params => 
+        `${params.row.dataBeneficiario.apellidos}, ${params.row.dataBeneficiario.nombres}`
+    },
+    { field: 'dataTitular', headerName: 'Titular', width: 200, 
+      valueGetter: params => 
+        `${params.row.dataTitular.apellidos}, ${params.row.dataTitular.nombres}`
+    },
+    { field: 'dataBeneficio', headerName: 'Beneficio', width: 150, 
+      valueGetter: params => 
+        `${params.row.dataBeneficio.nombre}`
+    },
+    { field: 'createdAt', headerName: 'Fecha', width: 200 }
     ];
 
   return (
@@ -52,7 +49,7 @@ function OrdenesContent() {
             Ordenes
           </Typography>
           
-          <Button variant="contained"
+          <Button variant="contained" disabled
             onClick={() => navigate('/panel/beneficios/ordenes/nueva')}
             >
             Nueva Orden

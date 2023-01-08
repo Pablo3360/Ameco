@@ -12,8 +12,7 @@ router.get('/gruposCodigos', async (req, res)=>{
 
   try {
     const grupoCodigo = await GrupoCodigo.findAll({
-      ...Where,
-      order: [['nombre', 'ASC']]
+      ...Where
     });
     res.status(200).send(grupoCodigo);
   } catch (error) {

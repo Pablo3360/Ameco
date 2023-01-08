@@ -1,23 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { grey } from '@mui/material/colors';
 import { DataGrid, gridClasses, esES } from '@mui/x-data-grid';
 
+import { getEntrega } from '../../../../actions/ordenes';
+
 export default function Cantidad({ data, setData }) {
 
-  const [pageSize, setPageSize] = useState(3); 
+  const dispatch = useDispatch();
+
+  const [pageSize, setPageSize] = useState(3);
+  const lastEntrega = useSelector( state => state.lastEntrega);
 
   const columns = [
       { field: 'codigo', headerName: 'Codigo', width: 100, editable: false },
       { field: 'nombre', headerName: 'Nombre', width: 400, editable: false },
       { field: 'precio', headerName: 'Precio', width: 100, editable: false },
-      { field: 'cantidad', headerName: 'Cantidad', type: 'number', editable: true }
+      { field: 'cantidad', headerName: 'Cantidad', type: 'number', editable: true },
     ];
 
-  const handleEditCommit = (params) => {
+  if(data.beneficio.nombre === 'PMI'){
+    columns.push(
+      { field: 'entrega', headerName: 'Entrega N°', type: 'number' }
+    )
+  }
 
-    console.log(params);
+  const handleEditCommit = (params) => {
 
     const updateCodigos = data.codigos.map( codigo => codigo.id === params.id ? 
       { ...codigo, cantidad: params.value } : codigo );
@@ -27,6 +37,21 @@ export default function Cantidad({ data, setData }) {
     }});
 
   };
+
+  useEffect(() => {
+    dispatch(getEntrega(data.titular.id, data.beneficiario.id, data.grupoCodigo.id));
+    // eslint-disable-next-line
+  }, [data.beneficiario]);
+
+  useEffect(() => {
+
+    const updateCodigos = data.codigos.map( codigo => ({ ...codigo, entrega: lastEntrega + 1 }) );
+
+    setData( data => { return {
+      ...data, codigos: updateCodigos
+    }});
+    // eslint-disable-next-line
+  }, [lastEntrega]);
 
   return (
     <>

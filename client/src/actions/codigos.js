@@ -58,3 +58,4 @@ export function updateCodigo(updatedFields, codigoId){
     }
   }
 };
+

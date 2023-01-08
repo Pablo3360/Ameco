@@ -7,37 +7,32 @@ module.exports = (sequelize) => {
       autoIncrement: true,
       primaryKey: true
     },
-    titular: {
-      type: DataTypes.STRING(60),
-      allowNull: false
+    dataTitular: {
+      type: DataTypes.JSONB
     },
-    beneficiario: {
-      type: DataTypes.STRING(60),
-      allowNull: false
+    dataBeneficiario: {
+      type: DataTypes.JSONB
     },
-    beneficio: {
-      type: DataTypes.STRING(60),
-      allowNull: false
+    dataBeneficio: {
+      type: DataTypes.JSONB
     },
-    codigo: {
-      type: DataTypes.STRING(15),
-      allowNull: false
+    dataGrupoCodigo: {
+      type: DataTypes.JSONB
     },
-    prestador: {
-      type:DataTypes.STRING(60),
-      allowNull: false
+    dataCodigos: {
+      type: DataTypes.JSONB
     },
-    precio: {
-      type:DataTypes.STRING(15),
-      allowNull: false
+    dataPrestador: {
+      type: DataTypes.JSONB
     },
-    emisor: {
-      type:DataTypes.STRING(60),
-      allowNull: false
+    dataMontos: {
+      type: DataTypes.JSONB
+    },
+    dataEmisor: {
+      type: DataTypes.JSONB
     },
     descripcion: {
-      type:DataTypes.STRING(15),
-      allowNull: false
+      type:DataTypes.STRING(50),
     },
     titularId: {
       type: DataTypes.INTEGER,
@@ -46,5 +41,9 @@ module.exports = (sequelize) => {
         key: 'id'
       }
     }
+  }, {
+    timestamps: true,
+    paranoid: true,
+    updatedAt: false,
   });
 };

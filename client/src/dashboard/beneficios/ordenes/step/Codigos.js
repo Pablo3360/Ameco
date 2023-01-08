@@ -9,7 +9,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-import { getGruposCodigos, getGruposCodigosResponse } from '../../../../actions/gruposCodigos';
+import { getGruposCodigos } from '../../../../actions/gruposCodigos';
 import { getCodigos, getCodigosResponse } from '../../../../actions/codigos';
 
 export default function Codigos({ data, setData }) {
@@ -38,7 +38,7 @@ export default function Codigos({ data, setData }) {
   useEffect(() => {
     return () => {
       dispatch(getCodigosResponse([]));
-      dispatch(getGruposCodigosResponse([]));
+      //dispatch(getGruposCodigosResponse([]));
     };
     // eslint-disable-next-line
   }, []);
