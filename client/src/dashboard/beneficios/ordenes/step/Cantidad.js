@@ -15,25 +15,27 @@ export default function Cantidad({ data, setData }) {
   const lastEntrega = useSelector( state => state.lastEntrega);
 
   const columns = [
-      { field: 'codigo', headerName: 'Codigo', width: 100, editable: false },
-      { field: 'nombre', headerName: 'Nombre', width: 400, editable: false },
-      { field: 'precio', headerName: 'Precio', width: 100, editable: false },
-      { field: 'cantidad', headerName: 'Cantidad', type: 'number', editable: true },
+      { field: 'codigo', headerName: 'Codigo', width: 100, editable: false, headerAlign: 'center', align: 'center' },
+      { field: 'nombre', headerName: 'Nombre', width: 400, editable: false, headerAlign: 'center', align: 'center' },
+      { field: 'precio', headerName: 'Precio', width: 100, editable: false, headerAlign: 'center', align: 'center' },
+      { field: 'cantidad', headerName: 'Cantidad', type: 'number', editable: true, headerAlign: 'center', align: 'center' },
     ];
 
   if(data.beneficio.nombre === 'PMI'){
-    columns.push(
-      { field: 'entrega', headerName: 'Entrega N°', type: 'number' }
-    )
-  }
+    columns.unshift(
+      { field: 'entrega', headerName: 'Entrega N°', type: 'number', renderCell: () => lastEntrega + 1,
+        headerAlign: 'center', align: 'center'
+      }
+    );
+  };
 
   const handleEditCommit = (params) => {
 
-    const updateCodigos = data.codigos.map( codigo => codigo.id === params.id ? 
+    const updateCodigos = data.codigos.codigos.map( codigo => codigo.id === params.id ? 
       { ...codigo, cantidad: params.value } : codigo );
 
     setData( data => { return {
-      ...data, codigos : updateCodigos
+      ...data, codigos: { ...data.codigos, codigos: updateCodigos}
     }});
 
   };
@@ -45,10 +47,8 @@ export default function Cantidad({ data, setData }) {
 
   useEffect(() => {
 
-    const updateCodigos = data.codigos.map( codigo => ({ ...codigo, entrega: lastEntrega + 1 }) );
-
     setData( data => { return {
-      ...data, codigos: updateCodigos
+      ...data, codigos: { ...data.codigos, entrega: lastEntrega + 1 }
     }});
     // eslint-disable-next-line
   }, [lastEntrega]);
@@ -63,7 +63,7 @@ export default function Cantidad({ data, setData }) {
 
       <DataGrid localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           columns={columns}
-          rows={data.codigos}
+          rows={data.codigos.codigos}
           rowsPerPageOptions={[3, 6]}
           pageSize={pageSize}
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}

@@ -14,8 +14,9 @@ export default function Cobertura({ data, setData }) {
   const [montos, setMontos] = useState({ subTotal: 0, cobertura: 1, total: 0 });
 
   useEffect(()=>{
-    const subTotal = data.codigos.reduce( (subTotal, codigo) => subTotal + codigo.precio, 0 );
+    const subTotal = data.codigos.codigos.reduce( (subTotal, codigo) => subTotal + codigo.precio, 0 );
     setMontos( montos => { return { ...montos, subTotal: subTotal } });
+    // eslint-disable-next-line 
   }, []);
 
   useEffect(()=>{
@@ -46,16 +47,16 @@ export default function Cobertura({ data, setData }) {
                 {data.grupoCodigo.nombre}
                 </Typography>
               </ListItem>
-              {/* { data.beneficio.nombre === 'PMI'?
+              { data.beneficio.nombre === 'PMI'?
                   <ListItem  alignItems='center' sx={{ py: 1, px: 0 }} divider={true}>
                     <ListItemText primary="Entrega N°: " />
                     <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-                    {data.codigos[0].entrega}
+                    {data.codigos.entrega}
                     </Typography>
                   </ListItem>
                   :
                   ''
-              } */}
+              }
             </List>
         </Grid>
 
@@ -67,7 +68,7 @@ export default function Cobertura({ data, setData }) {
 
       <List disablePadding>
 
-        {data.codigos.map((codigo) => (
+        {data.codigos.codigos.map((codigo) => (
           <ListItem key={codigo.id} sx={{ py: 1, px: 0 }} divider={true}>
             <ListItemText primary={codigo.nombre} secondary={`Codigo: ${codigo.codigo}`} />
             <ListItemText primary={codigo.cantidad}  />

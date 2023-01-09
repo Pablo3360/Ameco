@@ -22,7 +22,7 @@ export default function Codigos({ data, setData }) {
 
   const handleChangeGrupo = (event) => {
     const selectGrupoCodigo = gruposCodigos.find( grupoCodigo => grupoCodigo.id === parseInt(event.target.value) );
-    setData( data => { return {...data, grupoCodigo: selectGrupoCodigo, codigos : [] }});
+    setData( data => { return {...data, grupoCodigo: selectGrupoCodigo, codigos : { ...data.codigos, codigos: [] } }});
     dispatch(getCodigos(event.target.value));
   };
   
@@ -45,19 +45,17 @@ export default function Codigos({ data, setData }) {
 
   const handleChangeCodigo = (event) => {
     //Verificamos si ya esta el codigo en el array
-    const match = data.codigos.find(codigo => codigo.id === parseInt(event.target.name) );
+    const match = data.codigos.codigos.find(codigo => codigo.id === parseInt(event.target.name) );
     // match puede resultar en undefined o el elemento encontrado -> codigo {}
     if(match){ // Al estar el codigo en el Array lo sacamos
-      const updateCodigos = data.codigos.filter(codigo => codigo.id !== parseInt(event.target.name) );
+      const updateCodigos = data.codigos.codigos.filter(codigo => codigo.id !== parseInt(event.target.name) );
       setData( data => { return {
-        ...data, codigos : updateCodigos
+        ...data, codigos : { ...data.codigos, codigos: updateCodigos }
       }});
     }
     else { // Al no estar el codigo en el Array lo agregamos
       const addCodigo = codigos.find(codigo => codigo.id === parseInt(event.target.name) );
-      setData( data => { return {
-        ...data, codigos : [ ...data.codigos, addCodigo ]
-      }});
+      setData( data => { return { ...data, codigos: { ...data.codigos, codigos: [ ...data.codigos.codigos, addCodigo ]} }});
     }
   };
 
@@ -92,7 +90,7 @@ export default function Codigos({ data, setData }) {
                 key={codigo.id}
                 control={ 
                   <Checkbox
-                    checked={ data.codigos.find( elementCodigo => elementCodigo === codigo.id.toString()) }
+                    checked={ data.codigos.codigos.find( elementCodigo => elementCodigo === codigo.id.toString()) }
                     onChange={handleChangeCodigo} 
                     name={`${codigo.id}`} //El id es de type number, se lo cambia a string. name exige string.
                   /> 

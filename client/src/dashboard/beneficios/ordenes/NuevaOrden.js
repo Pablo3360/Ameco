@@ -53,8 +53,11 @@ const initialData = {
   beneficio: {},
   prestador: {},
   grupoCodigo: {},
-  codigos: []
-}
+  codigos: {
+    codigos: [],
+    entrega: null //Para indicar el numero de entrega del PMI
+  }
+};
 
 export default function NuevaOrden() {
 
@@ -81,10 +84,10 @@ export default function NuevaOrden() {
         Object.keys(data.prestador).length === 0 ? alert('Seleccione un Prestador') : setActiveStep(activeStep + 1);
         break;
       case 2:
-        !data.codigos.length ? alert('Seleccione almenos un Codigo') : setActiveStep(activeStep + 1);
+        !data.codigos.codigos.length ? alert('Seleccione almenos un Codigo') : setActiveStep(activeStep + 1);
         break;
       case 3:
-        data.codigos.filter( codigo => codigo.cantidad? false : true ).length ? 
+        data.codigos.codigos.filter( codigo => codigo.cantidad? false : true ).length ? 
           alert('Indicar cantidad de Codigos') : setActiveStep(activeStep + 1);
         break;
       case 4:

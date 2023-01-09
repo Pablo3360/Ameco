@@ -23,7 +23,7 @@ router.get('/ordenes/entrega', async (req, res)=>{
 
     if(ordenes.length){
       const dataUltimaEntrega = ordenes.pop();
-      const numeroUltimaEntrega = dataUltimaEntrega.dataCodigos[0].entrega;
+      const numeroUltimaEntrega = dataUltimaEntrega.dataCodigos.entrega;
       if(numeroUltimaEntrega) { // Corroboramos que no sea undefined
         return res.status(200).send({ entrega: numeroUltimaEntrega });
       }
