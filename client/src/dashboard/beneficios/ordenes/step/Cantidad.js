@@ -23,7 +23,8 @@ export default function Cantidad({ data, setData }) {
 
   if(data.beneficio.nombre === 'PMI'){
     columns.unshift(
-      { field: 'entrega', headerName: 'Entrega N°', type: 'number', renderCell: () => lastEntrega + 1,
+      { field: 'entrega', headerName: 'Entrega N°', type: 'number', 
+        renderCell: () => data.codigos.entrega,
         headerAlign: 'center', align: 'center'
       }
     );
@@ -46,10 +47,13 @@ export default function Cantidad({ data, setData }) {
   }, [data.beneficiario]);
 
   useEffect(() => {
-
-    setData( data => { return {
-      ...data, codigos: { ...data.codigos, entrega: lastEntrega + 1 }
-    }});
+    if(data.grupoCodigo.nombre === 'Pañales' && lastEntrega === 12){
+      setData( data => ({...data, codigos: {...data.codigos, entrega: 1} }) );
+    } else if(data.grupoCodigo.nombre === 'Leche' && lastEntrega === 6){
+      setData( data => ({...data, codigos: {...data.codigos, entrega: 1} }) );
+    } else{
+      setData( data => ({...data, codigos: {...data.codigos, entrega: lastEntrega + 1 } }) );
+    }
     // eslint-disable-next-line
   }, [lastEntrega]);
 

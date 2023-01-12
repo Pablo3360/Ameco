@@ -55,7 +55,7 @@ const initialData = {
   grupoCodigo: {},
   codigos: {
     codigos: [],
-    entrega: null //Para indicar el numero de entrega del PMI
+    entrega: null //Para indicar el numero de entrega del PMI: panales o leche
   }
 };
 

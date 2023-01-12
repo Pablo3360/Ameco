@@ -206,7 +206,9 @@ export default function Codigos() {
       valueFormatter: (params) => {
         // eslint-disable-next-line
         if (params.value === null || params.value === '') return '';
-        const grupoCodigo = gruposCodigos.find( grupoCodigo => grupoCodigo.id === parseInt(params.value) );
+        const grupoCodigo = gruposCodigos.find( grupoCodigo => 
+          grupoCodigo.id === parseInt(params.value) || grupoCodigo.id === parseInt(params.value.value)
+        );
         const valueFormatted = `${grupoCodigo.nombre}`;
         return valueFormatted;
       }

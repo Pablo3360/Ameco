@@ -195,7 +195,9 @@ export default function GruposCodigos() {
       valueFormatter: (params) => {
         // eslint-disable-next-line
         if (params.value == false) return '';
-        const beneficio = beneficios.find( beneficio => beneficio.id === parseInt(params.value) );
+        const beneficio = beneficios.find( beneficio => 
+          beneficio.id === parseInt(params.value) || beneficio.id === parseInt(params.value.value)
+        );
         const valueFormatted = `${beneficio.nombre}`;
         return valueFormatted;
       }
