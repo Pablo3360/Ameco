@@ -11,19 +11,15 @@ import Select from '@mui/material/Select';
 
 export default function Cobertura({ data, setData }) {
 
-  const [montos, setMontos] = useState({ subTotal: 0, cobertura: 1, total: 0 });
+  const [montos, setMontos] = useState({
+    subTotal: data.codigos.codigos.reduce( (subTotal, codigo) => subTotal + codigo.precio, 0 ),
+    cobertura: 1,
+    total: 0,
+  });
 
-  useEffect(()=>{
-    const subTotal = data.codigos.codigos.reduce( (subTotal, codigo) => subTotal + codigo.precio, 0 );
-    setMontos( montos => { return { ...montos, subTotal: subTotal } });
-    // eslint-disable-next-line 
-  }, []);
-
-  useEffect(()=>{
-    setMontos( montos => { return { ...montos, total: montos.subTotal * ( 1 - montos.cobertura ) } });
-    setData ( data => ({ ...data, montos}) );
-    // eslint-disable-next-line
-  }, [montos]);
+  useEffect( ()=>{
+    setData( data => ({ ...data, montos: montos }))
+  }, [setData, montos]);
 
   return (
     <>
@@ -122,7 +118,11 @@ export default function Cobertura({ data, setData }) {
                       id="beneficio-AMECO"
                       defaultValue={1}
                       value={montos.cobertura}
-                      onChange={ e => setMontos( montos => { return { ...montos, cobertura: e.target.value } } ) }
+                      onChange={ e => setMontos( montos => ({
+                        ...montos, 
+                        cobertura: e.target.value,
+                        total: montos.subTotal * ( 1 - e.target.value)
+                      })) }
                     >
                       <MenuItem value={0}>Sin Cobertura</MenuItem>
                       <MenuItem value={0.5}>50%</MenuItem>

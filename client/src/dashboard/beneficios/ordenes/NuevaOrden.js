@@ -23,9 +23,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 import { getTitular } from '../../../actions/titulares';
-import { createOrden } from '../../../actions/ordenes';
-
-import SuccessCreatedOrden from './step/SuccessCreatedOrden';
+import { createOrden, ordenResponse } from '../../../actions/ordenes';
 
 const steps = ['Beneficio', 'Prestador', 'Codigos', 'Cantidad', 'Cobertura AMECO'];
 
@@ -56,6 +54,11 @@ const initialData = {
   codigos: {
     codigos: [],
     entrega: null //Para indicar el numero de entrega del PMI: panales o leche
+  },
+  montos: {
+    subTotal: 0,
+    cobertura: 1,
+    total: 0,
   }
 };
 
@@ -108,10 +111,6 @@ export default function NuevaOrden() {
   }, [data]);
 
   useEffect(() => {
-    console.log('createdOrden', createdOrden);
-  }, [createdOrden]);
-
-  useEffect(() => {
     dispatch(getTitular(titularId));
     // eslint-disable-next-line
   }, [titularId]);
@@ -129,6 +128,11 @@ export default function NuevaOrden() {
     }
     // eslint-disable-next-line 
   }, [titular]);
+
+  useEffect(() => {
+    return () => dispatch(ordenResponse({}));
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -156,7 +160,6 @@ export default function NuevaOrden() {
               </Box>
           }
 
-
           <Button variant="contained"
             onClick={() => navigate(-1)}
             >
@@ -175,7 +178,7 @@ export default function NuevaOrden() {
           </Stepper>
 
           {activeStep === steps.length ? 
-              ( <SuccessCreatedOrden createdOrden={ createdOrden } />)
+              ( <></> )
             : 
             (<>
               {getStepContent(activeStep, data, setData)}
@@ -201,31 +204,24 @@ export default function NuevaOrden() {
         </Paper>
       </Box>
 
-      <Dialog
-        open={openDialog}
-        onClose={ () => setOpenDialog(false) }
-        aria-labelledby="alert-dialog-alta-titular-exito"
-        aria-describedby="Afiliado Titular dado de Alta con exito"
-        >
-        <DialogTitle id="alert-dialog-alta-titular-exito">
-          Confirmar
-        </DialogTitle>
+      <Dialog open={openDialog} onClose={ () => setOpenDialog(false) } >
+        <DialogTitle> Confirmar </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            ¿Desea emitir una orden con la cobertura de {data.montos?.cobertura * 100}%?
+          <DialogContentText>
+            ¿Desea emitir la Orden?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={ () => setOpenDialog(false) }>Cancelar</Button>
-          <Button onClick={ 
-            () => { 
-              dispatch(createOrden(data));
-              setOpenDialog(false);
-              setActiveStep(activeStep + 1);
-            }} 
-            autoFocus>
-            Aceptar
-          </Button>
+          { Object.keys(createdOrden).length === 0 ?
+            <>
+              <Button onClick={ () => setOpenDialog(false) }>Cancelar</Button>
+              <Button onClick={ () => dispatch(createOrden(data)) } autoFocus> Confirmar </Button>
+            </>
+              :
+            <>
+              <Button onClick={ () => navigate(`/panel/beneficios/ordenes/orden/${createdOrden.id}`) } autoFocus> Ver Orden </Button>
+            </>
+          }
         </DialogActions>
       </Dialog>
 

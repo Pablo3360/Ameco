@@ -29,6 +29,7 @@ import GruposCodigos from './beneficios/GruposCodigos';
 import Codigos from './beneficios/Codigos';
 import Ordenes from './beneficios/ordenes/Ordenes';
 import NuevaOrden from './beneficios/ordenes/NuevaOrden';
+import Orden from './beneficios/ordenes/Orden';
 import Copyright from "./Copyright";
 
 const drawerWidth = 240;
@@ -174,6 +175,7 @@ function DashboardContent() {
             <Route exact path='beneficios/codigos' element={<Codigos />}/>
             <Route exact path='beneficios/ordenes' element={<Ordenes />}/>
             <Route exact path='beneficios/ordenes/nueva' element={<NuevaOrden />}/>
+            <Route exact path='beneficios/ordenes/orden/:ordenId' element={<Orden />}/>
           </Routes>
 
           <DrawerHeader />
