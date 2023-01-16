@@ -37,6 +37,7 @@ const updateCodigo = require('./codigos/updateCodigo.js');
 
 const getOrdenes = require('./ordenes/getOrdenes.js');
 const createOrden = require('./ordenes/createOrden.js');
+const getOrden = require('./ordenes/getOrden.js');
 const getEntrega = require('./ordenes/getEntrega.js');
 
 const router = Router();
@@ -80,6 +81,7 @@ router.use(updateCodigo);
 
 router.use(getOrdenes);
 router.use(createOrden);
+router.use(getOrden);
 router.use(getEntrega);
 
 module.exports = router;
