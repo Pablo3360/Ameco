@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { grey } from '@mui/material/colors';
-import { DataGrid, GridToolbar, gridClasses, esES } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, GridActionsCellItem, gridClasses, esES } from '@mui/x-data-grid';
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 
 import { getOrdenes } from '../../../actions/ordenes';
 
@@ -35,8 +36,19 @@ function OrdenesContent() {
       valueGetter: params => 
         `${params.row.dataBeneficio.nombre}`
     },
-    { field: 'createdAt', headerName: 'Fecha', width: 200 }
-    ];
+    { field: 'createdAt', headerName: 'Fecha', width: 200 },
+    { field: 'actions', headerName: 'Acciones', width: 150, type: 'actions', cellClassName: 'actions',
+      getActions: ({ row }) => 
+          ([
+            <GridActionsCellItem
+              icon={<VolunteerActivismIcon />}
+              label="orden"
+              onClick={ ()=> navigate(`/panel/beneficios/ordenes/orden/${row.id}`)}
+              color="inherit"
+            />
+          ])
+    }
+  ];
 
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

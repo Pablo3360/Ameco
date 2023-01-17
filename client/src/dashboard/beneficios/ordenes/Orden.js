@@ -62,10 +62,10 @@ export default function Orden() {
               p: 2, 
               display: 'flex', 
               flexDirection: 'column', 
-              height: 200, 
               alignItems: 'center',
+              height: 160
             }} 
-            variant="outlined" square
+            variant="outlined"
             >
             <Typography variant="h5">
               A.M.E.C.O.
@@ -77,10 +77,7 @@ export default function Orden() {
               Oberá Misiones
             </Typography>
             <Typography variant="subtitle2">
-              Matrícula INAES N° 34
-            </Typography>
-            <Typography variant="subtitle2">
-              Inscripción 08/01/1988
+              Matrícula INAES N° 34 - Inscripción 08/01/1988
             </Typography>
             <Typography variant="subtitle2">
               CUIT 30672427467 
@@ -89,36 +86,30 @@ export default function Orden() {
         </Grid>
 
         <Grid item xs={6}>
-          <Paper variant="outlined" sx={{ p: 2, height: 200 }}>
-            <Grid container spacing={0} >
+          <Paper variant="outlined" sx={{ p: 2, display: 'flex', flexDirection: 'row', height: 160 }}>
+            <Grid container spacing={1} >
 
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
-                  Fecha: 14/01/2023
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
-                  Orden N°: 1.050
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 300 }}>
-                  Beneficio: Odontologia
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 300 }}>
-                  Grupo: Leche
+                  Fecha: { orden?.createdAt }
                 </Typography>
               </Grid>
 
               <Grid item xs={12}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
-                  Prestador: Martinez Daniel
+                  Orden N°: { orden?.id }
+                </Typography>
+              </Grid>
+
+              <Grid item xs={12}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
+                  Beneficio: { orden?.dataBeneficio.nombre }
+                </Typography>
+              </Grid>
+
+              <Grid item xs={12}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
+                  Grupo: { orden?.dataGrupoCodigo.nombre }
                 </Typography>
               </Grid>
 
@@ -128,72 +119,61 @@ export default function Orden() {
 
         <Grid item xs={12}>
           <Paper sx={{ p: 1, display: 'flex', flexDirection: 'column' }} variant="outlined" >
-
             <List disablePadding >
-
-              <ListItem  alignItems='center' sx={{ py: 0, px: 1 }} divider={true}>
-                <ListItemText primary="Titular: " />
-                <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-                  Gomez, Damian  -   DNI: 16146101  -  Nacimiento: 11/02/1963
-                </Typography>
+              <ListItem sx={{ py: 0, px: 1 }} divider={true} >
+                <ListItemText primary={`Titular: ${orden?.dataTitular.apellidos}, ${orden?.dataTitular.nombres} `} />
+                <ListItemText primary={`DNI: ${orden?.dataTitular.dni}`} />
+                <ListItemText primary={`Nacimiento: ${orden?.dataTitular.nacimiento}`} />
               </ListItem>
-
-              <ListItem  alignItems='center' sx={{ py: 0, px: 1 }} divider={true}>
-                <ListItemText primary="Beneficiario " />
-                <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-                  Gomez, Pablo  -   DNI: 36061893  -  Nacimiento: 18/01/1992
-                </Typography>
+              <ListItem sx={{ py: 0, px: 1 }} >
+                <ListItemText primary={`Beneficiario: ${orden?.dataBeneficiario.apellidos}, ${orden?.dataBeneficiario.nombres} `} />
+                <ListItemText primary={`DNI: ${orden?.dataBeneficiario.dni}`} />
+                <ListItemText primary={`Nacimiento: ${orden?.dataBeneficiario.nacimiento}`} />
+                <ListItemText primary={`Vinculo: ${orden?.dataBeneficiario.relacion}`} />
               </ListItem>
-
             </List>
-
           </Paper>
         </Grid>
 
         <Grid item xs={12}>
           <Paper sx={{ p: 1, display: 'flex', flexDirection: 'column' }} variant="outlined" >
-
             <List disablePadding>
-
-            {orden?.dataCodigos.codigos.map((codigo) => (
-              <ListItem key={codigo.id} sx={{ py: 0, px: 1 }} divider={true}>
-                <ListItemText primary={codigo.nombre} secondary={`Codigo: ${codigo.codigo}`} />
-                <ListItemText primary={codigo.descripcion}  />
-                <ListItemText primary={codigo.cantidad}  />
-                <Typography variant="body2">{`$ ${codigo.precio}`}</Typography>
+              {orden?.dataCodigos.codigos.map((codigo) => (
+                <ListItem key={codigo.id} sx={{ py: 0, px: 1 }} divider={true}>
+                  <ListItemText primary={codigo.nombre} secondary={`Codigo: ${codigo.codigo}`} />
+                  <ListItemText primary={codigo.descripcion}  />
+                  <ListItemText primary={codigo.cantidad}  />
+                  <Typography variant="body2">{`$ ${codigo.precio}`}</Typography>
+                </ListItem>
+              ))}
+              <ListItem sx={{ pt: 1, px: 1 }}>
+                <ListItemText primary="Sub Total" />
+                <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
+                  $ {orden?.dataMontos.subTotal}
+                </Typography>
               </ListItem>
-            ))}
-
-            <ListItem sx={{ py: 0, px: 1 }}>
-              <ListItemText primary="Sub Total" />
-              <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-                $ {orden?.dataMontos.subTotal}
-              </Typography>
-            </ListItem>
-
             </List>
+          </Paper>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <Paper sx={{ p: 1, display: 'flex', flexDirection: 'column', height: 150 }} variant="outlined" square >
+
+            <Typography variant="subtitle1" gutterBottom >
+              Prestador
+            </Typography>
+
+            <Typography variant="body1" sx={{ px: 1 }}>{orden?.dataPrestador.razon}</Typography>
+            <Typography variant="body1" sx={{ px: 1 }}>Matricula: {orden?.dataPrestador.matricula}</Typography>
+            <Typography variant="body1" sx={{ px: 1 }}>Domicilio: {orden?.dataPrestador.domicilio}</Typography>
 
           </Paper>
         </Grid>
 
         <Grid item xs={12} sm={6}>
-          <Paper sx={{ p: 1, display: 'flex', flexDirection: 'column' }} variant="outlined" square >
-
-            <Typography variant="h6" gutterBottom >
-              Prestador
-            </Typography>
-
-            {/* <Typography gutterBottom>{data.prestador.razon}</Typography>
-            <Typography gutterBottom>MP: {data.prestador.matricula}</Typography>
-            <Typography gutterBottom>Domicilio: {data.prestador.domicilio}</Typography> */}
-
-          </Paper>
-        </Grid>
-
-        <Grid item container direction="column" xs={12} sm={6}>
-          <Paper sx={{ p: 1, display: 'flex', flexDirection: 'column' }} variant="outlined" square >
+          <Paper sx={{ p: 1, display: 'flex', flexDirection: 'column', height: 150  }} variant="outlined" square >
           
-            <Typography variant="h6" gutterBottom >
+            <Typography variant="subtitle1" gutterBottom >
               Detalles de Pago
             </Typography>
 
@@ -226,6 +206,18 @@ export default function Orden() {
 
               </List>
             </Box>
+          </Paper>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Paper sx={{ p: 0}} variant="outlined" >
+            <List disablePadding>
+              <ListItem key='emisor' sx={{ pt: 4}}>
+                  <ListItemText align='center' primary='_____________________' secondary={`Prestador: ${orden?.dataPrestador.razon}`} />
+                  <ListItemText align='center' primary='_____________________' secondary='Beneficiario' />
+                  <ListItemText align='center' primary='_____________________' secondary='Autorizó' />
+              </ListItem>
+            </List>
           </Paper>
         </Grid>
         
