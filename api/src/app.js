@@ -8,7 +8,7 @@ require('./db.js');
 
 const server = express();
 
-server.name = 'API';
+server.name = 'AMECO';
 
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
@@ -22,6 +22,7 @@ server.use((req, res, next) => {
   next();
 });
 
+// Rutas
 server.use('/', routes);
 
 // Error catching endware.
