@@ -4,11 +4,11 @@ const { User } = require('../../db.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-router.post('/loginUser', async (req, res)=>{
+router.post('/singIn', async (req, res)=>{
   const { mail, password } = req.body;
 
   if( !mail || !password){
-    return res.status(400).send('Faltan datos');
+    return res.status(400).send({errorMessage: 'Faltan datos'});
   }
 
   try {
@@ -20,7 +20,7 @@ router.post('/loginUser', async (req, res)=>{
     const passwordCorrect = user === null ? false : await bcrypt.compare(password, user.passwordHash)
 
     if(!passwordCorrect){
-      return res.status(401).send('Mail o Password incorrectos')
+      return res.status(400).send({errorMessage: 'Mail o Constraseña incorrectos'})
     }
 
     const userForToken = {
