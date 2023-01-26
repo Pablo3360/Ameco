@@ -22,10 +22,9 @@ export function singIn(data) {
       body: JSON.stringify(data)
       })
     .then(r => r.json())
-    .then( user => {
-      // ver el Status Code 
-      dispatch(UserResponse(user))
-      dispatch(UserResponse(user))
+    .then( res => {
+      if(res.status === 200) dispatch(UserResponse(res));
+      else dispatch(ErrorResponse(res))
     })
     .catch( error => console.log( error));
   }

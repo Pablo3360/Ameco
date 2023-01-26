@@ -10,12 +10,12 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Copyright from '../dashboard/Copyright';
 import DescriptionAlerts from './DescriptionAlerts';
-import { singIn } from '../actions/singIn';
+import { singIn } from '../actions/LogIn';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 
-export default function SignIn() {
+export default function LogIn() {
 
   const [loading, setLoading] = useState(false);
 
@@ -57,7 +57,7 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Ingresar
           </Typography>
-          {error.errorMessage && (<DescriptionAlerts />)}
+          {error.errorMessage && (<DescriptionAlerts errorMessage={error.errorMessage} />)}
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
