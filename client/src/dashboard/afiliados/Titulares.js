@@ -5,13 +5,16 @@ import { Box, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { grey } from '@mui/material/colors';
 import { DataGrid, GridToolbar, gridClasses, esES } from '@mui/x-data-grid';
+import CustomSnackbar from '../../components/Snackbar';
 
 import { getAfiliados } from '../../actions/titulares';
 import TitularActions from './TitularActions';
 
 function AfiliadosContent() {
 
+  const user = useSelector( state => state.user )
   const afiliados = useSelector( state => state.afiliados);
+  const error = useSelector ( state => state.error);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -19,7 +22,7 @@ function AfiliadosContent() {
   const [rowId, setRowId] = useState(null);
 
   useEffect(() => {
-    dispatch(getAfiliados());
+    dispatch(getAfiliados(user.token));
       // eslint-disable-next-line
   }, []);
 
@@ -62,7 +65,7 @@ function AfiliadosContent() {
           <Typography variant="h5" component="h5" >
             Afiliados Titulares
           </Typography>
-          
+          {error.message && (<CustomSnackbar message={error.message} />)}
           <Button variant="contained"
             onClick={() => navigate('/panel/titulares/crear')}
             >

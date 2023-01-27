@@ -1,3 +1,5 @@
+import { Error } from './error';
+
 export function getAfiliadosResponse(afiliados){
   return {
     type: 'GET_AFILIADOS_RESPONSE',
@@ -5,12 +7,24 @@ export function getAfiliadosResponse(afiliados){
   }
 };
 
-export function getAfiliados() {
+export function getAfiliados(token) {
   return function(dispatch) {
-    fetch('http://localhost:3001/titulares')
-    .then(r => r.json())
-    .then((afiliados) => dispatch(getAfiliadosResponse(afiliados)))
-    .catch( error => console.log(error))
+    fetch('http://localhost:3001/titulares', {
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': `Bearer ${token}`,
+      },
+    })
+    .then( async r => {
+      if(r.status === 200) {
+        const afiliados = await r.json();
+        dispatch(getAfiliadosResponse(afiliados));
+      } else {
+        const error = await r.json();
+        dispatch(Error(error));
+      }
+    })
+    .catch( error => console.log(error) );
   }
 };
 

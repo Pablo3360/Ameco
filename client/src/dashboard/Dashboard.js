@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { Routes, Route } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -8,12 +11,13 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
+//import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-
-import { Routes, Route } from "react-router-dom";
+//import NotificationsIcon from '@mui/icons-material/Notifications';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
 
 import SideList from './SideList';
 import PanelGeneral from "./panel/Default";
@@ -31,6 +35,9 @@ import Ordenes from './beneficios/ordenes/Ordenes';
 import NuevaOrden from './beneficios/ordenes/NuevaOrden';
 import Orden from './beneficios/ordenes/Orden';
 import Copyright from "./Copyright";
+
+import { UserResponse } from '../actions/logIn';
+import { Error } from '../actions/error';
 
 const drawerWidth = 240;
 
@@ -90,9 +97,22 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 const mdTheme = createTheme();
 
 function DashboardContent() {
+  const dispatch = useDispatch();
 
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => { setOpen(!open) };
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    dispatch(Error({}))
+    dispatch(UserResponse(null));
+  };
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -121,12 +141,35 @@ function DashboardContent() {
               AMECO
             </Typography>
 
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-
+            <div>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+                >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+                >
+                <MenuItem onClick={handleClose}>Cerrar Sesión</MenuItem>
+              </Menu>
+            </div>
           </Toolbar>
         </AppBar>
 

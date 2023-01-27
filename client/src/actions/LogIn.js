@@ -1,14 +1,9 @@
+import { Error } from './error';
+
 export function UserResponse(user){
   return {
     type: 'USER_RESPONSE',
     payload: user
-  }
-};
-
-export function ErrorResponse(error){
-  return {
-    type: 'ERROR_RESPONSE',
-    payload: error
   }
 };
 
@@ -29,7 +24,7 @@ export function singIn(data) {
         dispatch(UserResponse(res));
       } else {
         const res = await r.json();
-        dispatch(ErrorResponse(res));
+        dispatch(Error(res));
       };
     } catch (error) {
       console.log(error);

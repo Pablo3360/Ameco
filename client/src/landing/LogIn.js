@@ -10,8 +10,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Copyright from '../dashboard/Copyright';
-import DescriptionAlerts from './DescriptionAlerts';
-import { singIn, ErrorResponse } from '../actions/LogIn';
+import DescriptionAlerts from '../components/DescriptionAlerts';
+import { singIn } from '../actions/logIn';
+import { Error } from '../actions/error';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
@@ -44,7 +45,7 @@ export default function LogIn() {
 
   useEffect( ()=> {
     return () => {
-      dispatch(ErrorResponse({}));
+      dispatch(Error({}));
     }
   }, [dispatch]);
 
@@ -66,7 +67,7 @@ export default function LogIn() {
           <Typography component="h1" variant="h5">
             Ingresar
           </Typography>
-          {error.errorMessage && (<DescriptionAlerts errorMessage={error.errorMessage} />)}
+          {error.message && (<DescriptionAlerts message={error.message} />)}
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"

@@ -1,3 +1,10 @@
+const userLocalStore = JSON.parse(window.localStorage.getItem('user'));
+const userInitialNull = {
+  'id': null,
+  'apellidos': null,
+  'nombres': null,
+  'token': null,
+}
 
 const initialState = {
   afiliados: [],
@@ -19,7 +26,7 @@ const initialState = {
   ordenes: [],
   createdOrden: {},
   lastEntrega: null,
-  user: {},
+  user: userLocalStore ? userLocalStore : userInitialNull,
   error: {},
 };
   
@@ -140,12 +147,21 @@ switch (action.type){
   }
 
   case 'USER_RESPONSE':
-    return {
-      ...state,
-      user: action.payload
-  }
+    if(action.payload !== null){
+      window.localStorage.setItem('user', JSON.stringify(action.payload));
+      return {
+        ...state,
+        user: action.payload
+      }
+    } else {
+      window.localStorage.removeItem('user');
+      return {
+        ...state,
+        user: userInitialNull
+      }
+    }
 
-  case 'ERROR_RESPONSE':
+  case 'ERROR':
     return {
       ...state,
       error: action.payload

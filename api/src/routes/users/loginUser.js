@@ -8,7 +8,7 @@ router.post('/singIn', async (req, res)=>{
   const { mail, password } = req.body;
 
   if( !mail || !password){
-    return res.status(400).send({errorMessage: 'Faltan datos'});
+    return res.status(400).send({message: 'Faltan datos'});
   }
 
   try {
@@ -20,7 +20,7 @@ router.post('/singIn', async (req, res)=>{
     const passwordCorrect = user === null ? false : await bcrypt.compare(password, user.passwordHash)
 
     if(!passwordCorrect){
-      return res.status(400).send({errorMessage: 'Mail o Constraseña incorrectos'})
+      return res.status(400).send({message: 'Mail o Constraseña incorrectos'})
     }
 
     const userForToken = {

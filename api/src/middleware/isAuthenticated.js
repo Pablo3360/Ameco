@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
     req.id = id;
     req.mail = mail;
   } catch (error) {
-    return res.status(401).send('Token invalido');
+    return res.status(401).send({message: 'Token Invalido'});
   }
 
   next();
