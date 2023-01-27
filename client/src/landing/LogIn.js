@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,13 +11,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Copyright from '../dashboard/Copyright';
 import DescriptionAlerts from './DescriptionAlerts';
-import { singIn } from '../actions/LogIn';
+import { singIn, ErrorResponse } from '../actions/LogIn';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 
 export default function LogIn() {
-
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const user = useSelector( state => state.user);
@@ -34,10 +35,18 @@ export default function LogIn() {
   };
 
   useEffect( ()=> {
-    console.log('user', user);
-    console.log('error', error);
+    if(user.token) navigate('/panel');
+  }, [user, navigate]);
+
+  useEffect( ()=> {
     setLoading(false);
-  }, [user, error]);
+  }, [error]);
+
+  useEffect( ()=> {
+    return () => {
+      dispatch(ErrorResponse({}));
+    }
+  }, [dispatch]);
 
   return (
     <ThemeProvider theme={theme}>
