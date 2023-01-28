@@ -44,9 +44,7 @@ export default function LogIn() {
   }, [error]);
 
   useEffect( ()=> {
-    return () => {
-      dispatch(Error({}));
-    }
+    return () => dispatch(Error({}));
   }, [dispatch]);
 
   return (

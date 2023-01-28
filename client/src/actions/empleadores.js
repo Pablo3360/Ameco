@@ -1,3 +1,5 @@
+import { Error } from './error';
+
 export function getEmpleadoresResponse(empleadores){
   return {
     type: 'GET_EMPLEADORES_RESPONSE',
@@ -5,12 +7,26 @@ export function getEmpleadoresResponse(empleadores){
   }
 };
 
-export function getEmpleadores() {
-  return function(dispatch) {
-    fetch('http://localhost:3001/empleadores')
-    .then(r => r.json())
-    .then((empleadores) => dispatch(getEmpleadoresResponse(empleadores)))
-    .catch( error => console.log(error))
+export function getEmpleadores(token) {
+  return async function(dispatch) {
+    try {
+      const res = await fetch('http://localhost:3001/empleadores', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        }
+      });
+  
+      if(res.status === 200) {
+        const empleadores = await res.json();
+        dispatch(getEmpleadoresResponse(empleadores));
+      } else {
+        const error = await res.json();
+        dispatch(Error(error));
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 

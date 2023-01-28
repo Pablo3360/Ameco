@@ -1,4 +1,4 @@
-import { Error } from './error';
+import fetchData from './utils/fetchData';
 
 export function getAfiliadosResponse(afiliados){
   return {
@@ -7,24 +7,13 @@ export function getAfiliadosResponse(afiliados){
   }
 };
 
-export function getAfiliados(token) {
+export function getAfiliados() {
   return function(dispatch) {
-    fetch('http://localhost:3001/titulares', {
-      headers: {
-        'Content-Type': 'application/json',
-        'authorization': `Bearer ${token}`,
-      },
-    })
-    .then( async r => {
-      if(r.status === 200) {
-        const afiliados = await r.json();
-        dispatch(getAfiliadosResponse(afiliados));
-      } else {
-        const error = await r.json();
-        dispatch(Error(error));
-      }
-    })
-    .catch( error => console.log(error) );
+    const url = '/titulares';
+    const response = fetchData({ url }, dispatch);
+    if(response){
+      dispatch(getAfiliadosResponse(response));
+    };
   }
 };
 

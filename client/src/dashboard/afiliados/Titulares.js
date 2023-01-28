@@ -8,11 +8,11 @@ import { DataGrid, GridToolbar, gridClasses, esES } from '@mui/x-data-grid';
 import CustomSnackbar from '../../components/Snackbar';
 
 import { getAfiliados } from '../../actions/titulares';
+import { Error } from '../../actions/error';
 import TitularActions from './TitularActions';
 
 function AfiliadosContent() {
 
-  const user = useSelector( state => state.user )
   const afiliados = useSelector( state => state.afiliados);
   const error = useSelector ( state => state.error);
   const dispatch = useDispatch();
@@ -22,7 +22,8 @@ function AfiliadosContent() {
   const [rowId, setRowId] = useState(null);
 
   useEffect(() => {
-    dispatch(getAfiliados(user.token));
+    dispatch(getAfiliados());
+    return () => dispatch(Error({}));
       // eslint-disable-next-line
   }, []);
 

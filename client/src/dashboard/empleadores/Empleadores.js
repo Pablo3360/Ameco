@@ -74,6 +74,7 @@ EditToolbar.propTypes = {
 export default function Empleadores() {
 
   const navigate = useNavigate();
+  const user = useSelector( state => state.user )
   const recaudadores = useSelector(state => state.recaudadores);
   const empleadores = useSelector(state => state.empleadores);
   const createdEmpleador= useSelector(state => state.createdEmpleador);
@@ -85,8 +86,8 @@ export default function Empleadores() {
 
   // Al montar el componente, pedimos a DB todos los empleadores
   useEffect(() => {
-    dispatch(getRecaudadores());
-    dispatch(getEmpleadores());
+    dispatch(getRecaudadores(user.token));
+    dispatch(getEmpleadores(user.token));
       // eslint-disable-next-line
   }, []);
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 
@@ -99,10 +99,10 @@ const mdTheme = createTheme();
 function DashboardContent() {
   const dispatch = useDispatch();
 
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
   const toggleDrawer = () => { setOpen(!open) };
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -110,9 +110,16 @@ function DashboardContent() {
 
   const handleClose = () => {
     setAnchorEl(null);
-    dispatch(Error({}))
+  };
+
+  const handleLogout = () => {
     dispatch(UserResponse(null));
   };
+
+  //Al cerrar Sesion, limpia el estado global -> Error
+  useEffect( () => {
+    return () => dispatch(Error({}));
+  }, [dispatch]);
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -144,7 +151,7 @@ function DashboardContent() {
             <div>
               <IconButton
                 size="large"
-                aria-label="account of current user"
+                aria-label="logout user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleMenu}
@@ -167,7 +174,7 @@ function DashboardContent() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
                 >
-                <MenuItem onClick={handleClose}>Cerrar Sesión</MenuItem>
+                <MenuItem onClick={handleLogout}>Cerrar Sesión</MenuItem>
               </Menu>
             </div>
           </Toolbar>
