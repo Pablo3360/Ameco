@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
   };
 
   try {
-    const decodedToken = jwt.verify( token, process.env.SECRET);
+    const decodedToken = jwt.verify( token, process.env.SECRETJWT);
     const { id, mail } = decodedToken;
     req.id = id;
     req.mail = mail;

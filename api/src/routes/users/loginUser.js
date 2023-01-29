@@ -31,13 +31,14 @@ router.post('/login', async (req, res)=>{
       "permisos": user.permisos,
     };
 
-    const token = jwt.sign(userForToken, process.env.SECRET, { expiresIn: 60 * 60 * 6 });
+    const token = jwt.sign(userForToken, process.env.SECRETJWT, { expiresIn: 60 * 60 * 6 });
 
     return res.status(200).send({
       "id": user.id,
       "apellidos": user.apellidos,
       "nombres": user.nombres,
       "mail": user.mail,
+      "permisos": user.permisos,
       "token": token,
     });
   } catch (error) {
