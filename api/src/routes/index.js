@@ -5,6 +5,7 @@ const { Router } = require('express');
 const isAuthenticated = require('../middleware/isAuthenticated.js');
 const loginUser = require('./users/loginUser.js');
 const registerUser = require('./users/registerUser.js');
+const getUsers = require('./users/getUsers.js');
 
 const getTitulares = require('./titulares/getTitulares.js');
 const getTitular = require('./titulares/getTitular.js');
@@ -55,6 +56,7 @@ router.use(loginUser);
 router.use(isAuthenticated);
 
 router.use(registerUser);
+router.use(getUsers);
 
 router.use(getTitulares);
 router.use(getTitular);

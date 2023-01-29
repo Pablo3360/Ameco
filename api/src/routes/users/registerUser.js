@@ -4,9 +4,9 @@ const { User } = require('../../db.js');
 const bcrypt = require('bcrypt');
 
 router.post('/registerUser', async (req, res)=>{
-  const { apellidos, nombres, mail, password } = req.body;
+  const { apellidos, nombres, mail, password, permisos } = req.body;
 
-  if( !apellidos || !nombres || !mail || !password){
+  if( !apellidos || !nombres || !mail || !password || !permisos){
     return res.status(400).send('Faltan datos');
   }
 
@@ -17,7 +17,8 @@ router.post('/registerUser', async (req, res)=>{
       apellidos,
       nombres,
       mail,
-      passwordHash: passwordHash
+      passwordHash: passwordHash,
+      permisos,
     });
     return res.status(200).send(userCreated);
   } catch (error) {
