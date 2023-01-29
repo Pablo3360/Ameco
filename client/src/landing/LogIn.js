@@ -11,13 +11,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Copyright from '../dashboard/Copyright';
 import DescriptionAlerts from '../components/DescriptionAlerts';
-import { singIn } from '../actions/logIn';
+import { LogIn } from '../actions/logIn';
 import { Error } from '../actions/error';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 
-export default function LogIn() {
+export default function LogInContent() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -29,7 +29,7 @@ export default function LogIn() {
     event.preventDefault();
     setLoading(true);
     const data = new FormData(event.currentTarget);
-    dispatch(singIn({
+    dispatch(LogIn({
       mail: data.get('mail'),
       password: data.get('password'),
     }));

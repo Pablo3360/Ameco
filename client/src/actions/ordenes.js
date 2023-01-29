@@ -1,3 +1,5 @@
+import fetchData from "./utils/fetchData";
+
 export function getOrdenesResponse(ordenes){
   return {
     type: 'GET_ORDENES_RESPONSE',
@@ -6,11 +8,10 @@ export function getOrdenesResponse(ordenes){
 };
 
 export function getOrdenes() {
-  return function(dispatch) {
-    fetch('http://localhost:3001/ordenes')
-    .then(r => r.json())
-    .then((ordenes) => dispatch(getOrdenesResponse(ordenes)))
-    .catch( error => console.log(error))
+  return async function(dispatch) {
+    const url = '/ordenes';
+    const response = await fetchData({url}, dispatch);
+    if(response){dispatch(getOrdenesResponse(response))};
   }
 };
 
@@ -23,18 +24,9 @@ export function ordenResponse(orden){
 
 export function createOrden(data){
   return async function(dispatch) {
-    try {
-      await fetch('http://localhost:3001/orden/create', {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        method: 'POST',
-        body: JSON.stringify(data)})
-      .then(r => r.json())
-      .then( orden => dispatch(ordenResponse(orden)));
-    } catch (error) {
-      console.log(error);
-    }
+    const url = '/orden/create';
+    const response = await fetchData({url, method:'POST', body: data}, dispatch);
+    if(response){dispatch(ordenResponse(response))};
   };
 };
 
@@ -46,10 +38,9 @@ export function EntregaResponse(lastEntrega){
 };
 
 export function getEntrega(titularId, beneficiarioId, grupoCodigoId) {
-  return function(dispatch) {
-    fetch(`http://localhost:3001/ordenes/entrega?titularId=${titularId}&&beneficiarioId=${beneficiarioId}&&grupoCodigoId=${grupoCodigoId}`)
-    .then(r => r.json())
-    .then((lastEntrega) => { console.log(lastEntrega); dispatch(EntregaResponse(lastEntrega.entrega))})
-    .catch( error => console.log(error))
+  return async function(dispatch) {
+    const url = `/ordenes/entrega?titularId=${titularId}&&beneficiarioId=${beneficiarioId}&&grupoCodigoId=${grupoCodigoId}`;
+    const response = await fetchData({url}, dispatch);
+    if(response){dispatch(EntregaResponse(response))};
   }
 };

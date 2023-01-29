@@ -24,7 +24,7 @@ const TitularActions = ({ params, rowId, setRowId }) => {
     const titularId = updatedFields.id;
     delete updatedFields.id;
   
-    const result = await updateAfiliadoTitular( updatedFields, titularId);
+    const result = await updateAfiliadoTitular( updatedFields, titularId, dispatch);
     if (result) {
       setSuccess(true);
       setRowId(null);

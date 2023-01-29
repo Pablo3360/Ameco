@@ -1,3 +1,5 @@
+import fetchData from "./utils/fetchData";
+
 export function getParticipantesResponse(participantes){
   return {
     type: 'GET_PARTICIPANTES_RESPONSE',
@@ -6,11 +8,10 @@ export function getParticipantesResponse(participantes){
 };
 
 export function getParticipantes(titularId) {
-  return function(dispatch) {
-    fetch(`http://localhost:3001/participantes/${titularId}`)
-    .then(r => r.json())
-    .then((participantes) => dispatch(getParticipantesResponse(participantes)))
-    .catch( error => console.log(error))
+  return async function(dispatch) {
+    const url = `/participantes/${titularId}`;
+    const response = await fetchData( { url }, dispatch );
+    if(response) { getParticipantesResponse(response) };
   }
 };
 
@@ -22,35 +23,17 @@ export function ParticipanteResponse(participante){
 };
 
 export function createParticipante( fields, titularId){
-  return function(dispatch){
-    try {
-      fetch(`http://localhost:3001/participante/create/${titularId}`, {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        method: 'POST',
-        body: JSON.stringify(fields)})
-      .then(r => r.json())
-      .then(participante => dispatch(ParticipanteResponse(participante)));
-    } catch (error) {
-      console.log(error.message)
-    }
+  return async function(dispatch){
+    const url = `/participante/create/${titularId}`;
+    const response = await fetch( { url, method: 'POST', body: fields }, dispatch );
+    if( response ){ dispatch(ParticipanteResponse(response)) };
   }
 };
 
 export function updateParticipante(updatedFields, participanteId){
-  return function(dispatch){
-    try {
-      fetch(`http://localhost:3001/participante/update/${participanteId}`, {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        method: 'PUT',
-        body: JSON.stringify(updatedFields)})
-      .then(r => r.json())
-      .then(participante => dispatch(ParticipanteResponse(participante)));
-    } catch (error) {
-      console.log(error.message)
-    }
+  return async function(dispatch){
+    const url = `/participante/update/${participanteId}`;
+    const response = await fetch( { url, method: 'PUT', body: updatedFields} );
+    if(response) { dispatch(ParticipanteResponse(response)) };
   }
 };

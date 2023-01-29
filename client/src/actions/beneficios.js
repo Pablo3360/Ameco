@@ -1,3 +1,5 @@
+import fetchData from "./utils/fetchData";
+
 export function getBeneficiosResponse(beneficios){
   return {
     type: 'GET_BENEFICIOS_RESPONSE',
@@ -6,11 +8,10 @@ export function getBeneficiosResponse(beneficios){
 };
 
 export function getBeneficios() {
-  return function(dispatch) {
-    fetch('http://localhost:3001/beneficios')
-    .then(r => r.json())
-    .then((beneficios) => dispatch(getBeneficiosResponse(beneficios)))
-    .catch( error => console.log(error))
+  return async function(dispatch) {
+    const url = '/beneficios';
+    const response = await fetchData({url}, dispatch);
+    if(response){dispatch(getBeneficiosResponse(response))};
   }
 };
 
@@ -22,35 +23,17 @@ export function BeneficioResponse(beneficio){
 };
 
 export function createBeneficio( fields ){
-  return function(dispatch){
-    try {
-      fetch(`http://localhost:3001/beneficio/create`, {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        method: 'POST',
-        body: JSON.stringify(fields)})
-      .then(r => r.json())
-      .then(beneficio => dispatch(BeneficioResponse(beneficio)));
-    } catch (error) {
-      console.log(error.message)
-    }
+  return async function(dispatch){
+    const url = '/beneficios/create';
+    const response = await fetchData({url, method: 'POST', body: fields}, dispatch);
+    if(response){dispatch(BeneficioResponse(response))};
   }
 };
 
 export function updateBeneficio(updatedFields, beneficioId){
-  return function(dispatch){
-    try {
-      fetch(`http://localhost:3001/beneficio/update/${beneficioId}`, {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        method: 'PUT',
-        body: JSON.stringify(updatedFields)})
-      .then(r => r.json())
-      .then(beneficio => dispatch(BeneficioResponse(beneficio)));
-    } catch (error) {
-      console.log(error.message)
-    }
+  return async function(dispatch){
+    const url = `/beneficio/update/${beneficioId}`;
+    const response = await fetchData({url, method: 'PUT', body: updatedFields}, dispatch);
+    if(response){dispatch(BeneficioResponse(response))};
   }
 };

@@ -116,7 +116,7 @@ export default function AltaTitular() {
       //se arregla la fecha de nacimiento en el estado values
       setValues( state => { return { ...state, nacimiento: new Date(values.nacimiento.$d)}} )
       setLoading(true);
-      const titular = await createAfiliadoTitular(values);
+      const titular = await createAfiliadoTitular(values, dispatch);
       if(titular) {
         setCreatedTitular(titular)
         setOpenDialog(true);

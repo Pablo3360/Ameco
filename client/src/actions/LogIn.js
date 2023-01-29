@@ -1,4 +1,4 @@
-import { Error } from './error';
+import fetchData from "./utils/fetchData";
 
 export function UserResponse(user){
   return {
@@ -7,27 +7,10 @@ export function UserResponse(user){
   }
 };
 
-export function singIn(data) {
+export function LogIn(data) {
   return async function(dispatch) {
-    dispatch(UserResponse({}));
-    try {
-      const r = await fetch('http://localhost:3001/singIn', {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        method: 'POST',
-        body: JSON.stringify(data)
-        });
-      
-      if(r.status === 200) {
-        const res = await r.json();
-        dispatch(UserResponse(res));
-      } else {
-        const res = await r.json();
-        dispatch(Error(res));
-      };
-    } catch (error) {
-      console.log(error);
-    }
+    const url = '/login';
+    const response = await fetchData({ url, method:'POST', body: data}, dispatch);
+    if(response){dispatch(UserResponse(response))};
   }
 };

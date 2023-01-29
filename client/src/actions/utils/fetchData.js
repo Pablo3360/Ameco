@@ -9,7 +9,6 @@ function Error(error){
 };
 
 const fetchData = async ({ url, method = 'GET', body = null }, dispatch ) => {
-
   const headers = userLocalStore
     ? { 'Content-Type': 'application/json', 'Authorization': `Bearer ${userLocalStore.token}` }
     : { 'Content-Type': 'application/json' };

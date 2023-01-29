@@ -8,45 +8,23 @@ export function getAfiliadosResponse(afiliados){
 };
 
 export function getAfiliados() {
-  return function(dispatch) {
+  return async function(dispatch) {
     const url = '/titulares';
-    const response = fetchData({ url }, dispatch);
-    if(response){
-      dispatch(getAfiliadosResponse(response));
-    };
+    const response = await fetchData({ url }, dispatch);
+    if(response){ dispatch(getAfiliadosResponse(response)) };
   }
 };
 
-export async function updateAfiliadoTitular(updatedFields, userId){
-  try {
-    let result = await fetch(`http://localhost:3001/titular/update/${userId}`, {
-      headers: {
-          'Content-Type': 'application/json'
-        },
-      method: 'PUT',
-      body: JSON.stringify(updatedFields)
-      }).then(r => r.json());
-    return result;
-  } catch (error) {
-    console.log(error.message)
-    return null;
-  }
+export async function updateAfiliadoTitular(updatedFields, userId, dispatch){
+  const url = `/titular/update/${userId}`;
+  const response = await fetchData({ url, method: 'PUT', body: updatedFields }, dispatch);
+  if(response){ return response };
 };
 
-export async function createAfiliadoTitular(data){
-  try {
-    let result = await fetch('http://localhost:3001/titular/create', {
-      headers: {
-          'Content-Type': 'application/json'
-        },
-      method: 'POST',
-      body: JSON.stringify(data)})
-    .then(r => r.json());
-    return result;
-  } catch (error) {
-    console.log(error.message);
-    return null;
-  }
+export async function createAfiliadoTitular(data, dispatch){
+  const url = '/titular/create';
+  const response = await fetchData({ url, method: 'POST', body: data }, dispatch);
+  if(response){ return response };
 };
 
 export function getTitularResponse(titular){
@@ -57,10 +35,9 @@ export function getTitularResponse(titular){
 };
 
 export function getTitular(titularId) {
-  return function(dispatch) {
-    fetch(`http://localhost:3001/titular/${titularId}`)
-    .then(r => r.json())
-    .then((titular) => dispatch(getTitularResponse(titular)))
-    .catch( error => console.log(error))
+  return async function(dispatch) {
+    const url = `/titular/${titularId}`;
+    const response = await fetchData({ url }, dispatch);
+    if(response){ dispatch(getTitularResponse(response)) };
   }
 };

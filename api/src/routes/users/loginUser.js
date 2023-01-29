@@ -4,7 +4,7 @@ const { User } = require('../../db.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-router.post('/singIn', async (req, res)=>{
+router.post('/login', async (req, res)=>{
   const { mail, password } = req.body;
 
   if( !mail || !password){
@@ -12,15 +12,17 @@ router.post('/singIn', async (req, res)=>{
   }
 
   try {
+
     const user = await User.findOne({
       where: {
         mail
       }
     });
-    const passwordCorrect = user === null ? false : await bcrypt.compare(password, user.passwordHash)
+
+    const passwordCorrect = user === null ? false : await bcrypt.compare(password, user.passwordHash);
 
     if(!passwordCorrect){
-      return res.status(400).send({message: 'Mail o Constraseña incorrectos'})
+      return res.status(400).send({message: 'Mail o Constraseña incorrectos'});
     }
 
     const userForToken = {

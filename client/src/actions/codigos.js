@@ -1,3 +1,5 @@
+import fetchData from "./utils/fetchData";
+
 export function getCodigosResponse(codigos){
   return {
     type: 'GET_CODIGOS_RESPONSE',
@@ -6,15 +8,11 @@ export function getCodigosResponse(codigos){
 };
 
 export function getCodigos(grupoCodigoId) {
-
-  let query = '';
-  if(grupoCodigoId) query = `?grupoCodigoId=${grupoCodigoId}`;
-  
-  return function(dispatch) {
-    fetch(`http://localhost:3001/codigos${query}`)
-    .then(r => r.json())
-    .then((codigos) => dispatch(getCodigosResponse(codigos)))
-    .catch( error => console.log(error))
+  return async function(dispatch) {
+    const query = grupoCodigoId ? `?grupoCodigoId=${grupoCodigoId}` : '';
+    const url = `/codigos${query}`;
+    const response = await fetchData({url}, dispatch);
+    if(response){dispatch(getCodigosResponse(response))};
   }
 };
 
@@ -26,36 +24,18 @@ export function CodigoResponse(codigo){
 };
 
 export function createCodigo( fields, grupoCodigoId ){
-  return function(dispatch){
-    try {
-      fetch(`http://localhost:3001/codigo/create/${grupoCodigoId}`, {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        method: 'POST',
-        body: JSON.stringify(fields)})
-      .then(r => r.json())
-      .then(codigo => dispatch(CodigoResponse(codigo)));
-    } catch (error) {
-      console.log(error.message)
-    }
+  return async function(dispatch){
+    const url = `/codigo/create/${grupoCodigoId}`;
+    const response = await fetchData({url, method:'POST', body: fields}, dispatch);
+    if(response){dispatch(CodigoResponse(response))};
   }
 };
 
 export function updateCodigo(updatedFields, codigoId){
-  return function(dispatch){
-    try {
-      fetch(`http://localhost:3001/codigo/update/${codigoId}`, {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        method: 'PUT',
-        body: JSON.stringify(updatedFields)})
-      .then(r => r.json())
-      .then(codigo => dispatch(CodigoResponse(codigo)));
-    } catch (error) {
-      console.log(error.message)
-    }
+  return async function(dispatch){
+    const url = `/codigo/update/${codigoId}`;
+    const response = await fetchData({url, method:'PUT', body: updatedFields}, dispatch);
+    if(response){dispatch(CodigoResponse(response))};
   }
 };
 

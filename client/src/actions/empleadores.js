@@ -1,4 +1,4 @@
-import { Error } from './error';
+import fetchData from "./utils/fetchData";
 
 export function getEmpleadoresResponse(empleadores){
   return {
@@ -7,26 +7,11 @@ export function getEmpleadoresResponse(empleadores){
   }
 };
 
-export function getEmpleadores(token) {
+export function getEmpleadores() {
   return async function(dispatch) {
-    try {
-      const res = await fetch('http://localhost:3001/empleadores', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        }
-      });
-  
-      if(res.status === 200) {
-        const empleadores = await res.json();
-        dispatch(getEmpleadoresResponse(empleadores));
-      } else {
-        const error = await res.json();
-        dispatch(Error(error));
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    const url = '/empleadores';
+    const response = await fetchData({url}, dispatch);
+    if(response){getEmpleadoresResponse(response)};
   }
 };
 
@@ -38,35 +23,17 @@ export function EmpleadorResponse(empleador){
 };
 
 export function createEmpleador( fields, recaudadorId ){
-  return function(dispatch){
-    try {
-      fetch(`http://localhost:3001/empleador/create/${recaudadorId}`, {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        method: 'POST',
-        body: JSON.stringify(fields)})
-      .then(r => r.json())
-      .then(empleador => dispatch(EmpleadorResponse(empleador)));
-    } catch (error) {
-      console.log(error.message)
-    }
+  return async function(dispatch){
+    const url = `/empleador/create/${recaudadorId}`;
+    const response = await fetchData({url, method:'POST', body: fields}, dispatch);
+    if(response){EmpleadorResponse(response)};
   }
 };
 
 export function updateEmpleador(updatedFields, empleadorId){
-  return function(dispatch){
-    try {
-      fetch(`http://localhost:3001/empleador/update/${empleadorId}`, {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        method: 'PUT',
-        body: JSON.stringify(updatedFields)})
-      .then(r => r.json())
-      .then(empleador => dispatch(EmpleadorResponse(empleador)));
-    } catch (error) {
-      console.log(error.message)
-    }
+  return async function(dispatch){
+    const url = `/empleador/update/${empleadorId}`;
+    const response = await fetchData({url, method:'PUT', body: updatedFields}, dispatch);
+    if(response){EmpleadorResponse(response)};
   }
 };

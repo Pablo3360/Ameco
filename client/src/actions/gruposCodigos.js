@@ -1,3 +1,5 @@
+import fetchData from "./utils/fetchData";
+
 export function getGruposCodigosResponse(gruposCodigos){
   return {
     type: 'GET_GRUPOSCODIGOS_RESPONSE',
@@ -6,15 +8,11 @@ export function getGruposCodigosResponse(gruposCodigos){
 };
 
 export function getGruposCodigos(beneficioId) {
-
-  let query = '';
-  if(beneficioId) query = `?beneficioId=${beneficioId}`;
-
-  return function(dispatch) {
-    fetch(`http://localhost:3001/gruposCodigos${query}`)
-    .then(r => r.json())
-    .then((gruposCodigos) => dispatch(getGruposCodigosResponse(gruposCodigos)))
-    .catch( error => console.log(error))
+  return async function(dispatch) {
+    const query = beneficioId ? `?beneficioId=${beneficioId}` : '';
+    const url = `/gruposCodigos${query}`;
+    const response = await fetchData({url}, dispatch);
+    if(response){dispatch(getGruposCodigosResponse(response))};
   }
 };
 
@@ -26,35 +24,17 @@ export function GrupoCodigoResponse(grupoCodigo){
 };
 
 export function createGrupoCodigo( fields, beneficioId ){
-  return function(dispatch){
-    try {
-      fetch(`http://localhost:3001/grupoCodigo/create/${beneficioId}`, {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        method: 'POST',
-        body: JSON.stringify(fields)})
-      .then(r => r.json())
-      .then(grupoCodigo => dispatch(GrupoCodigoResponse(grupoCodigo)));
-    } catch (error) {
-      console.log(error.message)
-    }
+  return async function(dispatch){
+    const url = `/grupoCodigo/create/${beneficioId}`;
+    const response = await fetchData({url, method: 'POST', body: fields})
+    if(response){dispatch(GrupoCodigoResponse(response))};
   }
 };
 
 export function updateGrupoCodigo(updatedFields, grupoCodigoId){
-  return function(dispatch){
-    try {
-      fetch(`http://localhost:3001/grupoCodigo/update/${grupoCodigoId}`, {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        method: 'PUT',
-        body: JSON.stringify(updatedFields)})
-      .then(r => r.json())
-      .then(grupoCodigo => dispatch(GrupoCodigoResponse(grupoCodigo)));
-    } catch (error) {
-      console.log(error.message)
-    }
+  return async function(dispatch){
+    const url = `/grupoCodigo/update/${grupoCodigoId}`;
+    const response = await fetchData({url, method: 'PUT', body: updatedFields})
+    if(response){dispatch(GrupoCodigoResponse(response))};
   }
 };

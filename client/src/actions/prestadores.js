@@ -1,3 +1,5 @@
+import fetchData from "./utils/fetchData";
+
 export function getPrestadoresResponse(prestadores){
   return {
     type: 'GET_PRESTADORES_RESPONSE',
@@ -6,12 +8,10 @@ export function getPrestadoresResponse(prestadores){
 };
 
 export function getPrestadores() {
-
-  return function(dispatch) {
-    fetch(`http://localhost:3001/prestadores`)
-    .then(r => r.json())
-    .then((prestadores) => dispatch(getPrestadoresResponse(prestadores)))
-    .catch( error => console.log(error))
+  return async function(dispatch) {
+    const url = '/prestadores';
+    const response = await fetchData({url}, dispatch);
+    if(response){dispatch(getPrestadoresResponse(response))}
   }
 };
 
@@ -23,45 +23,25 @@ export function PrestadorResponse(prestador){
 };
 
 export function createPrestador( fields ){
-  return function(dispatch){
-    try {
-      fetch(`http://localhost:3001/prestador/create`, {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        method: 'POST',
-        body: JSON.stringify(fields)})
-      .then(r => r.json())
-      .then(prestador => dispatch(PrestadorResponse(prestador)));
-    } catch (error) {
-      console.log(error.message)
-    }
+  return async function(dispatch){
+    const url = '/prestador/create';
+    const response = await fetchData({url, method:'POST', body: fields}, dispatch);
+    if(response){dispatch(PrestadorResponse(response))};
   }
 };
 
 export function updatePrestador(updatedFields, prestadorId){
-  return function(dispatch){
-    try {
-      fetch(`http://localhost:3001/prestador/update/${prestadorId}`, {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        method: 'PUT',
-        body: JSON.stringify(updatedFields)})
-      .then(r => r.json())
-      .then(prestador => dispatch(PrestadorResponse(prestador)));
-    } catch (error) {
-      console.log(error.message)
-    }
+  return async function(dispatch){
+    const url = `/prestador/update/${prestadorId}`;
+    const response = await fetchData({url, method:'PUT', body: updatedFields}, dispatch);
+    if(response){dispatch(PrestadorResponse(response))};
   }
 };
 
 export function getPrestadoresBeficioId(beneficioId) {
-
-  return function(dispatch) {
-    fetch(`http://localhost:3001/prestadores/${beneficioId}`)
-    .then(r => r.json())
-    .then((prestadores) => dispatch(getPrestadoresResponse(prestadores)))
-    .catch( error => console.log(error))
+  return async function(dispatch) {
+    const url = `/prestadores/${beneficioId}`;
+    const response = await fetchData({url}, dispatch);
+    if(response){dispatch(getPrestadoresResponse(response))};
   }
 };

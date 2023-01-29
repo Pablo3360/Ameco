@@ -1,4 +1,4 @@
-import { Error } from './error';
+import fetchData from './utils/fetchData';
 
 export function getRecaudadoresResponse(recaudadores){
   return {
@@ -7,26 +7,11 @@ export function getRecaudadoresResponse(recaudadores){
   }
 };
 
-export function getRecaudadores(token) {
+export function getRecaudadores() {
   return async function(dispatch) {
-    try {
-      const res = await fetch('http://localhost:3001/recaudadores', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        }
-      });
-  
-      if(res.status === 200) {
-        const recaudadores = await res.json();
-        dispatch(getRecaudadoresResponse(recaudadores));
-      } else {
-        const error = await res.json();
-        dispatch(Error(error));
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    const url = '/recaudadores';
+    const response = await fetchData({ url }, dispatch);
+    if(response){dispatch(getRecaudadoresResponse(response))}
   }
 };
 
@@ -38,35 +23,17 @@ export function RecaudadorResponse(recaudador){
 };
 
 export function createRecaudador( fields ){
-  return function(dispatch){
-    try {
-      fetch('http://localhost:3001/recaudador/create', {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        method: 'POST',
-        body: JSON.stringify(fields)})
-      .then(r => r.json())
-      .then(recaudador => dispatch(RecaudadorResponse(recaudador)));
-    } catch (error) {
-      console.log(error.message)
-    }
+  return async function(dispatch){
+    const url = '/recaudador/create';
+    const response = await fetchData({url, method:'POST', body: fields}, dispatch);
+    if(response){dispatch(RecaudadorResponse(response))};
   }
 };
 
 export function updateRecaudador(updatedFields, recaudadorId){
-  return function(dispatch){
-    try {
-      fetch(`http://localhost:3001/recaudador/update/${recaudadorId}`, {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        method: 'PUT',
-        body: JSON.stringify(updatedFields)})
-      .then(r => r.json())
-      .then(recaudador => dispatch(RecaudadorResponse(recaudador)));
-    } catch (error) {
-      console.log(error.message)
-    }
+  return async function(dispatch){
+    const url = `/recaudador/update/${recaudadorId}`;
+    const response = await fetchData({url, method:'PUT', body: updatedFields}, dispatch);
+    if(response){dispatch(RecaudadorResponse(response))};
   }
 };
