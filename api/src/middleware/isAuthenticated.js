@@ -8,11 +8,12 @@ module.exports = (req, res, next) => {
   };
 
   try {
-    const decodedToken = jwt.verify( token, process.env.SECRETJWT);
+    const decodedToken = jwt.verify( token, process.env.SECRETJWT );
     const { id, mail } = decodedToken;
     req.id = id;
     req.mail = mail;
   } catch (error) {
+    console.log(error);
     return res.status(401).send({message: 'Token Invalido'});
   }
 

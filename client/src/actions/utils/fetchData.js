@@ -1,5 +1,4 @@
 const urlBase = 'http://localhost:3001'
-const userLocalStore = JSON.parse(window.localStorage.getItem('user'));
 
 function Error(error){
   return {
@@ -9,6 +8,7 @@ function Error(error){
 };
 
 const fetchData = async ({ url, method = 'GET', body = null }, dispatch ) => {
+  const userLocalStore = JSON.parse(window.localStorage.getItem('user'));
   const headers = userLocalStore
     ? { 'Content-Type': 'application/json', 'Authorization': `Bearer ${userLocalStore.token}` }
     : { 'Content-Type': 'application/json' };
