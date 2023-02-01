@@ -34,6 +34,11 @@ const TitularFn = (sequelize) => {
       type: DataTypes.DATEONLY,
       // allowNull: false
     },
+    estado: {
+      type: DataTypes.ENUM,
+      defaultValue: 'activo',
+      values: ['activo', 'inactivo'],
+    },
     sexo: {
       type: DataTypes.ENUM,
       values: ['varon', 'mujer', 'sin especificar'],
@@ -48,6 +53,13 @@ const TitularFn = (sequelize) => {
     created_at: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
+    },
+    empleadorId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'empleadors',
+        key: 'id'
+      }
     }
   }, {
     timestamps: false

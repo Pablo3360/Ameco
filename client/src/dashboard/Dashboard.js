@@ -1,4 +1,7 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -8,20 +11,33 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
+//import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-
-import { Routes, Route } from "react-router-dom";
+//import NotificationsIcon from '@mui/icons-material/Notifications';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
 
 import SideList from './SideList';
-import Panel from "./panel/Default";
-import Afiliados from "./afiliados/Afiliados";
-import AddAfiliado from "./afiliados/AddAfiliado";
+import PanelGeneral from "./panel/Default";
+import Titulares from "./afiliados/Titulares";
+import AltaTitular from "./afiliados/AltaTitular";
 import Participantes from "./afiliados/Participantes";
-import Recaudacion from "./recaudacion/Recaudacion";
+import Recaudadores from "./recaudacion/Recaudadores";
+import Empleadores from "./empleadores/Empleadores";
+import PanelBeneficios from "./beneficios/Default";
+import Prestadores from './beneficios/Prestadores';
+import Beneficios from './beneficios/Beneficios';
+import GruposCodigos from './beneficios/GruposCodigos';
+import Codigos from './beneficios/Codigos';
+import Ordenes from './beneficios/ordenes/Ordenes';
+import NuevaOrden from './beneficios/ordenes/NuevaOrden';
+import Orden from './beneficios/ordenes/Orden';
 import Copyright from "./Copyright";
+
+import { UserResponse } from '../actions/logIn';
+import { Error } from '../actions/error';
 
 const drawerWidth = 240;
 
@@ -81,9 +97,29 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 const mdTheme = createTheme();
 
 function DashboardContent() {
+  const dispatch = useDispatch();
 
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
   const toggleDrawer = () => { setOpen(!open) };
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    dispatch(UserResponse(null));
+  };
+
+  //Al cerrar Sesion, limpia el estado global -> Error
+  useEffect( () => {
+    return () => dispatch(Error({}));
+  }, [dispatch]);
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -92,18 +128,14 @@ function DashboardContent() {
         <CssBaseline />
 
         <AppBar position="absolute" open={open}>
-          <Toolbar
-            sx={{
-              pr: '24px', // keep right padding when drawer closed
-            }}
-          >
+          <Toolbar sx={{ pr: '24px' }}>
             <IconButton
               edge="start"
               color="inherit"
               aria-label="open drawer"
               onClick={toggleDrawer}
               sx={ {marginRight: '36px', ...(open && { display: 'none' }) }}
-            >
+              >
               <MenuIcon />
             </IconButton>
             <Typography
@@ -115,11 +147,36 @@ function DashboardContent() {
             >
               AMECO
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+
+            <div>
+              <IconButton
+                size="large"
+                aria-label="logout user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+                >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+                >
+                <MenuItem onClick={handleLogout}>Cerrar Sesión</MenuItem>
+              </Menu>
+            </div>
           </Toolbar>
         </AppBar>
 
@@ -153,11 +210,20 @@ function DashboardContent() {
           <Toolbar />
           
           <Routes>
-            <Route exact path='' element={<Panel />}/>
-            <Route exact path='afiliados' element={<Afiliados />}/>
-            <Route exact path='afiliados/crear' element={<AddAfiliado />}/>
-            <Route exact path='participantes' element={<Participantes />}/>
-            <Route exact path='recaudacion' element={<Recaudacion />}/>
+            <Route exact path='' element={<PanelGeneral />}/>
+            <Route exact path='titulares' element={<Titulares />}/>
+            <Route exact path='titulares/crear' element={<AltaTitular />}/>
+            <Route exact path='participantes/:titularId' element={<Participantes />}/>
+            <Route exact path='recaudacion' element={<Recaudadores />}/>
+            <Route exact path='empleadores' element={<Empleadores />}/>
+            <Route exact path='beneficios' element={<PanelBeneficios />}/>
+            <Route exact path='beneficios/prestadores' element={<Prestadores />}/>
+            <Route exact path='beneficios/beneficios' element={<Beneficios />}/>
+            <Route exact path='beneficios/gruposcodigos' element={<GruposCodigos />}/>
+            <Route exact path='beneficios/codigos' element={<Codigos />}/>
+            <Route exact path='beneficios/ordenes' element={<Ordenes />}/>
+            <Route exact path='beneficios/ordenes/nueva' element={<NuevaOrden />}/>
+            <Route exact path='beneficios/ordenes/orden/:ordenId' element={<Orden />}/>
           </Routes>
 
           <DrawerHeader />
