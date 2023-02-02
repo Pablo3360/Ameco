@@ -36,7 +36,7 @@ import NuevaOrden from './beneficios/ordenes/NuevaOrden';
 import Orden from './beneficios/ordenes/Orden';
 import Copyright from "./Copyright";
 
-import { UserResponse } from '../actions/logIn';
+import { UserResponse } from '../actions/login';
 import { Error } from '../actions/error';
 
 const drawerWidth = 240;

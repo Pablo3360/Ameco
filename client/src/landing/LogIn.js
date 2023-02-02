@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Copyright from '../dashboard/Copyright';
 import DescriptionAlerts from '../components/DescriptionAlerts';
-import { LogIn } from '../actions/logIn';
+import { LogIn } from '../actions/login';
 import { Error } from '../actions/error';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
