@@ -44,3 +44,11 @@ export function getEntrega(titularId, beneficiarioId, grupoCodigoId) {
     if(response){dispatch(EntregaResponse(response))};
   }
 };
+
+export function getOrden(ordenId) {
+  return async function(dispatch) {
+    const url = `/orden/${ordenId}`;
+    const response = await fetchData({url}, dispatch);
+    if(response){dispatch(ordenResponse(response))};
+  }
+};

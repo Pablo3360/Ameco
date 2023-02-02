@@ -11,7 +11,7 @@ export function getEmpleadores() {
   return async function(dispatch) {
     const url = '/empleadores';
     const response = await fetchData({url}, dispatch);
-    if(response){getEmpleadoresResponse(response)};
+    if(response){dispatch(getEmpleadoresResponse(response))};
   }
 };
 
@@ -26,7 +26,7 @@ export function createEmpleador( fields, recaudadorId ){
   return async function(dispatch){
     const url = `/empleador/create/${recaudadorId}`;
     const response = await fetchData({url, method:'POST', body: fields}, dispatch);
-    if(response){EmpleadorResponse(response)};
+    if(response){dispatch(EmpleadorResponse(response))};
   }
 };
 
