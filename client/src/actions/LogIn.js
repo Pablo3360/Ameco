@@ -3,7 +3,7 @@ import fetchData from "./utils/fetchData";
 export function UserResponse(user){
   return {
     type: 'USER_RESPONSE',
-    payload: user
+    payload: user,
   }
 };
 
