@@ -23,7 +23,7 @@ module.exports = (sequelize) => {
     localidad: {
       type: DataTypes.STRING(60)
     },
-    contacto_celular: {
+    celular: {
       type: DataTypes.STRING(12)
     },
     mail: {
@@ -32,6 +32,13 @@ module.exports = (sequelize) => {
     created_at: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
+    },
+    recaudadorId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'recaudadors',
+        key: 'id'
+      }
     }
   }, {
     timestamps: false

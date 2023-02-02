@@ -16,10 +16,9 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(60),
       allowNull: false
     },
-    cuit: {
-      type: DataTypes.STRING(11),
-      allowNull: false,
-      unique: true
+    dni: {
+      type: DataTypes.STRING(8),
+      allowNull: false
     },
     mail: {
       type:DataTypes.STRING(60),

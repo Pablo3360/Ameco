@@ -2,11 +2,9 @@ require('dotenv').config();
 const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
-const {
-  DB_USER, DB_PASSWORD, DB_HOST,
-} = process.env;
+const { PGUSER, PGPASSWORD, PGHOST, PGPORT, PGDATABASE} = process.env;
 
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/ameco`, {
+const sequelize = new Sequelize(`postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}`, {
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 });
@@ -30,11 +28,29 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Participante, Titular } = sequelize.models;
+const { Participante, Titular, Recaudador, Empleador, Beneficio, GrupoCodigo, Codigo, Prestador, Orden } = sequelize.models;
 
 // // Aca vendrian las relaciones
-Titular.hasMany(Participante);
+Titular.hasMany(Participante, { foreignKey: 'titularId' });
 Participante.belongsTo(Titular);
+
+Recaudador.hasMany(Empleador, { foreignKey: 'recaudadorId' });
+Empleador.belongsTo(Recaudador);
+
+Empleador.hasMany(Titular, { foreignKey: 'empleadorId' });
+Titular.belongsTo(Empleador);
+
+Beneficio.hasMany(GrupoCodigo, { foreignKey: 'beneficioId' });
+GrupoCodigo.belongsTo(Beneficio);
+
+GrupoCodigo.hasMany(Codigo, { foreignKey: 'grupoCodigoId' });
+Codigo.belongsTo(GrupoCodigo);
+
+Beneficio.belongsToMany(Prestador, { through: 'PrestadorBeneficio', timestamps: false });
+Prestador.belongsToMany(Beneficio, { through: 'PrestadorBeneficio', timestamps: false });
+
+Titular.hasMany(Orden);
+Orden.belongsTo(Titular);
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

@@ -23,7 +23,6 @@ module.exports = (sequelize) => {
     },
     nacimiento: {
       type: DataTypes.DATEONLY,
-      allowNull: false
     },
     sexo: {
       type: DataTypes.ENUM,
@@ -38,8 +37,17 @@ module.exports = (sequelize) => {
     created_at: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
+    },
+    titularId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'titulars',
+        key: 'id'
+      }
     }
   }, {
+    initialAutoIncrement: 2000,
     timestamps: false
   });
 };
+
