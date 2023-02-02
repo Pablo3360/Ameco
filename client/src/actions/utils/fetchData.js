@@ -1,4 +1,4 @@
-const urlBase = 'http://localhost:3001'
+const urlBase = 'http://localhost:3001';
 
 function Error(error){
   return {
