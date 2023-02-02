@@ -1,4 +1,5 @@
-const urlBase = 'http://localhost:3001';
+//const urlBase = 'http://localhost:3001';
+const urlBase = 'ameco-production.up.railway.app';
 
 function Error(error){
   return {
