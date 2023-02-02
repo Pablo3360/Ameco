@@ -98,6 +98,11 @@ export default function LogInContent() {
             </Button>
           </Box>
         </Box>
+        <DescriptionAlerts 
+          message='mail: juanperez@gmail.com y password: juanperez2000'
+          title='¡Mira la App por dentro!'
+          severity='info'
+          />
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
