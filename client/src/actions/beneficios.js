@@ -24,7 +24,7 @@ export function BeneficioResponse(beneficio){
 
 export function createBeneficio( fields ){
   return async function(dispatch){
-    const url = '/beneficios/create';
+    const url = '/beneficio/create';
     const response = await fetchData({url, method: 'POST', body: fields}, dispatch);
     if(response){dispatch(BeneficioResponse(response))};
   }

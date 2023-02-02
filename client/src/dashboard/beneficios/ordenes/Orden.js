@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
 import { useNavigate, useParams } from 'react-router-dom';
 import Container from '@mui/material/Container';
@@ -11,11 +12,16 @@ import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
+import { getOrden } from '../../../actions/ordenes';
+
 export default function Orden() {
 
   const navigate = useNavigate();
   const componentRef = useRef();
   const { ordenId } = useParams();
+
+  const dispatch = useDispatch();
+  const ordenR = useSelector( state => state.createdOrden );
 
   const [orden, setOrden] = useState(null);
 
@@ -24,14 +30,15 @@ export default function Orden() {
   });
 
   useEffect(()=>{
-    async function getOrden(ordenId){
-      await fetch(`http://localhost:3001/orden/${ordenId}`)
-        .then(r => r.json())
-        .then( orden => setOrden(orden))
-        .catch( error => console.log(error))
-    };
-    getOrden(ordenId);
-  }, [ordenId]);
+    dispatch(getOrden(ordenId));
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(()=>{
+    setOrden(ordenR);
+  }, [ordenR]);
+
+  //Falta el ComponentDidUnMount
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>

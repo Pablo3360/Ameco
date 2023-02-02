@@ -11,7 +11,7 @@ export function getParticipantes(titularId) {
   return async function(dispatch) {
     const url = `/participantes/${titularId}`;
     const response = await fetchData( { url }, dispatch );
-    if(response) { getParticipantesResponse(response) };
+    if(response) { dispatch(getParticipantesResponse(response)) };
   }
 };
 
@@ -25,7 +25,7 @@ export function ParticipanteResponse(participante){
 export function createParticipante( fields, titularId){
   return async function(dispatch){
     const url = `/participante/create/${titularId}`;
-    const response = await fetch( { url, method: 'POST', body: fields }, dispatch );
+    const response = await fetchData( { url, method: 'POST', body: fields }, dispatch );
     if( response ){ dispatch(ParticipanteResponse(response)) };
   }
 };
@@ -33,7 +33,7 @@ export function createParticipante( fields, titularId){
 export function updateParticipante(updatedFields, participanteId){
   return async function(dispatch){
     const url = `/participante/update/${participanteId}`;
-    const response = await fetch( { url, method: 'PUT', body: updatedFields} );
+    const response = await fetchData( { url, method: 'PUT', body: updatedFields} );
     if(response) { dispatch(ParticipanteResponse(response)) };
   }
 };
