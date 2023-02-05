@@ -3,9 +3,10 @@
 
 # dependencies
 /node_modules
-/src/oldDB
 /.pnp
 .pnp.js
+
+/src/oldDB
 
 # testing
 /coverage
