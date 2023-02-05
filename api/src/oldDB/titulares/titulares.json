@@ -3,7 +3,7 @@
 {"type":"database","name":"amecoberac_sistema"},
 {"type":"table","name":"titulares","database":"amecoberac_sistema","data":
 [
-{"id":"790","dni":"22184874","apellidos":"Rud","nombres":"Maria Isabel","sexo":"Femenino","fecha_nacimiento":"1971-04-01","estado_civil":"Casado\/a","domicilio":"Asunción 2747","localidad":"Oberá","celular":"","estado_ameco":"Activo","tipo_socio":"Activo","id_empleador":"388","id_recaudador":"1"},
+{"id":"790","dni":"22184884","apellidos":"Rud","nombres":"Maria Isabel","sexo":"Femenino","fecha_nacimiento":"1971-04-01","estado_civil":"Casado\/a","domicilio":"Asunción 2747","localidad":"Oberá","celular":"","estado_ameco":"Activo","tipo_socio":"Activo","id_empleador":"388","id_recaudador":"1"},
 {"id":"791","dni":"25199090","apellidos":"Denokhade ","nombres":"Javier Adrian","sexo":"Masculino","fecha_nacimiento":"1976-03-02","estado_civil":"Casado\/a","domicilio":"Picada Sargento Cabral","localidad":"Oberá","celular":"","estado_ameco":"Activo","tipo_socio":"Activo","id_empleador":"3","id_recaudador":"1"},
 {"id":"792","dni":"95160827","apellidos":"Rojas Vieira","nombres":"Olga Susana","sexo":"Femenino","fecha_nacimiento":"1985-06-28","estado_civil":"Soltero\/a","domicilio":"Formosa 493","localidad":"Oberá","celular":"","estado_ameco":"Activo","tipo_socio":"Activo","id_empleador":"350","id_recaudador":"1"},
 {"id":"793","dni":"31570889","apellidos":"Gomez ","nombres":"Gabriela","sexo":"Femenino","fecha_nacimiento":"1985-04-11","estado_civil":"Soltero\/a","domicilio":"Tartagal 2957","localidad":"Oberá","celular":"","estado_ameco":"Activo","tipo_socio":"Activo","id_empleador":"4","id_recaudador":"1"},
