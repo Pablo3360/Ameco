@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 
-import StatisticsTitularesSexo from './StatisticsTitularesSexo';
+import StatisticsTitularesPie from './StatisticsTitularesPie';
 import Deposits from './Deposits';
 import Orders from './Orders';
+
+import { getTitularesPorSexo } from '../../actions/statisticsTitulares';
 
 const datos = [
   {
@@ -30,6 +33,38 @@ const datos = [
 
 function PanelContent() {
 
+  const dispatch = useDispatch();
+  const titularesPorSexo = useSelector( state => state.titularesPorSexo );
+  const [dataTitularesPorSexo, setDataTitularesPorSexo] = useState(null);
+
+  useEffect(() => {
+    if(!Object.keys(titularesPorSexo).length) dispatch(getTitularesPorSexo());
+    // eslint-disable-next-line
+  }, [dispatch]);
+
+  useEffect(() => {
+    setDataTitularesPorSexo([
+      {
+        "id": "Varones",
+        "label": "Varones",
+        "value": titularesPorSexo.varones,
+        "color": "hsl(353, 70%, 50%)"
+      },
+      {
+        "id": "Mujeres",
+        "label": "Mujeres",
+        "value": titularesPorSexo.mujeres,
+        "color": "hsl(104, 70%, 50%)"
+      },
+      {
+        "id": "Sin especificar",
+        "label": "Sin especificar",
+        "value": titularesPorSexo.sinEspecificar,
+        "color": "hsl(1, 70%, 50%)"
+      },
+    ]);
+  }, [titularesPorSexo]);
+
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Grid container spacing={3}>
@@ -43,7 +78,10 @@ function PanelContent() {
               height: 240,
             }}
           >
-            <StatisticsTitularesSexo data={ datos } />
+            { dataTitularesPorSexo 
+              ? <StatisticsTitularesPie data={ dataTitularesPorSexo } />
+              : 'Cargando'
+            }
           </Paper>
         </Grid>
 
@@ -56,7 +94,7 @@ function PanelContent() {
               height: 240,
             }}
           >
-            <StatisticsTitularesSexo data={ datos } />
+            <StatisticsTitularesPie data={ datos } />
           </Paper>
         </Grid>
         

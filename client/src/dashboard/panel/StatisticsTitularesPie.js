@@ -1,7 +1,7 @@
 import React from "react";
 import { ResponsivePie } from "@nivo/pie";
 
-const statisticsTitularesSexo = ({ data }) => {
+const statisticsTitularesPie = ({ data }) => {
   return (
       <ResponsivePie
         data={data}
@@ -89,4 +89,4 @@ const statisticsTitularesSexo = ({ data }) => {
   );
 };
 
-export default statisticsTitularesSexo;
+export default statisticsTitularesPie;
