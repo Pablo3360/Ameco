@@ -77,6 +77,7 @@ export default function NuevaOrden() {
   const [data, setData] = useState(initialData);//Estado que almacena la informacion en cada step para la orden
   
   const [openDialog, setOpenDialog] = useState(false);
+  const [creando, setCreando] = useState(false);
 
   const handleNext = () => {
     switch (activeStep) {
@@ -205,24 +206,43 @@ export default function NuevaOrden() {
       </Box>
 
       <Dialog open={openDialog} onClose={ () => setOpenDialog(false) } >
-        <DialogTitle> Confirmar </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            ¿Desea emitir la Orden?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          { Object.keys(createdOrden).length === 0 ?
-            <>
+        { Object.keys(createdOrden).length === 0 ?
+          <>
+            <DialogTitle> Confirmar </DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                ¿Desea emitir la Orden?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
               <Button onClick={ () => setOpenDialog(false) }>Cancelar</Button>
-              <Button onClick={ () => dispatch(createOrden(data)) } autoFocus> Confirmar </Button>
-            </>
-              :
-            <>
+              <Button
+                onClick={ () => {
+                  setCreando(true);
+                  dispatch(createOrden(data));
+                }
+                }
+                disabled={creando ? true : false }
+                autoFocus
+                > 
+                Confirmar
+              </Button>
+            </DialogActions>
+          </>
+            :
+          <>
+            <DialogTitle> Orden Generada </DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                { `Orden N° ${createdOrden.id}` } 
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={ () => navigate('/panel/beneficios/ordenes') }>Ordenes</Button>
               <Button onClick={ () => navigate(`/panel/beneficios/ordenes/orden/${createdOrden.id}`) } autoFocus> Ver Orden </Button>
-            </>
-          }
-        </DialogActions>
+            </DialogActions>
+          </>
+        }
       </Dialog>
 
     </Box>

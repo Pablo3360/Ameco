@@ -214,8 +214,8 @@ export default function Participantes() {
               color="inherit"
             />,
           ];
-        }
-        return [
+        };
+        let actionsNoEditMode = [
           <GridActionsCellItem
             icon={<EditIcon />}
             label="Edit"
@@ -237,13 +237,18 @@ export default function Participantes() {
           color="inherit"
           disabled={ row.isSaveInDb? true : false}
           />,
-          <GridActionsCellItem
-          icon={<VolunteerActivismIcon />}
-          label="beneficios"
-          onClick={ () => navigate(`/panel/beneficios/ordenes/nueva?titularId=${row.titularId}&beneficiarioId=${row.id}`) }
-          color="inherit"
-          />
         ];
+        if(row.isSaveInDb){
+          actionsNoEditMode.push(
+            <GridActionsCellItem
+            icon={<VolunteerActivismIcon />}
+            label="beneficios"
+            onClick={ () => navigate(`/panel/beneficios/ordenes/nueva?titularId=${row.titularId}&beneficiarioId=${row.id}`) }
+            color="inherit"
+            />
+          );
+        };
+        return actionsNoEditMode;
       },
     },
   ];
