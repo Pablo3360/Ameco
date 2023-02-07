@@ -46,6 +46,9 @@ const createOrden = require('./ordenes/createOrden.js');
 const getOrden = require('./ordenes/getOrden.js');
 const getEntrega = require('./ordenes/getEntrega.js');
 
+const titularesPorSexo = require('./statistics/titularesPorSexo.js');
+const titularesPorTipo = require('./statistics/titularesPorTipo.js');
+
 const router = Router();
 
 // Configurar los routers
@@ -96,5 +99,8 @@ router.use(getOrdenes);
 router.use(createOrden);
 router.use(getOrden);
 router.use(getEntrega);
+
+router.use(titularesPorSexo);
+router.use(titularesPorTipo);
 
 module.exports = router;
