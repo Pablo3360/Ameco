@@ -50,7 +50,7 @@ function AfiliadosContent() {
         valueOptions: ['casado/a', 'soltero/a', 'union de hecho', 'sin especificar'], editable: true },
       { field: 'domicilio', headerName: 'Domicilio', width: 250, editable: true },
       { field: 'created_at', headerName: 'Fecha Creación', width: 200 },
-      { field: 'actions', headerName: 'Acciones', type: 'actions', width: 125,
+      { field: 'actions', headerName: 'Acciones', type: 'actions', width: 150,
         renderCell: (params) => ( <TitularActions {...{ params, rowId, setRowId }} />)}
     ],
     [rowId]

@@ -118,7 +118,7 @@ export default function Orden() {
   
                 <Grid item xs={12}>
                   <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
-                    Beneficio: { orden.dataBeneficio.nombre }
+                    Beneficio: { orden.dataBeneficio.nombres }
                   </Typography>
                 </Grid>
   
