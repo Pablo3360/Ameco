@@ -7,6 +7,7 @@ import Fab from '@mui/material/Fab';
 import Check from '@mui/icons-material/Check';
 import Save from '@mui/icons-material/Save';
 import FamilyRestroom from '@mui/icons-material/FamilyRestroom';
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import { green } from '@mui/material/colors';
 
 import { updateAfiliadoTitular, getAfiliados } from '../../actions/titulares';
@@ -63,6 +64,9 @@ const TitularActions = ({ params, rowId, setRowId }) => {
       )}
       <Fab sx={{ width: 40, height: 40, ml:1 }} onClick={() => navigate(`/panel/participantes/${params.row.id}`)}>
         <FamilyRestroom />
+      </Fab>
+      <Fab sx={{ width: 40, height: 40, ml:1 }} onClick={() => navigate(`/panel/beneficios/ordenes/nueva?titularId=${params.row.id}`)}>
+        <VolunteerActivismIcon />
       </Fab>
     </Box>
   );

@@ -28,6 +28,7 @@ const initialState = {
   lastEntrega: null,
   user: userLocalStore ? userLocalStore : userInitialNull,
   error: {},
+  titularesPorSexo: {},
 };
   
 const rootReducer = function (state = initialState, action){
@@ -165,6 +166,12 @@ switch (action.type){
     return {
       ...state,
       error: action.payload
+  }
+
+  case 'TITULARES_SEXO':
+    return {
+      ...state,
+      titularesPorSexo: action.payload
   }
 
   default:
