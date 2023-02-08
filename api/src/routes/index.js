@@ -48,6 +48,7 @@ const getEntrega = require('./ordenes/getEntrega.js');
 
 const titularesPorSexo = require('./statistics/titularesPorSexo.js');
 const titularesPorTipo = require('./statistics/titularesPorTipo.js');
+const titularesPorEdades = require('./statistics/titularesPorEdades.js');
 
 const router = Router();
 
@@ -102,5 +103,6 @@ router.use(getEntrega);
 
 router.use(titularesPorSexo);
 router.use(titularesPorTipo);
+router.use(titularesPorEdades);
 
 module.exports = router;
