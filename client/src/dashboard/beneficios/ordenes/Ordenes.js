@@ -36,8 +36,12 @@ function OrdenesContent() {
       valueGetter: params => 
         `${params.row.dataBeneficio.nombre}`
     },
+    { field: 'dataGrupoCodigo', headerName: 'Grupo Codigo', width: 150, 
+    valueGetter: params => 
+      `${params.row.dataGrupoCodigo.nombre}`
+  },
     { field: 'createdAt', headerName: 'Fecha', width: 200 },
-    { field: 'actions', headerName: 'Acciones', width: 150, type: 'actions', cellClassName: 'actions',
+    { field: 'actions', headerName: 'Acciones', width: 100, type: 'actions', cellClassName: 'actions',
       getActions: ({ row }) => 
           ([
             <GridActionsCellItem

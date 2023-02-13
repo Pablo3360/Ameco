@@ -33,7 +33,7 @@ export function createOrden(data){
 export function EntregaResponse(lastEntrega){
   return {
     type: 'ENTREGA_RESPONSE',
-    payload: lastEntrega
+    payload: lastEntrega.entrega
   }
 };
 
