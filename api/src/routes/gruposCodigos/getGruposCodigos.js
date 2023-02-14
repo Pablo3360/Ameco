@@ -7,15 +7,16 @@ router.get('/gruposCodigos', async (req, res)=>{
   const { beneficioId } = req.query;
   let Where = {};
   if(beneficioId){
-    Where = { where: { beneficioId: parseInt(beneficioId) } };
+    Where = { beneficioId: parseInt(beneficioId) } ;
   }
 
   try {
     const grupoCodigo = await GrupoCodigo.findAll({
-      ...Where
+      where: Where
     });
     res.status(200).send(grupoCodigo);
   } catch (error) {
+    console.log(error)
     return res.status(400).send(error);
   }
 });

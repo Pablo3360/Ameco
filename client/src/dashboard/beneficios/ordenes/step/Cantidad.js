@@ -16,7 +16,7 @@ export default function Cantidad({ data, setData }) {
 
   const columns = [
       { field: 'codigo', headerName: 'Codigo', width: 100, editable: false, headerAlign: 'center', align: 'center' },
-      { field: 'nombre', headerName: 'Nombre', width: 400, editable: false, headerAlign: 'center', align: 'center' },
+      { field: 'descripcion', headerName: 'Descripcion', width: 400, editable: false, headerAlign: 'center', align: 'center' },
       { field: 'precio', headerName: 'Precio', width: 100, editable: false, headerAlign: 'center', align: 'center' },
       { field: 'cantidad', headerName: 'Cantidad', type: 'number', editable: true, headerAlign: 'center', align: 'center' },
     ];

@@ -95,7 +95,7 @@ export default function Codigos({ data, setData }) {
                     name={`${codigo.id}`} //El id es de type number, se lo cambia a string. name exige string.
                   /> 
                 }
-                label={`${codigo.codigo} - ${codigo.nombre}`}
+                label={`${codigo.codigo} - ${codigo.descripcion}`}
               />
             )
           }

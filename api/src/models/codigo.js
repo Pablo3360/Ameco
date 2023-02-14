@@ -11,10 +11,6 @@ const CodigoFn = (sequelize) => {
       type: DataTypes.STRING(10),
       allowNull: false,
     },
-    nombre: {
-      type: DataTypes.STRING(60),
-      allowNull: false
-    },
     descripcion: {
       type: DataTypes.STRING(60)
     },

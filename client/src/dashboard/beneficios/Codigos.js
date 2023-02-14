@@ -214,9 +214,8 @@ export default function Codigos() {
       }
     },
     { field: 'codigo', headerName: 'Codigo', width: 100, editable: true },
-    { field: 'nombre', headerName: 'Nombre', width: 200, editable: true },
     { field: 'precio', headerName: 'Precio', width: 75, editable: true },
-    { field: 'descripcion', headerName: 'Descripcion', width: 300, editable: true },
+    { field: 'descripcion', headerName: 'Descripcion', width: 350, editable: true },
     { field: 'updateAt', headerName: 'Actualizado', width: 150, editable: false },
     { field: 'actions', headerName: 'Acciones', width: 125, type: 'actions', cellClassName: 'actions',
       getActions: ({ row }) => {

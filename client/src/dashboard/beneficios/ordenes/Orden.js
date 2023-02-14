@@ -124,7 +124,7 @@ export default function Orden() {
   
                 <Grid item xs={12}>
                   <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
-                    Grupo: { orden.dataGrupoCodigo.nombre }
+                    Grupo: { orden.dataGrupoCodigo?.nombre }
                   </Typography>
                 </Grid>
   
@@ -155,9 +155,9 @@ export default function Orden() {
               <List disablePadding>
                 {orden.dataCodigos.codigos.map((codigo) => (
                   <ListItem key={codigo.id} sx={{ py: 0, px: 1 }} divider={true}>
-                    <ListItemText primary={codigo.nombre} secondary={`Codigo: ${codigo.codigo}`} />
-                    <ListItemText primary={codigo.descripcion}  />
-                    <ListItemText primary={codigo.cantidad}  />
+                    <ListItemText primary={codigo.codigo} />
+                    <ListItemText primary={codigo.descripcion} />
+                    <ListItemText primary={codigo.cantidad} />
                     <Typography variant="body2">{`$ ${codigo.precio}`}</Typography>
                   </ListItem>
                 ))}
