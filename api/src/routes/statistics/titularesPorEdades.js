@@ -7,10 +7,10 @@ const { Titular } = require('../../db.js');
 router.get('/statistics/titularesPorEdades', async (req, res)=>{
 
   const intervalos = {
-    yearOld18: moment().subtract(18, 'years').format('YYYY-DD-MM'),
-    yearOld25: moment().subtract(25, 'years').format('YYYY-DD-MM'),
-    yearOld40: moment().subtract(40, 'years').format('YYYY-DD-MM'),
-    yearOld65: moment().subtract(65, 'years').format('YYYY-DD-MM'),
+    yearOld18: moment().subtract(18, 'years').format('YYYY-MM-DD'),
+    yearOld25: moment().subtract(25, 'years').format('YYYY-MM-DD'),
+    yearOld40: moment().subtract(40, 'years').format('YYYY-MM-DD'),
+    yearOld65: moment().subtract(65, 'years').format('YYYY-MM-DD'),
   }
   console.log(intervalos);
 
