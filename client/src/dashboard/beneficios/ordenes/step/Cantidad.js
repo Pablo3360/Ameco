@@ -16,8 +16,9 @@ export default function Cantidad({ data, setData }) {
 
   let editable = false;
 
+  //Si el beneficio es subsidio y el Otros, codigo 3, se permite editar descripcion y precio
   if(data.beneficio.nombre === 'Subsidios'){
-    if(data.codigos.codigos.find(e => e.id === 203)){
+    if(data.codigos.codigos.find(e => e.codigo === '3')){
       editable = true;
     }
   };
