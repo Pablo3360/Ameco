@@ -27,13 +27,13 @@ import { createOrden, ordenResponse } from '../../../actions/ordenes';
 
 const steps = ['Beneficio', 'Prestador', 'Codigos', 'Cantidad', 'Cobertura AMECO'];
 
-function getStepContent(step, data, setData) {
+function getStepContent(step, data, setData, setActiveStep) {
   
   switch (step) {
     case 0:
-      return <Beneficio data={data} setData={setData} />;
+      return <Beneficio data={data} setData={setData} setActiveStep={setActiveStep} />;
     case 1:
-      return <Prestador data={data} setData={setData} />;
+      return <Prestador data={data} setData={setData} setActiveStep={setActiveStep}/>;
     case 2:
       return <Codigos  data={data} setData={setData} />;
     case 3:
@@ -182,7 +182,7 @@ export default function NuevaOrden() {
               ( <></> )
             : 
             (<>
-              {getStepContent(activeStep, data, setData)}
+              {getStepContent(activeStep, data, setData, setActiveStep)}
 
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 {activeStep !== 0 && (

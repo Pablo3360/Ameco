@@ -14,10 +14,18 @@ export default function Cantidad({ data, setData }) {
   const [pageSize, setPageSize] = useState(3);
   const lastEntrega = useSelector( state => state.lastEntrega);
 
+  let editable = false;
+
+  if(data.beneficio.nombre === 'Subsidios'){
+    if(data.codigos.codigos.find(e => e.id === 203)){
+      editable = true;
+    }
+  };
+
   const columns = [
       { field: 'codigo', headerName: 'Codigo', width: 100, editable: false, headerAlign: 'center', align: 'center' },
-      { field: 'descripcion', headerName: 'Descripcion', width: 400, editable: false, headerAlign: 'center', align: 'center' },
-      { field: 'precio', headerName: 'Precio', width: 100, editable: false, headerAlign: 'center', align: 'center' },
+      { field: 'descripcion', headerName: 'Descripcion', width: 400, editable: editable, headerAlign: 'center', align: 'center' },
+      { field: 'precio', headerName: 'Precio', width: 100, editable: editable, headerAlign: 'center', align: 'center' },
       { field: 'cantidad', headerName: 'Cantidad', type: 'number', editable: true, headerAlign: 'center', align: 'center' },
     ];
 
@@ -32,8 +40,10 @@ export default function Cantidad({ data, setData }) {
 
   const handleEditCommit = (params) => {
 
+    console.log(params);
+
     const updateCodigos = data.codigos.codigos.map( codigo => codigo.id === params.id ? 
-      { ...codigo, cantidad: params.value } : codigo );
+      { ...codigo, [params.field]: params.value } : codigo );
 
     setData( data => { return {
       ...data, codigos: { ...data.codigos, codigos: updateCodigos}

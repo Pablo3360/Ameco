@@ -12,7 +12,7 @@ import Select from '@mui/material/Select';
 export default function Cobertura({ data, setData }) {
 
   const [montos, setMontos] = useState({
-    subTotal: data.codigos.codigos.reduce( (subTotal, codigo) => subTotal + codigo.precio, 0 ),
+    subTotal: data.codigos.codigos.reduce( (subTotal, codigo) => subTotal + (codigo.precio * codigo.cantidad ), 0 ),
     cobertura: 1,
     total: 0,
   });

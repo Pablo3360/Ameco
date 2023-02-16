@@ -9,13 +9,14 @@ import FormControl from '@mui/material/FormControl';
 
 import { getPrestadoresBeficioId, getPrestadoresResponse } from '../../../../actions/prestadores';
 
-export default function Prestador({ data, setData }) {
+export default function Prestador({ data, setData, setActiveStep }) {
   const dispatch = useDispatch();
   const prestadores = useSelector( state => state.prestadores);
 
   const handleChange = (event) => {
     const selectedPrestador = prestadores.find( prestador => prestador.id === parseInt(event.target.value) );
-    setData( state => { return { ...state, prestador: selectedPrestador }})
+    setData( state => { return { ...state, prestador: selectedPrestador }});
+    setActiveStep( activeStep => activeStep + 1 );
   };
 
   useEffect(() => {

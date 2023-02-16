@@ -137,14 +137,16 @@ export default function Orden() {
               <List disablePadding >
                 <ListItem sx={{ py: 0, px: 1 }} divider={true} >
                   <ListItemText primary={`Titular: ${orden.dataTitular?.apellidos}, ${orden.dataTitular?.nombres} `} />
-                  <ListItemText primary={`DNI: ${orden.dataTitular.dni}`} />
+                  <ListItemText primary={`DNI: ${orden.dataTitular?.dni}`} />
                   <ListItemText primary={`Nacimiento: ${orden.dataTitular.nacimiento}`} />
                 </ListItem>
                 <ListItem sx={{ py: 0, px: 1 }} >
                   <ListItemText primary={`Beneficiario: ${orden.dataBeneficiario.apellidos}, ${orden.dataBeneficiario.nombres} `} />
                   <ListItemText primary={`DNI: ${orden.dataBeneficiario.dni}`} />
                   <ListItemText primary={`Nacimiento: ${orden.dataBeneficiario.nacimiento}`} />
-                  <ListItemText primary={`Vinculo: ${orden.dataBeneficiario.relacion}`} />
+                  { orden.dataBeneficiario.relacion && (
+                    <ListItemText primary={`Vinculo: ${orden.dataBeneficiario.relacion}`} />
+                  )}
                 </ListItem>
               </List>
             </Paper>

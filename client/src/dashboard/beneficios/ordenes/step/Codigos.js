@@ -27,6 +27,7 @@ export default function Codigos({ data, setData }) {
   };
   
   useEffect(() => {
+    setData( data => ({ ...data, grupoCodigo: {} }) )
     dispatch(getGruposCodigos(data.beneficio.id));
     // eslint-disable-next-line
   }, []);
