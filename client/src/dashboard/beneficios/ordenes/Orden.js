@@ -136,7 +136,7 @@ export default function Orden() {
             <Paper sx={{ p: 1, display: 'flex', flexDirection: 'column' }} variant="outlined" >
               <List disablePadding >
                 <ListItem sx={{ py: 0, px: 1 }} divider={true} >
-                  <ListItemText primary={`Titular: ${orden.dataTitular.apellidos}, ${orden.dataTitular.nombres} `} />
+                  <ListItemText primary={`Titular: ${orden.dataTitular?.apellidos}, ${orden.dataTitular?.nombres} `} />
                   <ListItemText primary={`DNI: ${orden.dataTitular.dni}`} />
                   <ListItemText primary={`Nacimiento: ${orden.dataTitular.nacimiento}`} />
                 </ListItem>
@@ -155,7 +155,7 @@ export default function Orden() {
               <List disablePadding>
                 {orden.dataCodigos.codigos.map((codigo) => (
                   <ListItem key={codigo.id} sx={{ py: 0, px: 1 }} divider={true}>
-                    <ListItemText primary={codigo.codigo} />
+                    <ListItemText primary={codigo.codigo} secondary='Codigo'/>
                     <ListItemText primary={codigo.descripcion} />
                     <ListItemText primary={codigo.cantidad} />
                     <Typography variant="body2">{`$ ${codigo.precio}`}</Typography>
