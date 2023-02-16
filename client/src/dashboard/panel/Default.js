@@ -8,7 +8,6 @@ import Box from '@mui/material/Box';
 
 import StatisticsTitularesPie from './StatisticsTitularesPie';
 import Deposits from './Deposits';
-import Orders from './Orders';
 
 import { getTitularesPorSexo, getTitularesPorEdades } from '../../actions/statisticsTitulares';
 
@@ -25,11 +24,6 @@ function PanelContent() {
     if(!Object.keys(titularesPorEdades).length) dispatch(getTitularesPorEdades());
     // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    console.log(titularesPorEdades);
-    // eslint-disable-next-line
-  }, [titularesPorEdades]);
 
   useEffect(() => {
     if(Object.keys(titularesPorSexo).length) {
@@ -155,11 +149,6 @@ function PanelContent() {
           </Paper>
         </Grid>
 
-        <Grid item xs={12}>
-          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-            <Orders />
-          </Paper>
-        </Grid>
       </Grid>
     </Container>
   );

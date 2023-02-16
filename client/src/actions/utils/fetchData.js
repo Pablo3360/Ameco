@@ -22,7 +22,9 @@ const fetchData = async ({ url, method = 'GET', body = null }, dispatch ) => {
     if(response.status === 200) {
       return await response.json();
     } else {
+      console.log('response server crudo', response);
       const error = await response.json();
+      console.log('response server json', error);
       dispatch(Error(error));
       return;
     };
