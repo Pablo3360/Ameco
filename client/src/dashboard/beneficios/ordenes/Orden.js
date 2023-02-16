@@ -124,7 +124,8 @@ export default function Orden() {
   
                 <Grid item xs={12}>
                   <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
-                    Grupo: { orden.dataGrupoCodigo?.nombre }
+                    Grupo: { orden.dataGrupoCodigo?.nombre } 
+                    { orden.dataBeneficio?.nombre === 'PMI' && ( ` - Entrega: ${orden.dataCodigos?.entrega}`)}
                   </Typography>
                 </Grid>
   
@@ -135,17 +136,17 @@ export default function Orden() {
           <Grid item xs={12}>
             <Paper sx={{ p: 1, display: 'flex', flexDirection: 'column' }} variant="outlined" >
               <List disablePadding >
-                <ListItem sx={{ py: 0, px: 1 }} divider={true} >
+                <ListItem key='1' sx={{ py: 0, px: 1 }} divider={true} >
                   <ListItemText primary={`Titular: ${orden.dataTitular?.apellidos}, ${orden.dataTitular?.nombres} `} />
                   <ListItemText primary={`DNI: ${orden.dataTitular?.dni}`} />
-                  <ListItemText primary={`Nacimiento: ${orden.dataTitular.nacimiento}`} />
+                  <ListItemText primary={`Nacimiento: ${orden.dataTitular?.nacimiento}`} />
                 </ListItem>
-                <ListItem sx={{ py: 0, px: 1 }} >
-                  <ListItemText primary={`Beneficiario: ${orden.dataBeneficiario.apellidos}, ${orden.dataBeneficiario.nombres} `} />
-                  <ListItemText primary={`DNI: ${orden.dataBeneficiario.dni}`} />
-                  <ListItemText primary={`Nacimiento: ${orden.dataBeneficiario.nacimiento}`} />
-                  { orden.dataBeneficiario.relacion && (
-                    <ListItemText primary={`Vinculo: ${orden.dataBeneficiario.relacion}`} />
+                <ListItem key='2'sx={{ py: 0, px: 1 }} >
+                  <ListItemText primary={`Beneficiario: ${orden.dataBeneficiario?.apellidos}, ${orden.dataBeneficiario?.nombres} `} />
+                  <ListItemText primary={`DNI: ${orden.dataBeneficiario?.dni}`} />
+                  <ListItemText primary={`Nacimiento: ${orden.dataBeneficiario?.nacimiento}`} />
+                  { orden.dataBeneficiario?.relacion && (
+                    <ListItemText primary={`Vinculo: ${orden.dataBeneficiario?.relacion}`} />
                   )}
                 </ListItem>
               </List>
@@ -155,7 +156,7 @@ export default function Orden() {
           <Grid item xs={12}>
             <Paper sx={{ p: 1, display: 'flex', flexDirection: 'column' }} variant="outlined" >
               <List disablePadding>
-                {orden.dataCodigos.codigos.map((codigo) => (
+                {orden.dataCodigos?.codigos.map((codigo) => (
                   <ListItem key={codigo.id} sx={{ py: 0, px: 1 }} divider={true}>
                     <ListItemText primary={codigo.codigo} secondary='Codigo'/>
                     <ListItemText primary={codigo.descripcion} />
@@ -163,10 +164,10 @@ export default function Orden() {
                     <Typography variant="body2">{`$ ${codigo.precio}`}</Typography>
                   </ListItem>
                 ))}
-                <ListItem sx={{ pt: 1, px: 1 }}>
+                <ListItem key='1a' sx={{ pt: 1, px: 1 }}>
                   <ListItemText primary="Sub Total" />
                   <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-                    $ {orden.dataMontos.subTotal}
+                    $ {orden.dataMontos?.subTotal}
                   </Typography>
                 </ListItem>
               </List>
@@ -180,9 +181,9 @@ export default function Orden() {
                 Prestador
               </Typography>
   
-              <Typography variant="body1" sx={{ px: 1 }}>{orden.dataPrestador.razon}</Typography>
-              <Typography variant="body1" sx={{ px: 1 }}>Matricula: {orden.dataPrestador.matricula}</Typography>
-              <Typography variant="body1" sx={{ px: 1 }}>Domicilio: {orden.dataPrestador.domicilio}</Typography>
+              <Typography variant="body1" sx={{ px: 1 }}>{orden.dataPrestador?.razon}</Typography>
+              <Typography variant="body1" sx={{ px: 1 }}>Matricula: {orden.dataPrestador?.matricula}</Typography>
+              <Typography variant="body1" sx={{ px: 1 }}>Domicilio: {orden.dataPrestador?.domicilio}</Typography>
   
             </Paper>
           </Grid>
@@ -197,27 +198,27 @@ export default function Orden() {
               <Box sx={{ justifyContent: 'space-between' }}>
                 <List disablePadding >
   
-                  <ListItem  alignItems='center' sx={{ py: 0, px: 1 }} divider={true}>
+                  <ListItem key='1b' alignItems='center' sx={{ py: 0, px: 1 }} divider={true}>
                     <ListItemText primary="Sub Total" />
                     <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-                    $ {orden.dataMontos.subTotal}
+                    $ {orden.dataMontos?.subTotal}
                     </Typography>
                   </ListItem>
   
-                  <ListItem  alignItems='center' sx={{ py: 0, px: 1 }} divider={true}>
+                  <ListItem key='2b' alignItems='center' sx={{ py: 0, px: 1 }} divider={true}>
                     <ListItemText primary="Cobertura AMECO" />
                     <ListItemText>
-                    {orden.dataMontos.cobertura *100 } %
+                    {orden.dataMontos?.cobertura *100 } %
                     </ListItemText>
                     <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-                    $ {orden.dataMontos.subTotal * orden.dataMontos.cobertura}
+                    $ {orden.dataMontos?.subTotal * orden.dataMontos?.cobertura}
                     </Typography>
                   </ListItem>
   
-                  <ListItem  alignItems='center' sx={{ py: 0, px: 1 }} >
+                  <ListItem key='3b' alignItems='center' sx={{ py: 0, px: 1 }} >
                     <ListItemText primary="Total" />
                     <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-                      $ {orden.dataMontos.total}
+                      $ {orden.dataMontos?.total}
                     </Typography>
                   </ListItem>
   
@@ -230,9 +231,9 @@ export default function Orden() {
             <Paper sx={{ p: 0}} variant="outlined" >
               <List disablePadding>
                 <ListItem key='emisor' sx={{ pt: 4}}>
-                    <ListItemText align='center' primary='_____________________' secondary={`Prestador: ${orden.dataPrestador.razon}`} />
-                    <ListItemText align='center' primary='_____________________' secondary='Beneficiario' />
-                    <ListItemText align='center' primary='_____________________' secondary='Autorizó' />
+                    <ListItemText key='1' align='center' primary='_____________________' secondary={`Prestador: ${orden.dataPrestador?.razon}`} />
+                    <ListItemText key='2' align='center' primary='_____________________' secondary={`Beneficiario: ${orden.dataBeneficiario?.apellidos}, ${orden.dataBeneficiario?.nombres}`} />
+                    <ListItemText key='3' align='center' primary='_____________________' secondary={`Autorizó: ${orden.dataEmisor?.apellidos}, ${orden.dataEmisor?.nombres}`} />
                 </ListItem>
               </List>
             </Paper>

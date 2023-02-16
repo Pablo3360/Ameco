@@ -59,7 +59,8 @@ const initialData = {
     subTotal: 0,
     cobertura: 1,
     total: 0,
-  }
+  },
+  emisor: {}
 };
 
 export default function NuevaOrden() {
@@ -68,6 +69,7 @@ export default function NuevaOrden() {
   const dispatch = useDispatch();
   const titular = useSelector( state => state.titular );
   const createdOrden = useSelector( state => state.createdOrden );
+  const user = useSelector( state => state.user );
   
   const [searchParams] = useSearchParams();
   const titularId = searchParams.get('titularId');
@@ -219,7 +221,15 @@ export default function NuevaOrden() {
               <Button
                 onClick={ () => {
                   setCreando(true);
-                  dispatch(createOrden(data));
+                  dispatch(createOrden(
+                    { ...data, 
+                      emisor: { 
+                        id: user.id, 
+                        apellidos: user.apellidos, 
+                        nombres: user.nombres 
+                      }
+                    }
+                  ));
                 }
                 }
                 disabled={creando ? true : false }
