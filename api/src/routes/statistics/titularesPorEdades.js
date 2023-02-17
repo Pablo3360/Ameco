@@ -12,7 +12,6 @@ router.get('/statistics/titularesPorEdades', async (req, res)=>{
     yearOld40: moment().subtract(40, 'years').format('YYYY-MM-DD'),
     yearOld65: moment().subtract(65, 'years').format('YYYY-MM-DD'),
   }
-  console.log(intervalos);
 
   try {
     const yearOld1825 = await Titular.count({

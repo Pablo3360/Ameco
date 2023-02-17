@@ -41,3 +41,11 @@ export function getTitular(titularId) {
     if(response){ dispatch(getTitularResponse(response)) };
   }
 };
+
+export function deleteTitular(titularId) {
+  return async function(dispatch) {
+    const url = `/titular/${titularId}`;
+    const response = await fetchData({ url, method: 'DELETE' }, dispatch);
+    if(response){ dispatch(getAfiliados(dispatch)) };
+  }
+};

@@ -23,6 +23,7 @@ function AfiliadosContent() {
   const [pageSize, setPageSize] = useState(5);
   const [rowId, setRowId] = useState(null);
 
+
   useEffect(() => {
     dispatch(getAfiliados());
     dispatch(getEmpleadores());
@@ -60,7 +61,7 @@ function AfiliadosContent() {
       valueOptions: ['casado/a', 'soltero/a', 'union de hecho', 'sin especificar'], editable: true },
     { field: 'domicilio', headerName: 'Domicilio', width: 250, editable: true },
     { field: 'createdAt', headerName: 'Fecha Creación', width: 200 },
-    { field: 'actions', headerName: 'Acciones', type: 'actions', width: 150,
+    { field: 'actions', headerName: 'Acciones', type: 'actions', width: 200,
       renderCell: (params) => ( <TitularActions {...{ params, rowId, setRowId }} />)}
   ];
 
