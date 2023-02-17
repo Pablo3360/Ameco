@@ -36,9 +36,7 @@ module.exports = (sequelize) => {
             delete record.dataValues.passwordHash;
         },
     },
-    paranoid: true,
-    createdAt: false,
-    updatedAt: false,
+    timestamps: true,
     paranoid: true
   });
 };

@@ -24,12 +24,9 @@ module.exports = (sequelize) => {
       type:DataTypes.STRING(60),
       allowNull: false,
       unique: true
-    },
-    created_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
     }
   }, {
-    timestamps: false
+    timestamps: true,
+    paranoid: true
   });
 };

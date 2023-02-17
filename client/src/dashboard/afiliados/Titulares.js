@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
@@ -8,12 +8,14 @@ import { DataGrid, GridToolbar, gridClasses, esES } from '@mui/x-data-grid';
 import CustomSnackbar from '../../components/Snackbar';
 
 import { getAfiliados } from '../../actions/titulares';
+import { getEmpleadores } from '../../actions/empleadores';
 import { Error } from '../../actions/error';
 import TitularActions from './TitularActions';
 
 function AfiliadosContent() {
 
   const afiliados = useSelector( state => state.afiliados);
+  const empleadores = useSelector( state => state.empleadores);
   const error = useSelector ( state => state.error);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,6 +25,7 @@ function AfiliadosContent() {
 
   useEffect(() => {
     dispatch(getAfiliados());
+    dispatch(getEmpleadores());
     return () => dispatch(Error({}));
       // eslint-disable-next-line
   }, []);
@@ -31,30 +34,35 @@ function AfiliadosContent() {
     return `${params.row.apellidos}, ${params.row.nombres}`;
   }
 
-  const columns = useMemo(
-    () => [
-      { field: 'fullName', headerName: 'Nombre Completo', width: 225, valueGetter: getFullName},
-      { field: 'apellidos', headerName: 'Apellidos', width: 170, editable: true },
-      { field: 'nombres', headerName: 'Nombres', width: 170, editable: true },
-      { field: 'dni', headerName: 'DNI', hideable: false, editable: false },
-      { field: 'estado', headerName: 'Estado', width: 85, type: 'singleSelect', 
-      valueOptions: ['activo', 'inactivo'], editable: true},
-      { field: 'sexo', headerName: 'Sexo', width: 85, type: 'singleSelect', 
-        valueOptions: ['varon', 'mujer', 'sin especificar'], editable: true},
-      { field: 'nacimiento', headerName: 'Nacimiento', type: 'date', editable: true },
-      { field: 'tipo', headerName: 'Tipo', width: 85, type: 'singleSelect', 
-        valueOptions: ['activo', 'adherente'], editable: true},
-      { field: 'localidad', headerName: 'Localidad', width: 125, editable: true},
-      { field: 'celular', headerName: 'Celular', width: 105, editable: true },
-      { field: 'estado_civil', headerName: 'Estado Civil', width: 125, type: 'singleSelect', 
-        valueOptions: ['casado/a', 'soltero/a', 'union de hecho', 'sin especificar'], editable: true },
-      { field: 'domicilio', headerName: 'Domicilio', width: 250, editable: true },
-      { field: 'created_at', headerName: 'Fecha Creación', width: 200 },
-      { field: 'actions', headerName: 'Acciones', type: 'actions', width: 150,
-        renderCell: (params) => ( <TitularActions {...{ params, rowId, setRowId }} />)}
-    ],
-    [rowId]
-  );
+  const columns = [
+    { field: 'fullName', headerName: 'Nombre Completo', width: 225, valueGetter: getFullName},
+    { field: 'apellidos', headerName: 'Apellidos', width: 170, editable: true },
+    { field: 'nombres', headerName: 'Nombres', width: 170, editable: true },
+    { field: 'dni', headerName: 'DNI', hideable: false, editable: false },
+    { field: 'empleadorId', headerName: 'Empleador', width: 225, type: 'singleSelect', 
+      valueOptions: empleadores.map( empleador => { 
+        return { value: empleador.id , label : `${empleador.razon}` }} ), 
+      editable: true,
+      valueFormatter: (params) => {
+        const empleador = empleadores.find( empleador => empleador.id === parseInt(params.value));
+        const valueFormatted = empleador? empleador.razon : '';
+        return valueFormatted;
+      }
+    },
+    { field: 'sexo', headerName: 'Sexo', width: 85, type: 'singleSelect', 
+      valueOptions: ['varon', 'mujer', 'sin especificar'], editable: true},
+    { field: 'nacimiento', headerName: 'Nacimiento', type: 'date', editable: true },
+    { field: 'tipo', headerName: 'Tipo', width: 85, type: 'singleSelect', 
+      valueOptions: ['activo', 'adherente'], editable: true},
+    { field: 'localidad', headerName: 'Localidad', width: 125, editable: true},
+    { field: 'celular', headerName: 'Celular', width: 105, editable: true },
+    { field: 'estado_civil', headerName: 'Estado Civil', width: 125, type: 'singleSelect', 
+      valueOptions: ['casado/a', 'soltero/a', 'union de hecho', 'sin especificar'], editable: true },
+    { field: 'domicilio', headerName: 'Domicilio', width: 250, editable: true },
+    { field: 'createdAt', headerName: 'Fecha Creación', width: 200 },
+    { field: 'actions', headerName: 'Acciones', type: 'actions', width: 150,
+      renderCell: (params) => ( <TitularActions {...{ params, rowId, setRowId }} />)}
+  ];
 
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -83,9 +91,10 @@ function AfiliadosContent() {
                 apellidos: false,
                 nombres: false,
                 sexo: false,
-                created_at: false,
+                createdAt: false,
                 domicilio: false,
-                estado_civil: false,
+                localidad: false,
+                tipo: false,
               },
             },
           }}

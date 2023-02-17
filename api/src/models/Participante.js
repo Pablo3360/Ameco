@@ -46,8 +46,8 @@ module.exports = (sequelize) => {
       }
     }
   }, {
-    initialAutoIncrement: 2000,
-    timestamps: false
+    timestamps: true,
+    paranoid: true
   });
 };
 

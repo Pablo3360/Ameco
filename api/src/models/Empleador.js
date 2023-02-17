@@ -29,10 +29,6 @@ module.exports = (sequelize) => {
     mail: {
       type:DataTypes.STRING(60)
     },
-    created_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
-    },
     recaudadorId: {
       type: DataTypes.INTEGER,
       references: {
@@ -41,6 +37,7 @@ module.exports = (sequelize) => {
       }
     }
   }, {
-    timestamps: false
+    timestamps: true,
+    paranoid: true
   });
 };
