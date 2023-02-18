@@ -8,6 +8,7 @@ const userInitialNull = {
 
 const initialState = {
   afiliados: [],
+  deletedTitulares: false,
   titular: [],
   participantes: [],
   createdParticipante: {},
@@ -38,6 +39,12 @@ switch (action.type){
     return {
       ...state,
       afiliados: action.payload
+    }
+
+  case 'DELETED_TITULARES':
+    return {
+      ...state,
+      deletedTitulares: action.payload
     }
 
   case 'GET_TITULAR_RESPONSE':

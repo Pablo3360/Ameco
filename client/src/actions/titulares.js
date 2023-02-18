@@ -1,5 +1,12 @@
 import fetchData from './utils/fetchData';
 
+export function showDeletedTitulares(boolean){
+  return {
+    type: 'DELETED_TITULARES',
+    payload: boolean? false : true
+  }
+};
+
 export function getAfiliadosResponse(afiliados){
   return {
     type: 'GET_AFILIADOS_RESPONSE',
@@ -7,9 +14,9 @@ export function getAfiliadosResponse(afiliados){
   }
 };
 
-export function getAfiliados() {
+export function getAfiliados(deleted) {
   return async function(dispatch) {
-    const url = '/titulares';
+    const url = `/titulares?deleted=${ deleted === true ? 'true':'false'}`;
     const response = await fetchData({ url }, dispatch);
     if(response){ dispatch(getAfiliadosResponse(response)) };
   }
@@ -44,8 +51,16 @@ export function getTitular(titularId) {
 
 export function deleteTitular(titularId) {
   return async function(dispatch) {
-    const url = `/titular/${titularId}`;
+    const url = `/titular/delete/${titularId}`;
     const response = await fetchData({ url, method: 'DELETE' }, dispatch);
-    if(response){ dispatch(getAfiliados(dispatch)) };
+    if(response){ dispatch(getAfiliados()) };
+  }
+};
+
+export function restoreTitular(titularId) {
+  return async function(dispatch) {
+    const url = `/titular/restore/${titularId}`;
+    const response = await fetchData({ url, method: 'PUT' }, dispatch);
+    if(response){ dispatch(getAfiliados(true)) };
   }
 };

@@ -11,6 +11,8 @@ const getTitulares = require('./titulares/getTitulares.js');
 const getTitular = require('./titulares/getTitular.js');
 const createTitular = require('./titulares/createTitular.js');
 const updateTitular = require('./titulares/updateTitular.js');
+const deleteTitular = require('./titulares/deleteTitular.js');
+const restoreTitular = require('./titulares/restoreTitular.js');
 
 const getParticipantes = require('./participantes/getParticipantes.js');
 const createParticipante = require('./participantes/createParticipante.js');
@@ -66,6 +68,8 @@ router.use(getTitulares);
 router.use(getTitular);
 router.use(createTitular);
 router.use(updateTitular);
+router.use(deleteTitular);
+router.use(restoreTitular);
 
 router.use(getParticipantes);
 router.use(createParticipante);

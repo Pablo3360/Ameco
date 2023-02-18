@@ -5,7 +5,8 @@ import { Box, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { DataGrid, GridToolbar, GridActionsCellItem, gridClasses, esES } from '@mui/x-data-grid';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
-import CustomizedMenus from './menuConfiguracion';
+import EditIcon from '@mui/icons-material/Edit';
+import ButtonMenu from '../../components/ButtonMenu';
 import { getOrdenes } from '../../actions/ordenes';
 
 function OrdenesContent() {
@@ -64,7 +65,16 @@ function OrdenesContent() {
             Ordenes
           </Typography>
           
-          <CustomizedMenus />
+          <ButtonMenu
+            actions={
+              [
+                { handleClick: () => navigate('beneficios'), icon: <EditIcon />, text: 'Beneficios' },
+                { handleClick: () => navigate('gruposcodigos'), icon: <EditIcon />, text: 'Grupos de Codigos' },
+                { handleClick: () => navigate('codigos'), icon: <EditIcon />, text: 'Codigos' },
+                { handleClick: () => navigate('prestadores'), icon: <EditIcon />, text: 'Prestadores' },
+              ]
+            } 
+          />
           
         </Box>
 

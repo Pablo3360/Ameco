@@ -5,9 +5,12 @@ import { Box, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { grey } from '@mui/material/colors';
 import { DataGrid, GridToolbar, gridClasses, esES } from '@mui/x-data-grid';
+import ButtonMenu from '../../components/ButtonMenu';
+import PersonIcon from '@mui/icons-material/Person';
+import PersonOffIcon from '@mui/icons-material/PersonOff';
 import CustomSnackbar from '../../components/Snackbar';
 
-import { getAfiliados } from '../../actions/titulares';
+import { getAfiliados, showDeletedTitulares } from '../../actions/titulares';
 import { getEmpleadores } from '../../actions/empleadores';
 import { Error } from '../../actions/error';
 import TitularActions from './TitularActions';
@@ -15,6 +18,7 @@ import TitularActions from './TitularActions';
 function AfiliadosContent() {
 
   const afiliados = useSelector( state => state.afiliados);
+  const deletedTitulares = useSelector( state => state.deletedTitulares)
   const empleadores = useSelector( state => state.empleadores);
   const error = useSelector ( state => state.error);
   const dispatch = useDispatch();
@@ -23,13 +27,12 @@ function AfiliadosContent() {
   const [pageSize, setPageSize] = useState(5);
   const [rowId, setRowId] = useState(null);
 
-
   useEffect(() => {
-    dispatch(getAfiliados());
+    dispatch(getAfiliados(deletedTitulares));
     dispatch(getEmpleadores());
     return () => dispatch(Error({}));
       // eslint-disable-next-line
-  }, []);
+  }, [deletedTitulares]);
 
   function getFullName(params) {
     return `${params.row.apellidos}, ${params.row.nombres}`;
@@ -62,7 +65,7 @@ function AfiliadosContent() {
     { field: 'domicilio', headerName: 'Domicilio', width: 250, editable: true },
     { field: 'createdAt', headerName: 'Fecha Creación', width: 200 },
     { field: 'actions', headerName: 'Acciones', type: 'actions', width: 200,
-      renderCell: (params) => ( <TitularActions {...{ params, rowId, setRowId }} />)}
+      renderCell: (params) => ( <TitularActions {...{ params, rowId, setRowId, deletedTitulares }} />)}
   ];
 
   return (
@@ -75,12 +78,28 @@ function AfiliadosContent() {
           <Typography variant="h5" component="h5" >
             Afiliados Titulares
           </Typography>
-          {error.message && (<CustomSnackbar message={error.message} />)}
-          <Button variant="contained"
-            onClick={() => navigate('/panel/titulares/crear')}
-            >
-            Alta Afiliado
-          </Button>
+
+          <Box sx={{ mb:2, display: 'flex', justifyContent: 'flex-end'}} >
+
+            <Button sx={{ mr:2}}
+              variant="contained"
+              onClick={() => navigate('/panel/titulares/crear')}
+              >
+              Alta Afiliado
+            </Button>
+
+            <ButtonMenu
+              actions={
+                [
+                  { 
+                    handleClick: () => dispatch(showDeletedTitulares(deletedTitulares)), 
+                    icon: deletedTitulares? <PersonIcon /> : <PersonOffIcon />, 
+                    text: deletedTitulares? 'Ver Activos' : 'Ver eliminados' },
+                ]
+              } 
+            />
+
+          </Box>
           
         </Box>
 
@@ -121,6 +140,8 @@ function AfiliadosContent() {
           components={{ Toolbar: GridToolbar }}
         />
       </Box>
+
+      {error.message && (<CustomSnackbar message={error.message} />)}
 
     </Box>
   );

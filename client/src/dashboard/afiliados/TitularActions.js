@@ -9,12 +9,13 @@ import Save from '@mui/icons-material/Save';
 import FamilyRestroom from '@mui/icons-material/FamilyRestroom';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import RestoreCircleIcon from '@mui/icons-material/SettingsBackupRestore';
 import { green } from '@mui/material/colors';
 import Dialog from '../../components/Dialog';
 
-import { updateAfiliadoTitular, getAfiliados, deleteTitular } from '../../actions/titulares';
+import { updateAfiliadoTitular, getAfiliados, deleteTitular, restoreTitular } from '../../actions/titulares';
 
-const TitularActions = ({ params, rowId, setRowId }) => {
+const TitularActions = ({ params, rowId, setRowId, deletedTitulares }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -72,15 +73,22 @@ const TitularActions = ({ params, rowId, setRowId }) => {
         <VolunteerActivismIcon />
       </Fab>
       <Fab sx={{ width: 40, height: 40, ml:1 }} onClick={() => setOpenDialog(true)}>
-        <RemoveCircleIcon />
+        { deletedTitulares ? < RestoreCircleIcon /> : <RemoveCircleIcon />  }
       </Fab>
 
       <Dialog
         open={openDialog}
         handleClose={ () => setOpenDialog(false) }
-        title={'Confirmar Eliminación'}
-        content={`${params.row.apellidos}, ${params.row.nombres} desaparecera de esta lista, pero lo podrá recuperar mas tarde.`}
-        actions={ [{ handleClick: ()=> alert(params.row.id), textButton:'Eliminar' }] }
+        title={ deletedTitulares ? 'Recuperar/Activar Titular' : 'Confirmar Eliminación'}
+        content={
+          deletedTitulares 
+          ? `${params.row.apellidos}, ${params.row.nombres} será recuperado y activado.`
+          : `${params.row.apellidos}, ${params.row.nombres} desaparecera de esta lista. Podrá deshacer esta accion en la lista de Titulares Eliminados.`
+        }
+        actions={ 
+          deletedTitulares 
+          ? ([{ handleClick: () => dispatch(restoreTitular(params.row.id)), textButton:'Recuperar/Activar' }])
+          : ([{ handleClick: () => dispatch(deleteTitular(params.row.id)), textButton:'Eliminar' }]) }
       />
 
     </Box>

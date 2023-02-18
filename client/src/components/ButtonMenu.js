@@ -1,10 +1,8 @@
-import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import EditIcon from '@mui/icons-material/Edit';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const StyledMenu = styled((props) => (
@@ -48,9 +46,8 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function CustomizedMenus() {
-	const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+export default function ButtonMenu({ actions }) {
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -82,22 +79,13 @@ export default function CustomizedMenus() {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={() => navigate('beneficios')} disableRipple>
-          <EditIcon />
-          Beneficios
-        </MenuItem>
-        <MenuItem onClick={() => navigate('gruposcodigos')} disableRipple>
-          <EditIcon />
-          Grupos de Codigos
-        </MenuItem>
-        <MenuItem onClick={() => navigate('codigos')} disableRipple>
-          <EditIcon />
-          Codigos
-        </MenuItem>
-        <MenuItem onClick={() => navigate('prestadores')} disableRipple>
-          <EditIcon />
-          Prestadores
-        </MenuItem>
+        { actions.map( (action, index) => (
+            <MenuItem key={index} onClick={action.handleClick} disableRipple>
+              {action.icon}
+              {action.text}
+            </MenuItem>
+          ))
+        }
       </StyledMenu>
     </div>
   );
