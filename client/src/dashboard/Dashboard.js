@@ -27,7 +27,8 @@ import EstadisticasTitulares from "./afiliados/estadisticas/Estadisticas";
 import Participantes from "./afiliados/Participantes";
 import Recaudadores from "./recaudacion/Recaudadores";
 import Empleadores from "./empleadores/Empleadores";
-import OrdenesBeneficios from "./beneficios/Default";
+import BeneficiosDefault from "./beneficios/Default";
+import OrdenesBeneficios from "./beneficios/ordenes/Ordenes";
 import Prestadores from './beneficios/Prestadores';
 import Beneficios from './beneficios/Beneficios';
 import GruposCodigos from './beneficios/GruposCodigos';
@@ -217,9 +218,10 @@ function DashboardContent() {
             <Route exact path='participantes/:titularId' element={<Participantes />}/>
             <Route exact path='recaudacion' element={<Recaudadores />}/>
             <Route exact path='empleadores' element={<Empleadores />}/>
-            <Route exact path='beneficios' element={<OrdenesBeneficios />}/>
+            <Route exact path='beneficios' element={<BeneficiosDefault />}/>
             <Route exact path='beneficios/prestadores' element={<Prestadores />}/>
             <Route exact path='beneficios/beneficios' element={<Beneficios />}/>
+            <Route exact path='beneficios/ordenes' element={<OrdenesBeneficios />}/>
             <Route exact path='beneficios/gruposcodigos' element={<GruposCodigos />}/>
             <Route exact path='beneficios/codigos' element={<Codigos />}/>
             <Route exact path='beneficios/ordenes/nueva' element={<NuevaOrden />}/>

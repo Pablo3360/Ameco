@@ -1,70 +1,44 @@
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
-import { DataGrid, GridToolbar, GridActionsCellItem, gridClasses, esES } from '@mui/x-data-grid';
-import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import ButtonMenu from '../../components/ButtonMenu';
+import BasicTabs from '../../components/Tabs';
+import Orders from './Orders';
 import { getOrdenes } from '../../actions/ordenes';
 
 function OrdenesContent() {
 
-  const ordenes = useSelector( state => state.ordenes);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [pageSize, setPageSize] = useState(5);
 
   useEffect(() => {
     dispatch(getOrdenes());
       // eslint-disable-next-line
   }, []);
 
-  const columns = [
-    { field: 'id', headerName: 'Orden N°', width: 75 },
-    { field: 'dataBeneficiario', headerName: 'Beneficiario', width: 200, 
-      valueGetter: params => 
-        `${params.row.dataBeneficiario.apellidos}, ${params.row.dataBeneficiario.nombres}`
-    },
-    { field: 'dataTitular', headerName: 'Titular', width: 200, 
-      valueGetter: params => 
-        `${params.row.dataTitular.apellidos}, ${params.row.dataTitular.nombres}`
-    },
-    { field: 'dataBeneficio', headerName: 'Beneficio', width: 150, 
-      valueGetter: params => 
-        `${params.row.dataBeneficio.nombre}`
-    },
-    { field: 'dataGrupoCodigo', headerName: 'Grupo Codigo', width: 150, 
-    valueGetter: params => 
-      `${params.row.dataGrupoCodigo.nombre}`
-  },
-    { field: 'createdAt', headerName: 'Fecha', width: 200 },
-    { field: 'actions', headerName: 'Acciones', width: 100, type: 'actions', cellClassName: 'actions',
-      getActions: ({ row }) => 
-          ([
-            <GridActionsCellItem
-              icon={<VolunteerActivismIcon />}
-              label="orden"
-              onClick={ ()=> navigate(`/panel/beneficios/ordenes/orden/${row.id}`)}
-              color="inherit"
-            />
-          ])
-    }
-  ];
-
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
 
-      <Box sx={{ height: 455, width: '100%' }} >
+      <Box sx={{ mb:2, display: 'flex', justifyContent: 'space-between'}} >
+        
+        <Typography variant="h5" component="h5" >
+          Beneficios
+        </Typography>
 
-        <Box sx={{ mb:2, display: 'flex', justifyContent: 'space-between'}} >
-          
-          <Typography variant="h5" component="h5" >
+        <Box sx={{ mb:2, display: 'flex', justifyContent: 'flex-end'}} >
+
+          <Button sx={{ mr:2}}
+            variant="contained"
+            onClick={() => navigate('/panel/beneficios/ordenes')}
+            >
             Ordenes
-          </Typography>
-          
+          </Button>
+        
           <ButtonMenu
             actions={
               [
@@ -75,44 +49,26 @@ function OrdenesContent() {
               ]
             } 
           />
-          
         </Box>
-
-        <DataGrid localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-
-          initialState={{
-            columns: {
-              columnVisibilityModel: {
-                apellidos: false,
-                nombres: false,
-                sexo: false,
-                created_at: false,
-                domicilio: false,
-                estado_civil: false,
-              },
-            },
-          }}
-          columns={columns}
-          rows={ordenes}
-          rowsPerPageOptions={[5, 10, 20]}
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-
-          getRowSpacing={(params) => ({
-            top: params.isFirstVisible ? 0 : 3,
-            bottom: params.isLastVisible ? 0 : 3,
-          })}
-          
-          sx={{
-            [`& .${gridClasses.row}`]: {
-              bgcolor: (theme) =>
-                theme.palette.mode === 'light' ? grey[200] : grey[900],
-            },
-          }}
-
-          components={{ Toolbar: GridToolbar }}
-        />
+        
       </Box>
+
+      <Grid container spacing={3}>
+
+        <Grid item xs={12}>
+          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+            <BasicTabs 
+              items={
+                [
+                  {text: 'Pañales', content: <Orders />},
+                  {text: 'Leche', content: <Orders />},
+                ]
+              }
+            />
+          </Paper>
+        </Grid>
+
+      </Grid>
 
     </Box>
   );
