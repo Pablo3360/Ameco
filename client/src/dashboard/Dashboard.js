@@ -23,6 +23,7 @@ import SideList from './SideList';
 import PanelGeneral from "./panel/Default";
 import Titulares from "./afiliados/Titulares";
 import AltaTitular from "./afiliados/AltaTitular";
+import EstadisticasTitulares from "./afiliados/estadisticas/Estadisticas";
 import Participantes from "./afiliados/Participantes";
 import Recaudadores from "./recaudacion/Recaudadores";
 import Empleadores from "./empleadores/Empleadores";
@@ -212,6 +213,7 @@ function DashboardContent() {
             <Route exact path='' element={<PanelGeneral />}/>
             <Route exact path='titulares' element={<Titulares />}/>
             <Route exact path='titulares/crear' element={<AltaTitular />}/>
+            <Route exact path='titulares/estadisticas' element={<EstadisticasTitulares />}/>
             <Route exact path='participantes/:titularId' element={<Participantes />}/>
             <Route exact path='recaudacion' element={<Recaudadores />}/>
             <Route exact path='empleadores' element={<Empleadores />}/>

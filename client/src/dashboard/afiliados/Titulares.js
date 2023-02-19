@@ -8,6 +8,7 @@ import { DataGrid, GridToolbar, gridClasses, esES } from '@mui/x-data-grid';
 import ButtonMenu from '../../components/ButtonMenu';
 import PersonIcon from '@mui/icons-material/Person';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
 import CustomSnackbar from '../../components/Snackbar';
 
 import { getAfiliados, showDeletedTitulares } from '../../actions/titulares';
@@ -94,7 +95,13 @@ function AfiliadosContent() {
                   { 
                     handleClick: () => dispatch(showDeletedTitulares(deletedTitulares)), 
                     icon: deletedTitulares? <PersonIcon /> : <PersonOffIcon />, 
-                    text: deletedTitulares? 'Ver Activos' : 'Ver eliminados' },
+                    text: deletedTitulares? 'Ver Activos' : 'Ver eliminados' 
+                  },
+                  {
+                    handleClick: () => navigate('/panel/titulares/estadisticas'),
+                    icon: <AnalyticsIcon />,
+                    text: 'Estadisticas',
+                  },
                 ]
               } 
             />
