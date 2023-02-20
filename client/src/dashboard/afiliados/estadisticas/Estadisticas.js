@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -12,7 +14,7 @@ import Deposits from './Deposits';
 import { getTitularesPorSexo, getTitularesPorEdades } from '../../../actions/statisticsTitulares';
 
 function PanelContent() {
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const titularesPorSexo = useSelector( state => state.titularesPorSexo );
   const titularesPorEdades = useSelector( state => state.titularesPorEdades );
@@ -84,6 +86,26 @@ function PanelContent() {
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+
+      <Box sx={{ mb:2, display: 'flex', justifyContent: 'space-between'}} >
+        
+        <Typography variant="h5" component="h5" >
+          Estadisticas Afiliados Titulares
+        </Typography>
+
+        <Box sx={{ mb:2, display: 'flex', justifyContent: 'flex-end'}} >
+
+          <Button sx={{ mr:2}}
+            variant="contained"
+            onClick={() => navigate(-1)}
+            >
+            Volver
+          </Button>
+
+        </Box>
+        
+      </Box>
+
       <Grid container spacing={3}>
 
         <Grid item xs={12} md={6} lg={5}>

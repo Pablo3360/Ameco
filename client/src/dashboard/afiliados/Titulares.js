@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { grey } from '@mui/material/colors';
-import { DataGrid, GridToolbar, gridClasses, esES } from '@mui/x-data-grid';
+import { DataGrid, GridToolbarContainer, GridToolbarQuickFilter, GridToolbarColumnsButton, GridToolbarFilterButton, gridClasses, esES } from '@mui/x-data-grid';
 import ButtonMenu from '../../components/ButtonMenu';
 import PersonIcon from '@mui/icons-material/Person';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
@@ -15,6 +15,36 @@ import { getAfiliados, showDeletedTitulares } from '../../actions/titulares';
 import { getEmpleadores } from '../../actions/empleadores';
 import { Error } from '../../actions/error';
 import TitularActions from './TitularActions';
+
+function QuickSearchToolbar() {
+  return (
+    <Box
+      sx={{
+        p: 0.5,
+        pb: 0,
+      }}
+      >
+      <GridToolbarQuickFilter
+        quickFilterParser={(searchInput) =>
+          searchInput
+            .split(',')
+            .map((value) => value.trim())
+            .filter((value) => value !== '')
+        }
+      />
+    </Box>
+  );
+}
+
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer>
+      <QuickSearchToolbar />
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+    </GridToolbarContainer>
+  );
+}
 
 function AfiliadosContent() {
 
@@ -61,7 +91,7 @@ function AfiliadosContent() {
       valueOptions: ['activo', 'adherente'], editable: true},
     { field: 'localidad', headerName: 'Localidad', width: 125, editable: true},
     { field: 'celular', headerName: 'Celular', width: 105, editable: true },
-    { field: 'estado_civil', headerName: 'Estado Civil', width: 125, type: 'singleSelect', 
+    { field: 'estado_civil', headerName: 'Estado Civil', width: 120, type: 'singleSelect', 
       valueOptions: ['casado/a', 'soltero/a', 'union de hecho', 'sin especificar'], editable: true },
     { field: 'domicilio', headerName: 'Domicilio', width: 250, editable: true },
     { field: 'createdAt', headerName: 'Fecha Creación', width: 200 },
@@ -72,7 +102,7 @@ function AfiliadosContent() {
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
 
-      <Box sx={{ height: 455, width: '100%' }} >
+      <Box sx={{ height: 445, width: '100%' }} >
 
         <Box sx={{ mb:2, display: 'flex', justifyContent: 'space-between'}} >
           
@@ -144,7 +174,7 @@ function AfiliadosContent() {
           }}
 
           onCellEditCommit={(params) => setRowId(params.id)}
-          components={{ Toolbar: GridToolbar }}
+          components={{ Toolbar: CustomToolbar }}
         />
       </Box>
 
