@@ -67,3 +67,18 @@ export function recentOrdersPanales() {
     if(response){dispatch(recentOrdersPanalesResponse(response))};
   }
 }
+
+export function recentOrdersLecheResponse(response){
+  return {
+    type: 'RECENT_ORDERS_LECHE',
+    payload: response
+  }
+};
+
+export function recentOrdersLeche() {
+  return async function(dispatch) {
+    const url = `/ordenes/leche`
+    const response = await fetchData({url}, dispatch);
+    if(response){dispatch(recentOrdersLecheResponse(response))};
+  }
+}

@@ -48,6 +48,7 @@ const createOrden = require('./ordenes/createOrden.js');
 const getOrden = require('./ordenes/getOrden.js');
 const getEntrega = require('./ordenes/getEntrega.js');
 const getOrdenesPanales = require('./ordenes/getOrdenesPanales');
+const getOrdenesLeche = require('./ordenes/getOrdenesLeche');
 
 const titularesPorSexo = require('./statistics/titularesPorSexo.js');
 const titularesPorTipo = require('./statistics/titularesPorTipo.js');
@@ -106,6 +107,7 @@ router.use(createOrden);
 router.use(getOrden);
 router.use(getEntrega);
 router.use(getOrdenesPanales);
+router.use(getOrdenesLeche);
 
 router.use(titularesPorSexo);
 router.use(titularesPorTipo);

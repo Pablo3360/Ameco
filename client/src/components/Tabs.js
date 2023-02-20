@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -39,7 +39,7 @@ function a11yProps(index) {
 }
 
 export default function BasicTabs( {items} ) {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -50,22 +50,23 @@ export default function BasicTabs( {items} ) {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             { 
-                items.map( (item, index) => 
-                    <Tab label={item.text} {...a11yProps(index)} />
-                )
+              items.map( (item, index) => 
+                  <Tab label={item.text} {...a11yProps(index)} />
+              )
             }
         </Tabs>
       </Box>
+      
+      { 
+        items.map( (item, index) => 
+          (      
+            <TabPanel value={value} index={index}>
+              {item.content}
+            </TabPanel>
+          )
+        )
+      }
 
-      <TabPanel value={value} index={0}>
-        Item One
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
-      </TabPanel>
     </Box>
   );
 }

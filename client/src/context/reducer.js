@@ -26,6 +26,7 @@ const initialState = {
   createdCodigo: {},
   ordenes: [],
   recentOrdersPanales: [],
+  recentOrdersLeche: [],
   createdOrden: {},
   lastEntrega: null,
   user: userLocalStore ? userLocalStore : userInitialNull,
@@ -148,6 +149,12 @@ switch (action.type){
     return {
       ...state,
       recentOrdersPanales: action.payload
+  }
+
+  case 'RECENT_ORDERS_LECHE':
+    return {
+      ...state,
+      recentOrdersLeche: action.payload
   }
 
   case 'ORDEN_RESPONSE':

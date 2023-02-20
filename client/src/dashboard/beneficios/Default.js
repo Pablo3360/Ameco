@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
@@ -8,16 +8,20 @@ import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import ButtonMenu from '../../components/ButtonMenu';
 import BasicTabs from '../../components/Tabs';
-import Orders from './Orders';
-import { getOrdenes } from '../../actions/ordenes';
+import Table from '../../components/Table';
+import { recentOrdersPanales, recentOrdersLeche } from '../../actions/ordenes';
 
 function OrdenesContent() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const recentOrdersPanalesData = useSelector ( state => state.recentOrdersPanales);
+  const recentOrdersLecheData = useSelector ( state => state.recentOrdersLeche);
+
   useEffect(() => {
-    dispatch(getOrdenes());
+    dispatch(recentOrdersPanales())
+    dispatch(recentOrdersLeche())
       // eslint-disable-next-line
   }, []);
 
@@ -60,8 +64,36 @@ function OrdenesContent() {
             <BasicTabs 
               items={
                 [
-                  {text: 'Pañales', content: <Orders />},
-                  {text: 'Leche', content: <Orders />},
+                  {
+                    text: 'Pañales', 
+                    content: 
+                      <Table 
+                        title={ 'Ultimas ordenes de PMI Pañales'}
+                        head={ [ 'Afiliado', 'Fecha', 'Entrega' ] }
+                        body={ recentOrdersPanalesData.map( order => 
+                          [ 
+                            `${order.dataTitular.apellidos}, ${order.dataTitular.nombres}`,
+                            `${order.createdAt}`,
+                            `${order.dataCodigos.entrega}`,
+                          ])
+                        }
+                      />
+                  },
+                  {
+                    text: 'Leche', 
+                    content: 
+                      <Table 
+                        title={ 'Ultimas ordenes de PMI Leche'}
+                        head={ [ 'Afiliado', 'Fecha', 'Entrega' ] }
+                        body={ recentOrdersLecheData.map( order => 
+                          [ 
+                            `${order.dataTitular.apellidos}, ${order.dataTitular.nombres}`,
+                            `${order.createdAt}`,
+                            `${order.dataCodigos.entrega}`,
+                          ])
+                        }
+                      />
+                  },
                 ]
               }
             />
