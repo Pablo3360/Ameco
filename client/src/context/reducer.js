@@ -8,6 +8,7 @@ const userInitialNull = {
 
 const initialState = {
   afiliados: [],
+  deletedTitulares: false,
   titular: [],
   participantes: [],
   createdParticipante: {},
@@ -24,6 +25,8 @@ const initialState = {
   codigos: [],
   createdCodigo: {},
   ordenes: [],
+  recentOrdersPanales: [],
+  recentOrdersLeche: [],
   createdOrden: {},
   lastEntrega: null,
   user: userLocalStore ? userLocalStore : userInitialNull,
@@ -38,6 +41,12 @@ switch (action.type){
     return {
       ...state,
       afiliados: action.payload
+    }
+
+  case 'DELETED_TITULARES':
+    return {
+      ...state,
+      deletedTitulares: action.payload
     }
 
   case 'GET_TITULAR_RESPONSE':
@@ -135,6 +144,18 @@ switch (action.type){
       ...state,
       ordenes: action.payload
     }
+
+  case 'RECENT_ORDERS_PANALES':
+    return {
+      ...state,
+      recentOrdersPanales: action.payload
+  }
+
+  case 'RECENT_ORDERS_LECHE':
+    return {
+      ...state,
+      recentOrdersLeche: action.payload
+  }
 
   case 'ORDEN_RESPONSE':
     return {

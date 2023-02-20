@@ -14,6 +14,13 @@ const GrupoCodigoFn = (sequelize) => {
     },
     descripcion: {
       type: DataTypes.STRING(60)
+    },
+    beneficioId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'beneficios',
+        key: 'id'
+      }
     }
   }, {
     timestamps: false

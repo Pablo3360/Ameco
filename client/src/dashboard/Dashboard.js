@@ -23,15 +23,16 @@ import SideList from './SideList';
 import PanelGeneral from "./panel/Default";
 import Titulares from "./afiliados/Titulares";
 import AltaTitular from "./afiliados/AltaTitular";
+import EstadisticasTitulares from "./afiliados/estadisticas/Estadisticas";
 import Participantes from "./afiliados/Participantes";
 import Recaudadores from "./recaudacion/Recaudadores";
 import Empleadores from "./empleadores/Empleadores";
-import PanelBeneficios from "./beneficios/Default";
+import BeneficiosDefault from "./beneficios/Default";
+import OrdenesBeneficios from "./beneficios/ordenes/Ordenes";
 import Prestadores from './beneficios/Prestadores';
 import Beneficios from './beneficios/Beneficios';
 import GruposCodigos from './beneficios/GruposCodigos';
 import Codigos from './beneficios/Codigos';
-import Ordenes from './beneficios/ordenes/Ordenes';
 import NuevaOrden from './beneficios/ordenes/NuevaOrden';
 import Orden from './beneficios/ordenes/Orden';
 import Copyright from "./Copyright";
@@ -213,15 +214,16 @@ function DashboardContent() {
             <Route exact path='' element={<PanelGeneral />}/>
             <Route exact path='titulares' element={<Titulares />}/>
             <Route exact path='titulares/crear' element={<AltaTitular />}/>
+            <Route exact path='titulares/estadisticas' element={<EstadisticasTitulares />}/>
             <Route exact path='participantes/:titularId' element={<Participantes />}/>
             <Route exact path='recaudacion' element={<Recaudadores />}/>
             <Route exact path='empleadores' element={<Empleadores />}/>
-            <Route exact path='beneficios' element={<PanelBeneficios />}/>
+            <Route exact path='beneficios' element={<BeneficiosDefault />}/>
             <Route exact path='beneficios/prestadores' element={<Prestadores />}/>
             <Route exact path='beneficios/beneficios' element={<Beneficios />}/>
+            <Route exact path='beneficios/ordenes' element={<OrdenesBeneficios />}/>
             <Route exact path='beneficios/gruposcodigos' element={<GruposCodigos />}/>
             <Route exact path='beneficios/codigos' element={<Codigos />}/>
-            <Route exact path='beneficios/ordenes' element={<Ordenes />}/>
             <Route exact path='beneficios/ordenes/nueva' element={<NuevaOrden />}/>
             <Route exact path='beneficios/ordenes/orden/:ordenId' element={<Orden />}/>
           </Routes>

@@ -14,7 +14,7 @@ router.post('/orden/create', async (req, res)=>{
       dataCodigos: dataNewOrden.codigos,
       dataPrestador: dataNewOrden.prestador,
       dataMontos: dataNewOrden.montos,
-      dataEmisor: { apellidos: 'Gomez', nombres: 'Pablo'},
+      dataEmisor: dataNewOrden.emisor,
       descripcion: dataNewOrden.descripcion
     });
     await orden.setTitular(dataNewOrden.titular.id);

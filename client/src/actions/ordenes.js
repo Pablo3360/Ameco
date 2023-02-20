@@ -33,7 +33,7 @@ export function createOrden(data){
 export function EntregaResponse(lastEntrega){
   return {
     type: 'ENTREGA_RESPONSE',
-    payload: lastEntrega
+    payload: lastEntrega.entrega
   }
 };
 
@@ -52,3 +52,33 @@ export function getOrden(ordenId) {
     if(response){dispatch(ordenResponse(response))};
   }
 };
+
+export function recentOrdersPanalesResponse(response){
+  return {
+    type: 'RECENT_ORDERS_PANALES',
+    payload: response
+  }
+};
+
+export function recentOrdersPanales() {
+  return async function(dispatch) {
+    const url = `/ordenes/panales`
+    const response = await fetchData({url}, dispatch);
+    if(response){dispatch(recentOrdersPanalesResponse(response))};
+  }
+}
+
+export function recentOrdersLecheResponse(response){
+  return {
+    type: 'RECENT_ORDERS_LECHE',
+    payload: response
+  }
+};
+
+export function recentOrdersLeche() {
+  return async function(dispatch) {
+    const url = `/ordenes/leche`
+    const response = await fetchData({url}, dispatch);
+    if(response){dispatch(recentOrdersLecheResponse(response))};
+  }
+}

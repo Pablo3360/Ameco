@@ -27,6 +27,7 @@ export default function Codigos({ data, setData }) {
   };
   
   useEffect(() => {
+    setData( data => ({ ...data, grupoCodigo: {} }) )
     dispatch(getGruposCodigos(data.beneficio.id));
     // eslint-disable-next-line
   }, []);
@@ -95,7 +96,7 @@ export default function Codigos({ data, setData }) {
                     name={`${codigo.id}`} //El id es de type number, se lo cambia a string. name exige string.
                   /> 
                 }
-                label={`${codigo.codigo} - ${codigo.nombre}`}
+                label={`${codigo.codigo} - ${codigo.descripcion}`}
               />
             )
           }

@@ -2,11 +2,10 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
-import Button from '@mui/material/Button';
 import { grey } from '@mui/material/colors';
+import Button from '@mui/material/Button';
 import { DataGrid, GridToolbar, GridActionsCellItem, gridClasses, esES } from '@mui/x-data-grid';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
-
 import { getOrdenes } from '../../../actions/ordenes';
 
 function OrdenesContent() {
@@ -36,8 +35,15 @@ function OrdenesContent() {
       valueGetter: params => 
         `${params.row.dataBeneficio.nombre}`
     },
-    { field: 'createdAt', headerName: 'Fecha', width: 200 },
-    { field: 'actions', headerName: 'Acciones', width: 150, type: 'actions', cellClassName: 'actions',
+    { field: 'dataGrupoCodigo', headerName: 'Grupo Codigo', width: 150, 
+      valueGetter: params => 
+      `${params.row.dataGrupoCodigo.nombre}`
+    },
+    { field: 'createdAt', headerName: 'Fecha', width: 200, 
+      valueGetter: params => 
+      `${new Date(params.row.createdAt).toLocaleString()}` 
+    },
+    { field: 'actions', headerName: 'Acciones', width: 100, type: 'actions', cellClassName: 'actions',
       getActions: ({ row }) => 
           ([
             <GridActionsCellItem
@@ -60,12 +66,13 @@ function OrdenesContent() {
           <Typography variant="h5" component="h5" >
             Ordenes
           </Typography>
-          
-          <Button variant="contained" disabled
-            onClick={() => navigate('/panel/beneficios/ordenes/nueva')}
-            >
-            Nueva Orden
-          </Button>
+
+            <Button 
+              variant="contained"
+              onClick={() => navigate(-1)}
+              >
+              Volver
+            </Button>
           
         </Box>
 

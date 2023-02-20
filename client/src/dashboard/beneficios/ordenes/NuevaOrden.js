@@ -27,13 +27,13 @@ import { createOrden, ordenResponse } from '../../../actions/ordenes';
 
 const steps = ['Beneficio', 'Prestador', 'Codigos', 'Cantidad', 'Cobertura AMECO'];
 
-function getStepContent(step, data, setData) {
+function getStepContent(step, data, setData, setActiveStep) {
   
   switch (step) {
     case 0:
-      return <Beneficio data={data} setData={setData} />;
+      return <Beneficio data={data} setData={setData} setActiveStep={setActiveStep} />;
     case 1:
-      return <Prestador data={data} setData={setData} />;
+      return <Prestador data={data} setData={setData} setActiveStep={setActiveStep}/>;
     case 2:
       return <Codigos  data={data} setData={setData} />;
     case 3:
@@ -59,7 +59,8 @@ const initialData = {
     subTotal: 0,
     cobertura: 1,
     total: 0,
-  }
+  },
+  emisor: {}
 };
 
 export default function NuevaOrden() {
@@ -68,6 +69,7 @@ export default function NuevaOrden() {
   const dispatch = useDispatch();
   const titular = useSelector( state => state.titular );
   const createdOrden = useSelector( state => state.createdOrden );
+  const user = useSelector( state => state.user );
   
   const [searchParams] = useSearchParams();
   const titularId = searchParams.get('titularId');
@@ -107,9 +109,9 @@ export default function NuevaOrden() {
     setActiveStep(activeStep - 1);
   };
 
-  useEffect(() => {
-    console.log('data', data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log('data', data);
+  // }, [data]);
 
   useEffect(() => {
     dispatch(getTitular(titularId));
@@ -182,7 +184,7 @@ export default function NuevaOrden() {
               ( <></> )
             : 
             (<>
-              {getStepContent(activeStep, data, setData)}
+              {getStepContent(activeStep, data, setData, setActiveStep)}
 
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 {activeStep !== 0 && (
@@ -219,7 +221,15 @@ export default function NuevaOrden() {
               <Button
                 onClick={ () => {
                   setCreando(true);
-                  dispatch(createOrden(data));
+                  dispatch(createOrden(
+                    { ...data, 
+                      emisor: { 
+                        id: user.id, 
+                        apellidos: user.apellidos, 
+                        nombres: user.nombres 
+                      }
+                    }
+                  ));
                 }
                 }
                 disabled={creando ? true : false }

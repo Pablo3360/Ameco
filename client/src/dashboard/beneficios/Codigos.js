@@ -42,7 +42,6 @@ function EditToolbar(props) {
       id, 
       grupoCodigoId: '',
       codigo: '', 
-      nombre: '', 
       precio: '',
       descripcion: '',
       updateAt: '',
@@ -164,8 +163,8 @@ export default function Codigos() {
     if(typeof(newRow.id) === 'number' && prevRow.codigo !== newRow.codigo){
       alert('No es posible modificar el Codigo de un Codigo');
       return prevRow;
-    } else if(typeof(newRow.id) === 'number' && (prevRow.nombre !== newRow.nombre || prevRow.grupoCodigoId !== newRow.grupoCodigoId)){
-      alert('No es posible modificar el Nombre ni el Grupo de un Codigo');
+    } else if(typeof(newRow.id) === 'number' && (prevRow.grupoCodigoId !== newRow.grupoCodigoId)){
+      alert('No es posible modificar el Grupo de un Codigo');
       return prevRow;
     } else{
       const updatedRow = { ...newRow, isNew: false, isSaveInDb: false };
@@ -176,8 +175,8 @@ export default function Codigos() {
 
   // Cuando se presiona el Icon Guarda DB, se Valida y en caso de corresponder se lo guarda en la DB
   const handleSaveDb = (row) => () => {
-    const { grupoCodigoId, codigo, precio, nombre } = row;
-    if( grupoCodigoId && codigo && precio && nombre ){
+    const { grupoCodigoId, codigo, precio } = row;
+    if( grupoCodigoId && codigo && precio ){
       const codigoId = row.id;
       const grupoCodigoId = row.grupoCodigoId;
       delete row.id;
@@ -214,9 +213,8 @@ export default function Codigos() {
       }
     },
     { field: 'codigo', headerName: 'Codigo', width: 100, editable: true },
-    { field: 'nombre', headerName: 'Nombre', width: 200, editable: true },
     { field: 'precio', headerName: 'Precio', width: 75, editable: true },
-    { field: 'descripcion', headerName: 'Descripcion', width: 300, editable: true },
+    { field: 'descripcion', headerName: 'Descripcion', width: 350, editable: true },
     { field: 'updateAt', headerName: 'Actualizado', width: 150, editable: false },
     { field: 'actions', headerName: 'Acciones', width: 125, type: 'actions', cellClassName: 'actions',
       getActions: ({ row }) => {

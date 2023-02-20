@@ -23,6 +23,14 @@ const fetchData = async ({ url, method = 'GET', body = null }, dispatch ) => {
       return await response.json();
     } else {
       const error = await response.json();
+
+      if(response.statusText === 'Unauthorized'){
+        dispatch({
+          type: 'USER_RESPONSE',
+          payload: null,
+        });
+      }
+
       dispatch(Error(error));
       return;
     };

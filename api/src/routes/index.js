@@ -11,6 +11,8 @@ const getTitulares = require('./titulares/getTitulares.js');
 const getTitular = require('./titulares/getTitular.js');
 const createTitular = require('./titulares/createTitular.js');
 const updateTitular = require('./titulares/updateTitular.js');
+const deleteTitular = require('./titulares/deleteTitular.js');
+const restoreTitular = require('./titulares/restoreTitular.js');
 
 const getParticipantes = require('./participantes/getParticipantes.js');
 const createParticipante = require('./participantes/createParticipante.js');
@@ -45,6 +47,8 @@ const getOrdenes = require('./ordenes/getOrdenes.js');
 const createOrden = require('./ordenes/createOrden.js');
 const getOrden = require('./ordenes/getOrden.js');
 const getEntrega = require('./ordenes/getEntrega.js');
+const getOrdenesPanales = require('./ordenes/getOrdenesPanales');
+const getOrdenesLeche = require('./ordenes/getOrdenesLeche');
 
 const titularesPorSexo = require('./statistics/titularesPorSexo.js');
 const titularesPorTipo = require('./statistics/titularesPorTipo.js');
@@ -66,6 +70,8 @@ router.use(getTitulares);
 router.use(getTitular);
 router.use(createTitular);
 router.use(updateTitular);
+router.use(deleteTitular);
+router.use(restoreTitular);
 
 router.use(getParticipantes);
 router.use(createParticipante);
@@ -100,6 +106,8 @@ router.use(getOrdenes);
 router.use(createOrden);
 router.use(getOrden);
 router.use(getEntrega);
+router.use(getOrdenesPanales);
+router.use(getOrdenesLeche);
 
 router.use(titularesPorSexo);
 router.use(titularesPorTipo);

@@ -34,11 +34,6 @@ const TitularFn = (sequelize) => {
       type: DataTypes.DATEONLY,
       // allowNull: false
     },
-    estado: {
-      type: DataTypes.ENUM,
-      defaultValue: 'activo',
-      values: ['activo', 'inactivo'],
-    },
     sexo: {
       type: DataTypes.ENUM,
       values: ['varon', 'mujer', 'sin especificar'],
@@ -50,10 +45,6 @@ const TitularFn = (sequelize) => {
     celular: {
       type: DataTypes.STRING(12)
     },
-    created_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
-    },
     empleadorId: {
       type: DataTypes.INTEGER,
       references: {
@@ -62,7 +53,8 @@ const TitularFn = (sequelize) => {
       }
     }
   }, {
-    timestamps: false
+    timestamps: true,
+    paranoid: true
   });
 };
 

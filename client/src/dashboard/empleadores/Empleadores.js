@@ -38,7 +38,7 @@ function EditToolbar(props) {
 
   const handleClick = () => {
     const id = randomId();
-    setRows((oldRows) => [...oldRows, { 
+    setRows((oldRows) => [ { 
       id, 
       cuit: '',
       razon: '', 
@@ -50,7 +50,7 @@ function EditToolbar(props) {
       recaudadorId: '',
       isNew: true,
       isSaveInDb: false
-    }]);
+    }, ...oldRows]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
       [id]: { mode: GridRowModes.Edit, fieldToFocus: 'razon' },

@@ -9,13 +9,14 @@ import FormControl from '@mui/material/FormControl';
 
 import { getBeneficios } from '../../../../actions/beneficios';
 
-export default function AddressForm({ data, setData }) {
+export default function AddressForm({ data, setData, setActiveStep }) {
   const dispatch = useDispatch();
   const beneficios = useSelector( state => state.beneficios);
 
   const handleChange = (event) => {
     const selectedBeneficio = beneficios.find( beneficio => beneficio.id === parseInt(event.target.value) );
-    setData( state => { return { ...state, beneficio: selectedBeneficio }})
+    setData( state => { return { ...state, beneficio: selectedBeneficio }});
+    setActiveStep( activeStep => activeStep + 1);
   };
 
   useEffect(() => {

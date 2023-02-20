@@ -12,7 +12,7 @@ import Select from '@mui/material/Select';
 export default function Cobertura({ data, setData }) {
 
   const [montos, setMontos] = useState({
-    subTotal: data.codigos.codigos.reduce( (subTotal, codigo) => subTotal + codigo.precio, 0 ),
+    subTotal: data.codigos.codigos.reduce( (subTotal, codigo) => subTotal + (codigo.precio * codigo.cantidad ), 0 ),
     cobertura: 1,
     total: 0,
   });
@@ -66,7 +66,7 @@ export default function Cobertura({ data, setData }) {
 
         {data.codigos.codigos.map((codigo) => (
           <ListItem key={codigo.id} sx={{ py: 1, px: 0 }} divider={true}>
-            <ListItemText primary={codigo.nombre} secondary={`Codigo: ${codigo.codigo}`} />
+            <ListItemText primary={codigo.descripcion} secondary={`Codigo: ${codigo.codigo}`} />
             <ListItemText primary={codigo.cantidad}  />
             <Typography variant="body2">{`$ ${codigo.precio}`}</Typography>
           </ListItem>
