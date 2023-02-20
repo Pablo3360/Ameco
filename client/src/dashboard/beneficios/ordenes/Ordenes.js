@@ -36,10 +36,13 @@ function OrdenesContent() {
         `${params.row.dataBeneficio.nombre}`
     },
     { field: 'dataGrupoCodigo', headerName: 'Grupo Codigo', width: 150, 
-    valueGetter: params => 
+      valueGetter: params => 
       `${params.row.dataGrupoCodigo.nombre}`
-  },
-    { field: 'createdAt', headerName: 'Fecha', width: 200 },
+    },
+    { field: 'createdAt', headerName: 'Fecha', width: 200, 
+      valueGetter: params => 
+      `${new Date(params.row.createdAt).toLocaleString()}` 
+    },
     { field: 'actions', headerName: 'Acciones', width: 100, type: 'actions', cellClassName: 'actions',
       getActions: ({ row }) => 
           ([

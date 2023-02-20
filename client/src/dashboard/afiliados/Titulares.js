@@ -94,7 +94,9 @@ function AfiliadosContent() {
     { field: 'estado_civil', headerName: 'Estado Civil', width: 120, type: 'singleSelect', 
       valueOptions: ['casado/a', 'soltero/a', 'union de hecho', 'sin especificar'], editable: true },
     { field: 'domicilio', headerName: 'Domicilio', width: 250, editable: true },
-    { field: 'createdAt', headerName: 'Fecha Creación', width: 200 },
+    { field: 'createdAt', headerName: 'Fecha Creación', width: 200, 
+      valueGetter: params => `${new Date(params.row.createdAt).toLocaleString()}`
+    },
     { field: 'actions', headerName: 'Acciones', type: 'actions', width: 200,
       renderCell: (params) => ( <TitularActions {...{ params, rowId, setRowId, deletedTitulares }} />)}
   ];

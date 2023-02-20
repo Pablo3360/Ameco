@@ -73,7 +73,7 @@ function OrdenesContent() {
                         body={ recentOrdersPanalesData.map( order => 
                           [ 
                             `${order.dataTitular.apellidos}, ${order.dataTitular.nombres}`,
-                            `${order.createdAt}`,
+                            `${new Date(order.createdAt).toLocaleString()}`,
                             `${order.dataCodigos.entrega}`,
                           ])
                         }
@@ -88,7 +88,7 @@ function OrdenesContent() {
                         body={ recentOrdersLecheData.map( order => 
                           [ 
                             `${order.dataTitular.apellidos}, ${order.dataTitular.nombres}`,
-                            `${order.createdAt}`,
+                            `${new Date(order.createdAt).toLocaleString()}`,
                             `${order.dataCodigos.entrega}`,
                           ])
                         }

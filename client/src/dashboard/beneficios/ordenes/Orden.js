@@ -106,7 +106,7 @@ export default function Orden() {
   
                 <Grid item xs={12}>
                   <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
-                    Fecha: { orden.createdAt }
+                    Fecha: { new Date(orden.createdAt).toLocaleString() }
                   </Typography>
                 </Grid>
   

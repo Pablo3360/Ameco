@@ -109,9 +109,9 @@ export default function NuevaOrden() {
     setActiveStep(activeStep - 1);
   };
 
-  useEffect(() => {
-    console.log('data', data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log('data', data);
+  // }, [data]);
 
   useEffect(() => {
     dispatch(getTitular(titularId));
