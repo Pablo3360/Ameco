@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 import StatisticsTitularesPie from '../../../components/StatisticsTitularesPie';
-import Deposits from './Deposits';
+import TitularesEnNumeros from './TitularesEnNumeros';
 
 import { getTitularesPorSexo, getTitularesPorEdades } from '../../../actions/statisticsTitulares';
 
@@ -108,7 +108,7 @@ function PanelContent() {
 
       <Grid container spacing={3}>
 
-        <Grid item xs={12} md={6} lg={5}>
+        <Grid item xs={12} md={6} lg={6}>
           <Paper
             sx={{
               p: 2,
@@ -134,7 +134,7 @@ function PanelContent() {
           </Paper>
         </Grid>
 
-        <Grid item xs={12} md={6} lg={5}>
+        <Grid item xs={12} md={6} lg={6}>
           <Paper
             sx={{
               p: 2,
@@ -158,16 +158,16 @@ function PanelContent() {
           </Paper>
         </Grid>
         
-        <Grid item xs={12} md={12} lg={2}>
+        <Grid item xs={12} md={6} lg={6}>
           <Paper
             sx={{
               p: 2,
               display: 'flex',
               flexDirection: 'column',
-              height: 240,
+              height: 260,
             }}
           >
-            <Deposits />
+            <TitularesEnNumeros />
           </Paper>
         </Grid>
 

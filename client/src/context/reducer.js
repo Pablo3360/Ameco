@@ -33,6 +33,7 @@ const initialState = {
   error: {},
   titularesPorSexo: {},
   titularesPorEdades: {},
+  titularesPorTipos: {},
 };
   
 const rootReducer = function (state = initialState, action){
@@ -200,6 +201,12 @@ switch (action.type){
     return {
       ...state,
       titularesPorEdades: action.payload
+  }
+
+  case 'TITULARES_TIPOS':
+    return {
+      ...state,
+      titularesPorTipos: action.payload
   }
 
   default:

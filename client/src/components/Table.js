@@ -16,7 +16,7 @@ export default function Orders({title, head, body}) {
   return (
     <>
       <Title>{title}</Title>
-      <Table size="small">
+      <Table size="small" >
         <TableHead>
           <TableRow>
             {
