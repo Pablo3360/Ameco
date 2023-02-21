@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { Titular } = require('../../db.js');
+const { Titular, Participante } = require('../../db.js');
 const router = Router();
 
 router.delete('/titular/delete/:userId', async (req, res)=>{
@@ -10,6 +10,12 @@ router.delete('/titular/delete/:userId', async (req, res)=>{
         id: userId
       }
     });
+    const r = await Participante.destroy({
+      where: {
+        titularId: userId
+      }
+    });
+
     res.status(200).send({isDeleted: respuesta});
   } catch (error) {
     return res.status(400).send(error.message);

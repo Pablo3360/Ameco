@@ -29,3 +29,18 @@ export function getTitularesPorEdades() {
     if(response){ dispatch(getTitularesPorEdadesResponse(response)) };
   }
 };
+
+export function getTitularesPorTiposResponse(titularesPorTipos){
+  return {
+    type: 'TITULARES_TIPOS',
+    payload: titularesPorTipos
+  }
+};
+
+export function getTitularesPorTipos() {
+  return async function(dispatch) {
+    const url = '/statistics/titularesPorTipos';
+    const response = await fetchData({ url }, dispatch);
+    if(response){ dispatch(getTitularesPorTiposResponse(response)) };
+  }
+};
