@@ -63,7 +63,7 @@ export default function LogInContent() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Ingresar
+            Ingresar a AMECO
           </Typography>
           {error.message && (<DescriptionAlerts message={error.message} />)}
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -98,9 +98,9 @@ export default function LogInContent() {
             </Button>
           </Box>
           <DescriptionAlerts sx={{ m: 1}}
-            message='mail: juanperez@gmail.com - password: juanperez2000'
-            title='¡Mira la App por dentro!'
             severity='info'
+            title='¡Mira la App por dentro!'
+            message='mail: juanperez@gmail.com - password: juanperez2000'
           />
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
