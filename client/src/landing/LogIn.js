@@ -97,11 +97,11 @@ export default function LogInContent() {
               Ingresar
             </Button>
           </Box>
-          {/* <DescriptionAlerts sx={{ m: 1}}
-            message='mail: juanperez@gmail.com - password: juanperez2000'
-            title='¡Mira la App por dentro!'
+          <DescriptionAlerts sx={{ m: 1}}
             severity='info'
-          /> */}
+            title='¡Mira la App por dentro!'
+            message='mail: juanperez@gmail.com - password: juanperez2000'
+          />
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
